@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_group_pre_picking,Pre Picking Manager,model_pre_picking,group_pre_picking,1,1,1,1
+access_group_pre_picking_Todos,Pre Picking Todos,model_pre_picking,base.group_user,1,0,0,0
+access_group_pre_picking_shipping,Pre Picking Shipping,model_pre_picking,group_pre_picking_shipping,1,1,0,1

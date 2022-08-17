@@ -1,0 +1,70 @@
+<odoo>
+  <data>
+
+    <!-- explicit list view definition -->
+   
+    <record model="ir.ui.view" id="categorias_productos.list">
+      <field name="name">categorias_productos list</field>
+      <field name="model">categorias_productos</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="categoria"/>
+          <field name="clave_categoria"/>
+          <field name="comision_mercado_libre"/>
+          <field name="costo_envio_meli"/>
+          <field name="comision_amazon"/>
+          <field name="comision_linio"/>
+          <field name="comision_walmart"/>
+          <field name="comision_claroshop"/>
+          <field name="comision_elektra"/>
+          <field name="comision_liverpool"/>
+          <field name="comision_ebay"/>
+          <field name="comision_somos_reyes"/>
+          <field name="margen_ganancia_minima"/>   
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="categorias_productos.action_window">
+      <field name="name">Categorías de Productos Somos Reyes</field>
+      <field name="res_model">categorias_productos</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+
+    <record model="ir.actions.server" id="categorias_productos.action_server">
+      <field name="name">Categorias Somos Reyes</field>
+      <field name="model_id" ref="model_categorias_productos"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+
+
+    <!-- Top menu item -->
+
+    <menuitem name="Categorías Productos Markets" id="categorias_productos.menu_root"/>
+
+    <!-- menu categories -->
+
+    <menuitem name="Lista de Categorías" id="categorias_productos.menu_1" parent="categorias_productos.menu_root"/>
+
+
+    <!-- actions -->
+
+    <menuitem name="List" id="categorias_productos.menu_1_list" parent="categorias_productos.menu_1"
+              action="categorias_productos.action_window"/>
+   
+
+  </data>
+</odoo>

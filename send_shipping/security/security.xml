@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="group_send_shipping" model="res.groups">
+            <field name="name">Send Shipping Manager</field>
+            <field name="comment">Usuario Responsable del Shipping de Ordenes de Venta</field>
+        </record>
+
+        <record id="base.group_user" model="res.groups">
+            <field name="name">Send Shipping Todos</field>
+            <field name="comment">Usuario del Shipping de Ordenes de Venta</field>
+        </record>
+
+    </data>
+</odoo>

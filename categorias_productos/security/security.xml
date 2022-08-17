@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Usuario Responsable de administración de las categorias de productos para marketplaces-->
+        <record id="group_categorias_productos" model="res.groups">
+            <field name="name">Categorias Productos Manager</field>
+            <field name="comment">Usuario Responsable de las categorias de productos para los Market Places </field>
+        </record>
+
+    </data>
+</odoo>

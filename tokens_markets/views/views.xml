@@ -1,0 +1,61 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="tokens_markets.list">
+      <field name="name">tokens_markets list</field>
+      <field name="model">tokens_markets.tokens_markets</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name_marketplace"/>
+          <field name="seller_name"/>
+          <field name="seller_id"/>
+          <field name="access_token"/>
+          <field name="last_date_retrieve"/>
+          <field name="active"/>
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="tokens_markets.action_window">
+      <field name="name">Tokens</field>
+      <field name="res_model">tokens_markets.tokens_markets</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+
+    <!-- server action to the one above -->
+    
+    <record model="ir.actions.server" id="tokens_markets.action_server">
+      <field name="name">tokens_markets server</field>
+      <field name="model_id" ref="model_tokens_markets_tokens_markets"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+        }
+      </field>
+    </record>
+  
+
+    <!-- Top menu item -->
+    
+    <menuitem name="Tokens" id="tokens_markets.menu_root" groups="base.group_user"/> <!-- ,  -->
+  
+    <!-- menu categories -->
+    
+    <menuitem name="Lista Tokens" id="tokens_markets.menu_1" parent="tokens_markets.menu_root"/>
+   
+    <!-- actions -->
+    
+    <menuitem name="Lista" id="tokens_markets.menu_1_list" parent="tokens_markets.menu_1"
+              action="tokens_markets.action_window"/>
+
+
+
+  </data>
+</odoo>
