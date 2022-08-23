@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="picking_label_list_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h3>Lista Empaque: <span t-field="o.name"/></h3>
+                            <div t-if="o.picker_asignado"><strong>Responsable:</strong><span t-field="o.picker_asignado"/></div><br/>                           
+                            
+                            <div class="clearfix"/>
+                            <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th ><strong>Picking</strong></th>
+                                    <th ><strong>Pedido</strong></th>
+                                    <th ><strong>Marketplace</strong></th>
+                                    <th ><strong>Guía</strong></th>
+                                    <th ><strong>Orden Market</strong></th>
+                                    <th ><strong>Cliente</strong></th>
+                                    <th ><strong>Envio ID</strong></th>   
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td ><span t-field="o.name"/><img  align="center" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/>
+
+                                        <t t-foreach="o.sale_id.order_line" t-as="line">
+                                            <span t-field="line.name"/> <br/>
+                                            <span t-field="line.product_uom_qty"/> <br/>
+                                            <span t-field="o.ubicacion_origen"/> <br/>
+                                        </t>
+
+                                    </td>
+                                    <td ><span t-field="o.origin"/><img  align="center" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.origin, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/></td>
+                                    <td ><span t-field="o.sale_id.marketplace"/></td>
+                                     <td ><span t-field="o.sale_id.tracking_number"/></td>
+                                     <td ><span t-field="o.sale_id.marketplace_order_id"/></td>
+                                    <td ><span t-field="o.partner_id.name"/></td>
+                                    <td ><span t-field="o.sale_id.shipping_id"/></td>     
+                                    
+                                </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

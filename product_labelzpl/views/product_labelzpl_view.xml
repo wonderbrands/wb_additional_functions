@@ -1,0 +1,92 @@
+<odoo>
+  <data>
+    <record  id="product_stock_form_inherit" model="ir.ui.view">
+            
+      <field name="name">product_stock_inherit</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_form_view"/>
+      <field name="arch" type="xml">
+          <xpath expr="//header" position="inside">
+              <button string="Imprimir ZPL" type="object" name="imprimir_zpl" />
+          </xpath>
+
+          <xpath expr="//group[@name='group_lots_and_weight']" position="after">
+              <group string="Medidas">
+                <field name="ancho"/>
+                <field name="alto"/>
+                <field name="largo"/>
+                <field name="volumen"/>
+                <field name="costo_envio_ventas"/>
+                <field name="costo_envio_oficiales"/>
+              </group>    
+          </xpath>
+          <xpath expr="//group[@name='group_standard_price']" position="after">
+              <group string="Market">
+                  <field name="categ_id" position="after">
+                      <field name="categoria_id"/>
+                  </field>
+              </group>
+              <group string="Costos y Precios">
+                      <field name="factor_precio_minimo"/>
+                      <field name="precio_minimo"/>
+                      <field name="activar_bot"/>
+                      <field name="precio_venta_recomendado"/>
+                      <field name="precio_con_iva"/>
+                      <field name="costo_anterior"/>
+                      <field name="costo_dolares"/>
+              </group>
+              <group string="Costo sugerido Marketplace">
+                      <field name="cost_pp" widget='monetary'/>
+              </group>
+          </xpath>
+          <notebook>
+            <page name="stock" string="Stock">
+              <group string="Stock Proveedores">
+                <field name="stock_real"/>
+                <field name="stock_reservado" readonly="1"/>
+                <field name="stock_exclusivas"/>
+                <field name="stock_urrea"/>
+                <field name="stock_markets"/>
+                <field name="producto_exclusivas"/>
+                <field name="stock_proveedor"/>
+                <field name="disponibilidad"/>
+              </group>
+
+              <group string="Stock Market Places">
+                <field name="stock_mercadolibre"/>
+                <field name="stock_linio"/>
+                <field name="stock_amazon"/>
+              </group>
+              
+            </page>
+
+            <page name="adicional" string="Adicionales">
+              <group string="Etiqueta ZPL">
+                <field name="txt_filename" invisible="1"/>
+                <field name="txt_binary" filename="txt_filename" readonly="1"/>
+              </group>
+              <group string="Ubicación del Producto">
+
+                <field name="ubicacion_pasillo" />
+                <field name="ubicacion_nivel" />
+                <field name="ubicacion_pared" />
+                <field name="ubicacion_caja" />
+
+                <field name="ubicaciones" />
+              </group>
+              <group string="Estado del producto">
+                <field name="status_producto"/>
+                 <field name="sin_fecha_llegada"/>
+                <field name="fecha_llegada"/>
+              </group>
+
+              
+            </page>
+
+          </notebook>
+ 
+      </field>
+    </record>
+
+  </data>
+</odoo>

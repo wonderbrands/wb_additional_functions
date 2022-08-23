@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            string="Lista de Empaque"
+            id="action_picking_label_report"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            menu="False"
+            name="picking_label.picking_label_list_report"
+            file="picking_label.picking_label_list_report"
+        />
+    </data>
+</odoo>
