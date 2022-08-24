@@ -6,21 +6,17 @@
       <field name="inherit_id" ref="stock.view_picking_form"/>
       <field name="arch" type="xml">
 
-            <xpath expr='//form//header//button[@name="action_assign"]' position='before'>
+            <xpath expr='/form/header/button[@name="do_print_picking"]' position='replace'>
                 <button name="do_print_picking" string="Imprimir Salida" groups="stock.group_stock_user" type="object"   />
+            </xpath>
+
+            <xpath expr='/form/header/button[@name="do_print_picking"]' position='before'>
                 <button name="packing_list_print" string="Lista de Empaque" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
-                <!--<button name="show_inventory" string="Ver Disponiblidad" groups="stock.group_stock_user" type="object"/>-->
+                <button name="show_inventory" string="Ver Disponiblidad" groups="stock.group_stock_user" type="object" invisible="0"/>
             </xpath>
-<!--
-            <xpath expr='//form//header//button[@name="action_assign"]' position='after'>
-                <button name="packing_list_print" string="Lista de Empaque" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
-            </xpath>
-            <xpath expr="//form//header" position="before">
-                <button name="show_inventory" string="Ver Disponiblidad" groups="stock.group_stock_user" type="object"/>
-            </xpath>
--->
+
           <field name="origin" position="after"> 
-            <field name="dsp_etiqueta_meli" widget="website_urls" readonly="1" text="Bajar Etiqueta"/>
+            <field name="dsp_etiqueta_meli" widget="url" readonly="1" text="Bajar Etiqueta"/>
             <field name="imprimio_etiqueta_meli"/>
              <field name="imprimio_salida" readonly="1"/>
             <field name="ultima_ubicacion_producto" string="Última ubicación"/>
@@ -46,8 +42,8 @@
       <field name="name">picking_label_tree_inherit</field>
       <field name="model">stock.picking</field>
       <field name="inherit_id" ref="stock.vpicktree"/>
-      <!--<field name="domain_force">[('picker_asignado', '=', user.id)]</field>-->
-
+      <field name="domain_force">[('picker_asignado', '=', user.id)]</field>
+      
       <field name="arch" type="xml">
       
         <field name="origin" position="after" >

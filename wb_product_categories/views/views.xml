@@ -3,8 +3,8 @@
 
     <!-- explicit list view definition -->
    
-    <record model="ir.ui.view" id="categorias_productos.list">
-      <field name="name">categorias_productos list</field>
+    <record model="ir.ui.view" id="product_categories_view">
+      <field name="name">categorias_productos_list</field>
       <field name="model">categorias_productos</field>
       <field name="arch" type="xml">
         <tree>
@@ -28,7 +28,7 @@
 
     <!-- actions opening views on models -->
 
-    <record model="ir.actions.act_window" id="categorias_productos.action_window">
+    <record model="ir.actions.act_window" id="product_categories_action_window">
       <field name="name">Categorías de Productos Somos Reyes</field>
       <field name="res_model">categorias_productos</field>
       <field name="view_mode">tree,form</field>
@@ -37,7 +37,7 @@
 
     <!-- server action to the one above -->
 
-    <record model="ir.actions.server" id="categorias_productos.action_server">
+    <record model="ir.actions.server" id="product_categories_action_server">
       <field name="name">Categorias Somos Reyes</field>
       <field name="model_id" ref="model_categorias_productos"/>
       <field name="state">code</field>
@@ -53,17 +53,17 @@
 
     <!-- Top menu item -->
     <menuitem name="Categoría de Productos"
-              id="categorias_productos.menu_root"
+              id="product_categories_menu_root"
               sequence="1"
-              web_icon="categorias_productos,static/description/icon.png"/>
+              web_icon="wb_product_categories,static/description/icon.png"/>
     <!-- menu categories -->
     <menuitem name="Lista de Categorías"
-              id="categorias_productos.menu_1"
-              parent="categorias_productos.menu_root"/>
+              id="product_categories_menu_1"
+              parent="product_categories_menu_root"/>
     <!-- actions -->
     <menuitem name="Lista"
-              id="categorias_productos.menu_1_list"
-              parent="categorias_productos.menu_1"
-              action="categorias_productos.action_window"/>
+              id="product_categories_menu_1_list"
+              parent="product_categories_menu_1"
+              action="product_categories_action_window"/>
   </data>
 </odoo>

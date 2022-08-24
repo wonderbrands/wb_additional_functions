@@ -13,8 +13,8 @@ class Packing_List(models.Model):
     _inherit = 'stock.picking.batch'
     se_imprimio_lista = fields.Boolean(string='Lista de Empaque')
 
-    #@api.multi
-    def packing_list_print(self): 
+    def packing_list_print(self):
+        self.ensure_one()
         _logger = logging.getLogger(__name__)
         _logger.info('Nombre operación %s', self.name)
 

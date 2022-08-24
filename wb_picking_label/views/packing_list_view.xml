@@ -1,0 +1,26 @@
+<odoo>
+  <data>
+    <record  id="packing_list_tree_inherit" model="ir.ui.view">         
+      <field name="name">packing_list_tree_inherit</field>
+      <field name="model">stock.picking.batch</field>
+      <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_tree"/>
+      <field name="arch" type="xml">
+        <xpath expr="." position="inside">
+            <button name="packing_list_print" string="Lista de Empaque" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
+        </xpath>
+     </field>
+    </record>
+
+
+    <record  id="packing_list_form_inherit" model="ir.ui.view">            
+      <field name="name">packing_list_inherit</field>
+      <field name="model">stock.picking.batch</field>
+      <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
+      <field name="arch" type="xml">
+            <xpath expr='/form/header/button[@name="print_picking"]' position='before'>
+                <button name="packing_list_print" string="Lista de Empaque" groups="stock.group_stock_user" type="object" class="oe_highlight"   />
+            </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

@@ -2,8 +2,8 @@
   <data>
 <!-- explicit list view definition -->
    
-    <record model="ir.ui.view" id="pre_picking.list">
-      <field name="name">pre_picking list</field>
+    <record model="ir.ui.view" id="pre_picking_list">
+      <field name="name">pre_picking_list</field>
       <field name="model">pre_picking</field>
       <field name="arch" type="xml">
         <tree decoration-danger="estado=='retrasado'" decoration-success="estado=='terminado'" decoration-info="insuficiente== True" editable="bottom" >
@@ -30,7 +30,7 @@
       </field>
     </record>
         <!-- Busquedas -->
-    <record model="ir.ui.view" id="send_shipping.filter">
+    <record model="ir.ui.view" id="send_shipping_filter">
           <field name="name">Busqueda Picking Asignados</field>
           <field name="model">pre_picking</field>
           <field name="arch" type="xml">
@@ -49,7 +49,7 @@
 
     <!-- actions opening views on models -->
 
-    <record model="ir.actions.act_window" id="pre_picking.action_window">
+    <record model="ir.actions.act_window" id="pre_picking_action_window">
       <field name="name">Pre Picking Ordenes de venta</field>
       <field name="res_model">pre_picking</field>
       <field name="view_mode">tree,form</field>
@@ -57,7 +57,7 @@
 
     <!-- server action to the one above -->
 
-    <record model="ir.actions.server" id="pre_picking.action_server">
+    <record model="ir.actions.server" id="pre_picking_action_server">
       <field name="name">Pre Picking Somos Reyes</field>
       <field name="model_id" ref="model_pre_picking"/>
       <field name="state">code</field>
@@ -72,12 +72,12 @@
 
     <!-- Top menu item -->
     <menuitem name="Pre Picking"
-              id="pre_picking.menu_root"
-              web_icon="pre_picking,static/description/icon.png"/>
+              id="pre_picking_menu_root"
+              web_icon="wb_pre_picking,static/description/icon.png"/>
     <!-- menu categories -->
-    <menuitem name="Lista de Ordenes" id="pre_picking.menu_1" parent="pre_picking.menu_root"/>
+    <menuitem name="Lista de Ordenes" id="pre_picking_menu_1" parent="pre_picking_menu_root"/>
     <!-- actions -->
-    <menuitem name="Lista" id="pre_picking.menu_1_list" parent="pre_picking.menu_1"
-              action="pre_picking.action_window"/>
+    <menuitem name="Lista" id="pre_picking_menu_1_list" parent="pre_picking_menu_1"
+              action="pre_picking_action_window"/>
   </data>
 </odoo>

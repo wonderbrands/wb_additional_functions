@@ -28,12 +28,17 @@
         #'security/security.xml',
         #'security/ir.model.access.csv',
         #'security/security_rules.xml',
+        'views/packing_list_view.xml',
+        'views/packing_list_report.xml',
+
         'views/picking_label_view.xml',
         'views/picking_package.xml',
-        'views/templates.xml',
         'views/picking_label_report.xml',
+
         'report/picking_label_list_reports_views.xml',
         'report/picking_label_list_report.xml',
 
+        'report/packing_list_report.xml',
+        'report/stock_picking_batch_reports_views.xml',
     ],
 }
