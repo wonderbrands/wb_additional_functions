@@ -1,0 +1,70 @@
+<odoo>
+  <data>
+    <odoo>
+  <data>
+    <record  id="market_place_form_inherit" model="ir.ui.view">
+            
+      <field name="name">market_place_inherit</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//page[@name='other_information']" position="inside">
+              <group>
+                  <group name="tracking_info" string="Rastreo del Producto">
+                      <field name="tracking_number"/>
+                      <field name="receiver_address"/>
+                      <field name="comments"/>
+                      <field name="dsp_etiqueta_meli" widget="url" readonly="1" text="Bajar Etiqueta"/>
+                      <field name="imprimio_etiqueta_meli"/>
+                      <field name="marketplace"/>
+                      <field name="marketplace_order_id"/>
+                      <field name="shipping_id"/>
+                      <field name="seller_marketplace"/>
+                  </group>
+                  <group name="product_info" string="Información de Producto">
+                      <field name="date_created"/>
+                      <field name="correo_marketplace"/>
+                      <field name="verified"/>
+                      <field name="order_status"/>
+                      <field name="combo"/>
+                      <field name="combo_detail"/>
+                      <field name="costo_envio_ventas"/>
+                      <field name="costo_fee_marketplace"/>
+                  </group>
+              </group>
+            <!--</page>-->
+        </xpath>
+        <!-- </field> -->
+
+      </field>
+    </record>
+
+    <record  id="market_place_tree_inherit" model="ir.ui.view">         
+      <field name="name">market_place_tree_inherit</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_quotation_tree"/>
+      <field name="arch" type="xml">
+        <field name="name" position="after">
+              <field name="dsp_marketplace_order_id" options='{"fg_color": "blue: combo == True"}' />
+              <field name="logistic"/>
+              <field name="seller_marketplace"/>
+              <field name="combo"/>
+        </field>        
+      </field>
+    </record>
+    
+    <record id="view_filter_market_place" model="ir.ui.view">
+        <field name="name">market_place_filter</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="arch" type="xml">
+           <field name="name" position="after">
+                  <field name="marketplace_order_id"/>  
+          </field>
+        </field>
+    </record>
+    
+  </data>
+</odoo>
+  </data>
+</odoo>

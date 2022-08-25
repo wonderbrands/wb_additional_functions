@@ -7,8 +7,8 @@
             model="stock.picking"
             report_type="qweb-pdf"
             menu="False"
-            name="picking_label.picking_label_list_report"
-            file="picking_label.picking_label_list_report"
+            name="wb_picking_label.picking_label_list_report"
+            file="wb_picking_label.picking_label_list_report"
         />
     </data>
 </odoo>

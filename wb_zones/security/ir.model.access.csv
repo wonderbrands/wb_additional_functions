@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_group_zones,Pre Shiping Manager,model_zones,group_zones,1,1,1,1

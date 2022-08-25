@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-        <record id="group_zones" model="res.groups">
-            <field name="name">Zones Manager</field>
-            <field name="comment">Usuario Responsable Zonas de Picking</field>
-        </record>
-    </data>
-</odoo>

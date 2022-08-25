@@ -5,26 +5,18 @@
       <field name="model">stock.picking</field>
       <field name="inherit_id" ref="stock.view_picking_form"/>
       <field name="arch" type="xml">
-
-            <xpath expr='/form/header/button[@name="do_print_picking"]' position='replace'>
-                <button name="do_print_picking" string="Imprimir Salida" groups="stock.group_stock_user" type="object"   />
+            <xpath expr='//header//button[@name="do_print_picking"]' position="replace">
+                <button name="do_print_picking" string="Imprimir Salida" groups="stock.group_stock_user" type="object"/>
             </xpath>
-
-            <xpath expr='/form/header/button[@name="do_print_picking"]' position='before'>
+            <xpath expr="//header" position="inside">
                 <button name="packing_list_print" string="Lista de Empaque" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
                 <button name="show_inventory" string="Ver Disponiblidad" groups="stock.group_stock_user" type="object" invisible="0"/>
             </xpath>
-
-          <field name="origin" position="after"> 
-            <field name="dsp_etiqueta_meli" widget="url" readonly="1" text="Bajar Etiqueta"/>
+          <field name="origin" position="after">
             <field name="imprimio_etiqueta_meli"/>
-             <field name="imprimio_salida" readonly="1"/>
-            <field name="ultima_ubicacion_producto" string="Última ubicación"/>
-            <field name="picker_asignado" string="Picker"/>
-            <field name="marca_producto" string="Marca"/>
-            <field name="ubicacion_origen" string="Ubicación Somos Reyes"/>
+            <field name="imprimio_salida" readonly="1"/>
+            <field name="picker_asignado"/>
           </field>
-
           <xpath expr="//field[@name='move_type']" position="before">
               <field name="po_entrada"/>
               <field name="qty_entrada"/>
@@ -34,36 +26,29 @@
               <field name="receiver_address"/>
               <field name="comments"/>
           </xpath>
- 
       </field>
     </record>
 
-    <record  id="picking_label_tree_inherit" model="ir.ui.view">         
+    <record  id="picking_label_tree_inherit" model="ir.ui.view">
       <field name="name">picking_label_tree_inherit</field>
       <field name="model">stock.picking</field>
       <field name="inherit_id" ref="stock.vpicktree"/>
-      <field name="domain_force">[('picker_asignado', '=', user.id)]</field>
-      
+      <!--<field name="domain_force">[('picker_asignado', '=', user.id)]</field>-->
       <field name="arch" type="xml">
-      
         <field name="origin" position="after" >
               <field name="imprimio_etiqueta_meli" string="Etiqueta" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
               <field name="po_entrada" string="Abastecido por" options='{"fg_color": "blue: imprimio_lista_empaque == True"}' />
               <field name="qty_entrada" string="Cantidad" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
-              <field name="fecha_entrada" string="Fecha Abastecido" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/> 
-              <field name="ubicacion_origen" string="Ubicación Somos Reyes" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/> 
+              <field name="fecha_entrada" string="Fecha Abastecido" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
+              <field name="location_id" string="Ubicación Somos Reyes" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
               <field name="picker_asignado" string="Picker" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
-              <field name="marca_producto" string="Marca" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/> 
-                    
-        </field> 
+              <field name="marca_producto" string="Marca" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
+        </field>
         <field name="picking_type_id" position="after" >
            <field name="imprimio_lista_empaque" string="Lista" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
-           <button name="packing_list_print" string="Imprimir Lista" groups="stock.group_stock_user" type="object" class="oe_highlight"/> 
-        </field> 
-         
+           <button name="packing_list_print" string="Imprimir Lista" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
+        </field>
       </field>
     </record>
-
-
   </data>
 </odoo>

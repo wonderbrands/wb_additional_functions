@@ -21,4 +21,4 @@ class Packing_List(models.Model):
         pickings = self.mapped('picking_ids')
         if not pickings:
             raise UserError(_('Nada que imprimir.'))
-        return self.env.ref('packing_list.action_packing_list_report').report_action(self)
+        return self.env.ref('wb_picking_label.action_packing_list_report').report_action(self)

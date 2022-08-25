@@ -7,8 +7,8 @@
             model="stock.picking.batch"
             report_type="qweb-pdf"
             menu="False"
-            name="packing_list.packing_list_report"
-            file="packing_list.packing_list_report"
+            name="wb_picking_label.packing_list_report"
+            file="wb_picking_label.packing_list_report"
         />
     </data>
 </odoo>
