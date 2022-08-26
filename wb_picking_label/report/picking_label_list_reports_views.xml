@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <report
-            string="Lista de Empaque"
-            id="action_picking_label_report"
-            model="stock.picking"
-            report_type="qweb-pdf"
-            menu="False"
-            name="wb_picking_label.picking_label_list_report"
-            file="wb_picking_label.picking_label_list_report"
-        />
+        <record id="action_picking_label_report" model="ir.actions.report">
+            <field name="name">Lista de Empaque</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">wb_picking_label.picking_label_list_report</field>
+            <field name="report_file">wb_picking_label.picking_label_list_report</field>
+        </record>
     </data>
 </odoo>

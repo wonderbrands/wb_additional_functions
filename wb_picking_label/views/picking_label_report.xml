@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <report id="action_picking_label_report" 
-                string="Salidas con Código de Barras" 
-                model="stock.picking" 
-                report_type="qweb-pdf" 
-                name="picking_label.report_picking_label_template"/> 
+        <record id="action_picking_label_report" model="ir.actions.report">
+            <field name="name">Salidas con Código de Barras</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">wb_picking_label.report_picking_label_template</field>
+            <field name="report_file">wb_picking_label.report_picking_label_template</field>
+        </record>
 
         <template id="report_picking_label_template">
             <t t-call="web.html_container">
