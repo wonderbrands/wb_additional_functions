@@ -11,7 +11,7 @@ class Picking_Label(models.Model):
     _inherit = 'stock.picking'
 
     etiqueta_meli = fields.Char(string='Etiqueta Mercado Libre')
-    dsp_etiqueta_meli = fields.Char(string='Etiqueta MeLi')
+    dsp_etiqueta_meli = fields.Char(string='Etiqueta MeLi')#, compute='_display_etiqueta')
     referencia_entrega = fields.Char(string="Referencia de Entrega")
     #--- Campos para la dirección de entrega del producto que viene de la Orden de Venta
     receiver_address = fields.Char(string='Dirección de entrega')#, compute='_display_etiqueta')
@@ -111,4 +111,45 @@ class Picking_Label(models.Model):
             default_code =self.env['product.product'].search([['id', '=', producto.product_id.id]]).default_code
             datos += str(default_code)+' | '+str(producto.product_id.name)+' | '+str(stock_real)+'\n'
         raise ValidationError(_("Disponibilidad de Productos: \n %s", datos))
+
+    @api.depends('etiqueta_meli')
+    def _display_etiqueta(self):
+        for rec in self:
+            self.ensure_one()
+            _logger = logging.getLogger(__name__)
+            so_name = str(self.origin)  # --- Recuperamos nombre de la Orden de Venta asociada al Picking
+            _logger.info('SO NAME %s', so_name)
+            # --- Recuperamos la URL de la etiqueta para esa SO
+            # etiqueta_meli_so = str(self.env['sale.order'].search([('name', '=', so_name)]).etiqueta_meli)
+
+            # --- Recuperamos el nombre del Seller que vendio ese producto.
+            # seller_name = str(self.env['sale.order'].search([('name', '=', so_name)]).seller_marketplace)
+
+            move_line_ids = self.move_line_ids  # Puede dar como resultado una lista [1098462] o [1098462,1098462 ]
+            if move_line_ids:
+                _logger.info('move_line_ids %s, id:%s, movimiento: %s ', move_line_ids, self.id, self.name)
+                move_line_id = move_line_ids[0].id
+                _logger.info('MOVE LINE ID %s', move_line_id)
+
+                stock_location_id = self.env['stock.move.line'].search([['id', '=', move_line_id]]).location_id
+                _logger.info('STOCK LOCATION ID:  %s', stock_location_id.id)
+                self.ubicacion_origen = stock_location_id.id
+                picking = self.env['stock.picking'].search([('id', '=', self.id)])
+                resultado = picking.write({'ubicacion_origen': stock_location_id.id})
+                _logger.info('RESULTADO:  %s', resultado)
+                self.env.cr.commit()
+
+                # --- Recuepramos la(s) Marca(s) del producto(s)
+                # _logger.info('MARCA %s', self.product_id.categ_id.name)
+                marca = self.product_id.categ_id.id
+                picking = self.env['stock.picking'].search([('id', '=', self.id)])
+                picking.write({'marca_producto': marca})
+                self.env.cr.commit()
+
+                # --- Recuperamos el Token asociado a ese Seller.
+            # token = str(self.env['tokens_markets.tokens_markets'].search([('seller_name', '=', seller_name)]).access_token)
+            # Recuperamos campos de la dirección de entrega del producto que viene de la Orden de Venta
+            # self.receiver_address = str(self.env['sale.order'].search([('name', '=', so_name)]).receiver_address)
+            # self.comments =  str(self.env['sale.order'].search([('name', '=', so_name)]).comments)
+            # self.dsp_etiqueta_meli = str(etiqueta_meli_so)+ token
 
