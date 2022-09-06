@@ -6,15 +6,15 @@
       <field name="name">pre_picking_list</field>
       <field name="model">pre_picking</field>
       <field name="arch" type="xml">
-        <tree decoration-danger="estado=='retrasado'" decoration-success="estado=='terminado'" decoration-info="insuficiente== True" editable="bottom" >
+        <tree decoration-danger="estado=='retrasado'" decoration-success="estado=='terminado'" editable="bottom" >
           <field name="so_asignado"/>
           <field name="usuario_asignado"/>
           <field name="empleado_picking" />
           <field name="estado"/>
-          <field name="guia_paqueteria"/>
+          <!-- <field name="guia_paqueteria"/> -->
           <field name="motivo_retraso"/>
           <field name="fecha_asignacion"/>
-          <field name="dias"/>
+          <!-- <field name="dias"/> -->
           <field name="picking_product_qty"  readonly="1" />
           <field name="picking_warehouse_id"  readonly="1" />
           <field name="so_productos"  readonly="1" />
@@ -24,8 +24,8 @@
           <field name="out_asignado"  readonly="1" />
           <field name="out_state"  readonly="1" />
           <field name="fecha_done_out"  />
-          <field name="fecha_done_out"  />
-          <field name="insuficiente"  />
+          <!-- <field name="fecha_done_out"  />
+          <field name="insuficiente"  /> -->
         </tree>
       </field>
     </record>
