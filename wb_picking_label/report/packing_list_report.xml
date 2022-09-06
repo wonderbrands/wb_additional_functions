@@ -54,7 +54,7 @@
                                             <span t-field="pick.sale_id.channel"/>
                                         </td>
                                         <td>
-                                            <span t-field="pick.sale_id.tracking_number"/> <!-- CAMBIAR POR YUJu -->
+                                            <span t-field="pick.sale_id.yuju_carrier_tracking_ref"/> <!-- CAMBIAR POR YUJu -->
                                         </td>  
                                         <td> 
                                             <span t-field="pick.sale_id.channel_order_reference"/>
