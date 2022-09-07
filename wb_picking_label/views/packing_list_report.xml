@@ -41,7 +41,7 @@
                                                 <t t-foreach="pick.sale_id.order_line" t-as="line">
                                                     <span t-field="line.name"/> <br/>
                                                     <span t-field="line.product_uom_qty"/> <br/>
-                                                    <span t-field="pick.ubicacion_origen"/> <br/>
+                                                    <span t-field="pick.location_id"/> <br/>
                                                 </t>
                                                 <br/>
                                                 </p>
@@ -54,19 +54,19 @@
                                         </td>
                                          
                                          <td> 
-                                            <span t-field="pick.sale_id.marketplace"/>
+                                            <span t-field="pick.sale_id.channel"/>
                                         </td>
                                         <td>
-                                            <span t-field="pick.sale_id.tracking_number"/>
+                                            <span t-field="pick.sale_id.yuju_carrier_tracking_ref"/>
                                         </td>  
                                         <td> 
-                                            <span t-field="pick.sale_id.marketplace_order_id"/>
+                                            <span t-field="pick.sale_id.channel_order_reference"/>
                                         </td>
                                          <td> 
                                             <span t-field="pick.sale_id.client_order_ref"/>
                                         </td>
                                         <td> 
-                                            <span t-field="pick.sale_id.shipping_id"/>
+                                            <span t-field="pick.sale_id.yuju_shipping_id"/>
                                         </td>
 
                                     </tr>

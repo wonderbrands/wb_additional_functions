@@ -25,7 +25,7 @@
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;"><strong>Operación: </strong> <span t-field="o.name"/></th>
-                                        <th style="text-align: center;"><p><strong>Orden de Venta: </strong><span t-field="o.origin"/></p><p><strong>Envío : </strong><span t-field="o.sale_id.shipping_id"/></p> <p><span t-field="o.sale_id.seller_marketplace"/></p></th>  
+                                        <th style="text-align: center;"><p><strong>Orden de Venta: </strong><span t-field="o.origin"/></p><p><strong>Envío : </strong><span t-field="o.sale_id.yuju_shipping_id"/></p> <p><span t-field="o.sale_id.yuju_seller_id"/></p></th>
                                     </tr>
                                 </thead>
                                  <tbody>
@@ -56,9 +56,9 @@
                                     <td ><span t-field="o.origin"/></td>
                                     <td ><span t-field="o.partner_id.name"/></td>
                                     <td ><span t-field="o.sale_id.client_order_ref"/></td>
-                                    <td ><span t-field="o.sale_id.tracking_number"/></td>
-                                    <td ><span t-field="o.sale_id.marketplace"/></td>
-                                    <td ><span t-field="o.sale_id.marketplace_order_id"/></td>
+                                    <td ><span t-field="o.sale_id.yuju_carrier_tracking_ref"/></td>
+                                    <td ><span t-field="o.sale_id.channel"/></td>
+                                    <td ><span t-field="o.sale_id.channel_order_reference"/></td>
                                     <td><span t-field="o.state"/></td>
                                     <td name="td_sched_date" width="20%"><span t-field="o.scheduled_date"/></td>
                                 </tr>
@@ -72,7 +72,6 @@
                                         <th><strong>Pedidas</strong></th>
                                         <th><strong>Tomadas</strong></th>
                                         <th><strong>Stock</strong></th>
-                                        <th><strong>Ubicaciones</strong></th>
 
                                     </tr>
                                 </thead>
@@ -88,7 +87,6 @@
                                         <td><span t-field="move.product_uom_qty"/><span t-field="move.product_uom"/></td>
                                         <td><span t-field="move.quantity_done"/></td>
                                         <td><span t-field="move.product_id.stock_real"/></td>
-                                        <td><span t-field="move.product_id.ubicaciones"/></td>
 
                                     </tr>
                                 </tbody>

@@ -63,7 +63,7 @@
                                             <span t-field="pick.sale_id.client_order_ref"/>
                                         </td>
                                         <td> 
-                                            <span t-field="pick.sale_id.shipping_id"/> <!-- CAMBIAR POR YUJu -->
+                                            <span t-field="pick.sale_id.yuju_shipping_id"/> <!-- CAMBIAR POR YUJu -->
                                         </td>
 
                                     </tr>
