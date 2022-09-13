@@ -6,17 +6,24 @@
       <field name="inherit_id" ref="stock.view_picking_form"/>
       <field name="arch" type="xml">
             <xpath expr='//header//button[@name="do_print_picking"]' position="replace">
-                <button name="do_print_picking" string="Imprimir Salida" groups="stock.group_stock_user" type="object"/>
+                <button name="print_out" string="Imprimir Salida" groups="stock.group_stock_user" type="object"/>
             </xpath>
             <xpath expr="//header" position="inside">
                 <button name="packing_list_print" string="Lista de Empaque" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
                 <button name="show_inventory" string="Ver Disponiblidad" groups="stock.group_stock_user" type="object" invisible="0"/>
             </xpath>
-          <field name="origin" position="after">
-            <field name="imprimio_etiqueta_meli"/>
-            <field name="imprimio_salida" readonly="1"/>
+          <xpath expr="//field[@name='sale_id']" position="before">
+            <!--<field name="ultima_ubicacion_producto"/>-->
             <field name="picker_asignado"/>
-          </field>
+            <!--<field name="marca_producto"/>
+            <field name="brand"/>
+            <field name="ubicacion_origen"/>-->
+          </xpath>
+          <xpath expr="//field[@name='origin']" position="before">
+            <!--<field name="dsp_etiqueta_meli" widget="url" readonly="1" text="Bajar Etiqueta"/>-->
+            <field name="imprimio_etiqueta_meli"/>
+             <field name="imprimio_salida" readonly="1"/>
+          </xpath>
           <xpath expr="//field[@name='move_type']" position="before">
               <field name="po_entrada"/>
               <field name="qty_entrada"/>
@@ -42,7 +49,8 @@
               <field name="fecha_entrada" string="Fecha Abastecido" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
               <field name="location_id" string="Ubicación Somos Reyes" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
               <field name="picker_asignado" string="Picker" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
-              <field name="marca_producto" string="Marca" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
+              <field name="brand" string="Picker" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
+              <!--<field name="marca_producto" string="Marca" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/> -->
         </field>
         <field name="picking_type_id" position="after" >
            <field name="imprimio_lista_empaque" string="Lista" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>

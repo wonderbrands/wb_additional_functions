@@ -19,7 +19,7 @@
                                     <th ><strong>Guía</strong></th>
                                     <th ><strong>Orden Market</strong></th>
                                     <th ><strong>Cliente</strong></th>
-                                    <th ><strong>Envio ID</strong></th>   
+                                    <th ><strong>Envio</strong></th>
                                    
                                 </tr>
                             </thead>
@@ -30,7 +30,10 @@
                                         <t t-foreach="o.sale_id.order_line" t-as="line">
                                             <span t-field="line.name"/> <br/>
                                             <span t-field="line.product_uom_qty"/> <br/>
-                                            <span t-field="o.location_id"/> <br/>
+                                            <!-- <span t-field="o.location_id"/> <br/> -->
+                                        </t>
+                                        <t t-foreach="o.move_line_ids" t-as="move">
+                                            <span t-field="move.location_id"/> <br/>
                                         </t>
 
                                     </td>

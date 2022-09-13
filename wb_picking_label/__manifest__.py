@@ -21,7 +21,7 @@
     'version': '15.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','stock','sale','product','wb_pre_picking','stock_picking_batch'],
+    'depends': ['base','stock','sale','product','wb_pre_picking','stock_picking_batch', 'wb_product'],
 
     # always loaded
     'data': [
