@@ -10,6 +10,7 @@ import datetime
 
 class pre_picking(models.Model):
     _name = 'pre_picking'
+    _description = 'Módulo para conocer el estatus de movimientos de almacén'
 
     so_asignado = fields.Char('Orden de Venta', required=True)
     empleado_picking = fields.Many2one('res.users','Manager Picking', readonly=True, default=lambda self: self.env.uid)

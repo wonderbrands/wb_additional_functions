@@ -4,6 +4,7 @@ from odoo import models, fields, api
 
 class categorias_productos(models.Model):
     _name = 'categorias_productos'
+    _description = 'Categorías de productos para Somos Reyes'
     _order = 'categoria'
     _rec_name = 'categoria'
 

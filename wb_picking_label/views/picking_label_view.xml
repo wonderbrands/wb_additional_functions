@@ -12,7 +12,7 @@
                 <button name="packing_list_print" string="Lista de Empaque" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
                 <button name="show_inventory" string="Ver Disponiblidad" groups="stock.group_stock_user" type="object" invisible="0"/>
             </xpath>
-          <xpath expr="//field[@name='sale_id']" position="before">
+          <xpath expr="//field[@name='location_dest_id']" position="after">
             <!--<field name="ultima_ubicacion_producto"/>-->
             <field name="picker_asignado"/>
             <!--<field name="marca_producto"/>
