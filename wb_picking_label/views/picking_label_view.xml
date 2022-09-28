@@ -49,7 +49,7 @@
               <field name="fecha_entrada" string="Fecha Abastecido" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
               <field name="location_id" string="Ubicación Somos Reyes" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
               <field name="picker_asignado" string="Picker" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
-              <field name="brand" string="Picker" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
+              <field name="brand" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/>
               <!--<field name="marca_producto" string="Marca" options='{"fg_color": "blue: imprimio_lista_empaque == True"}'/> -->
         </field>
         <field name="picking_type_id" position="after" >
