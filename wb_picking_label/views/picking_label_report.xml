@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="action_picking_label_report" model="ir.actions.report">
-            <field name="name">Salidas con Código de Barras</field>
+            <field name="name">Lista de Empaque</field>
             <field name="model">stock.picking</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">wb_picking_label.report_picking_label_template</field>
@@ -72,7 +72,7 @@
                                         <th><strong>Pedidas</strong></th>
                                         <th><strong>Tomadas</strong></th>
                                         <th><strong>Stock</strong></th>
-
+                                        <th><strong>Ubicaciones</strong></th>
                                     </tr>
                                 </thead>
 
@@ -87,7 +87,11 @@
                                         <td><span t-field="move.product_uom_qty"/><span t-field="move.product_uom"/></td>
                                         <td><span t-field="move.quantity_done"/></td>
                                         <td><span t-field="move.product_id.stock_real"/></td>
+                                        <!--<td><span t-field="move.location_id"/></td>-->
 
+                                    </tr>
+                                    <tr t-foreach="o.move_line_ids" t-as="move_line">
+                                        <td><span t-field="move_line.location_id"/></td>
                                     </tr>
                                 </tbody>
                             </table>

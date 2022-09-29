@@ -33,6 +33,7 @@ class Picking_Label(models.Model):
 
     imprimio_lista_empaque = fields.Boolean(string='Se imprimio Lista de Empaque')
 
+    #Print "Packing List" report
     def packing_list_print(self):
         self.ensure_one()
         _logger = logging.getLogger(__name__)
@@ -40,12 +41,20 @@ class Picking_Label(models.Model):
         self.imprimio_lista_empaque=True
         return self.env.ref('wb_picking_label.action_picking_label_report').report_action(self)
 
+    #Print "Out" report
     def print_out(self):
         self.ensure_one()
         _logger = logging.getLogger(__name__)
         _logger.info('LISTA DE EMPAQUE PICK %s', self.name)
         self.imprimio_salida = True
         return self.env.ref('stock.action_report_picking').report_action(self)
+
+    #Print "Packing List" report without specification
+    def packing_list_print_w_spec(self):
+        self.ensure_one()
+        _logger = logging.getLogger(__name__)
+        _logger.info('LISTA DE EMPAQUE PICK %s', self.name)
+        return self.env.ref('wb_picking_label.action_picking_package_report').report_action(self)
 
     def button_validate(self):
         self.ensure_one()

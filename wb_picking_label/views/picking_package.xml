@@ -2,13 +2,13 @@
 <odoo>
     <data>
         <record id="action_picking_package_report"  model="ir.actions.report">
-            <field name="name">Lista de Empaque</field>
+            <field name="name">Lista de empaque sin especificación</field>
             <field name="model">stock.picking</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">wb_picking_label.report_picking_package</field>
             <field name="report_file">wb_picking_label.report_picking_package</field>
-            <field name="binding_model_id" ref="model_stock_picking"/>
-            <field name="binding_type">report</field>
+            <!--<field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="binding_type">report</field>-->
         </record>
 
         <template id="report_picking_package">

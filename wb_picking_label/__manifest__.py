@@ -35,8 +35,8 @@
         'views/picking_package.xml',
         'views/picking_label_report.xml',
 
-        'report/picking_label_list_reports_views.xml',
-        'report/picking_label_list_report.xml',
+        #'report/picking_label_list_reports_views.xml',
+        #'report/picking_label_list_report.xml',
 
         'report/packing_list_report.xml',
         'report/stock_picking_batch_reports_views.xml',

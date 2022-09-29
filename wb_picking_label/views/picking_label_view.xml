@@ -9,7 +9,7 @@
                 <button name="print_out" string="Imprimir Salida" groups="stock.group_stock_user" type="object"/>
             </xpath>
             <xpath expr="//header" position="inside">
-                <button name="packing_list_print" string="Lista de Empaque" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
+                <button name="packing_list_print_w_spec" string="Lista de Empaque" groups="stock.group_stock_user" type="object" class="oe_highlight"/>
                 <button name="show_inventory" string="Ver Disponiblidad" groups="stock.group_stock_user" type="object" invisible="0"/>
             </xpath>
           <xpath expr="//field[@name='location_dest_id']" position="after">
