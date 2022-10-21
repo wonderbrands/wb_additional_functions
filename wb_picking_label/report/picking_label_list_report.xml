@@ -16,6 +16,7 @@
                                     <th ><strong>Picking</strong></th>
                                     <th ><strong>Pedido</strong></th>
                                     <th ><strong>Marketplace</strong></th>
+                                    <th t-if="o.channel = 'Mercado Libre México'"><strong>Cuenta Mercado Libre</strong></th>
                                     <th ><strong>Guía</strong></th>
                                     <th ><strong>Orden Market</strong></th>
                                     <th ><strong>Cliente</strong></th>
@@ -39,6 +40,10 @@
                                     </td>
                                     <td ><span t-field="o.origin"/><img  align="center" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.origin, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/></td>
                                     <td ><span t-field="o.sale_id.channel"/></td>
+                                    <td t-if="o.channel = 'Mercado Libre México'">
+                                        <t t-if="o.yuju_seller_id == ’160190870’"><span>Mercado Libre Oficiales</span></t>
+                                        <t t-if="not o.yuju_seller_id == '160190870’"><span>Mercado Libre Ventas</span></t>
+                                    </td>
                                      <td ><span t-field="o.sale_id.yuju_carrier_tracking_ref"/></td>
                                      <td ><span t-field="o.sale_id.channel_order_reference"/></td>
                                     <td ><span t-field="o.partner_id.name"/></td>

@@ -15,11 +15,11 @@ class pre_picking(models.Model):
     so_asignado = fields.Char('Orden de Venta', required=True)
     empleado_picking = fields.Many2one('res.users','Manager Picking', readonly=True, default=lambda self: self.env.uid)
     estado = fields.Selection(string = 'Estado', selection='_poblar_opciones', compute='_campocalculado', store = True, default='en_proceso')
-    motivo_retraso= fields.Selection(String='Motivo de retraso', selection='_poblar_retrasos')
+    motivo_retraso= fields.Selection(string='Motivo de retraso', selection='_poblar_retrasos')
     guia_paqueteria = fields.Char('Guía Paquetería', compute='_recuperar_envio', store = True)
     fecha_asignacion = fields.Datetime ('Fecha de asignación', default=lambda *a: datetime.datetime.now() , readonly=True)
     dias = fields.Integer(string='Días')#, compute="_campocalculado", store=False)
-    usuario_asignado =  fields.Char(String='Surtidor')
+    usuario_asignado =  fields.Char(string='Surtidor')
     zona_asignada = fields.Char(string='Zona', store = True)#, compute='_usuario_asignado') #
     marcas_asignadas =  fields.Char(string='Marcas', store = True)#, compute='_usuario_asignado') #
     picking_product_qty = fields.Char(string='Cantidad', compute='_recuperar_datos', store = True)
