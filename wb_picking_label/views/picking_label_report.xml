@@ -57,7 +57,9 @@
                                     <th ><strong>Referencia Cliente</strong></th>
                                     <th ><strong>Guía</strong></th>
                                     <th ><strong>Marketplace</strong></th>
+                                    <!--
                                     <th t-if="'Mercado Libre' in o.sale_id.channel"><strong>Cuenta Mercado Libre</strong></th>
+                                    -->
                                     <th ><strong>MP orden ID</strong></th>
                                     <th><strong>Estado</strong></th>
                                     <th name="td_sched_date_h" width="20%"><strong>Fecha programada</strong></th>
@@ -70,10 +72,12 @@
                                     <td ><span t-field="o.sale_id.client_order_ref"/></td>
                                     <td ><span t-field="o.sale_id.yuju_carrier_tracking_ref"/></td>
                                     <td ><span t-field="o.sale_id.channel"/></td>
+                                    <!--
                                     <td t-if="'Mercado Libre' in o.sale_id.channel">
                                         <t t-if="o.sale_id.yuju_seller_id == '160190870'"><span>Mercado Libre Oficiales</span></t>
                                         <t t-if="o.sale_id.yuju_seller_id == '25523702'"><span>Mercado Libre Ventas</span></t>
                                     </td>
+                                    -->
                                     <td ><span t-field="o.sale_id.channel_order_reference"/></td>
                                     <td><span t-field="o.state"/></td>
                                     <td name="td_sched_date" width="20%"><span t-field="o.scheduled_date"/></td>
