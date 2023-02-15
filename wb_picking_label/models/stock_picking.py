@@ -57,61 +57,62 @@ class Picking_Label(models.Model):
         return self.env.ref('wb_picking_label.action_picking_package_report').report_action(self)
 
     def button_validate(self):
-        self.ensure_one()
+        #self.ensure_one()
         _logger = logging.getLogger(__name__)
-        _logger.info('Nombre operación %s', self.name )
-        nombre_operacion = self.name
+        #_logger.info('Nombre operación %s', self.name )
+        for each in self:
+            nombre_operacion = each.name
 
-        id_pick = self.env['pre_picking'].search([('pick_asignado', '=', self.name)])
-        id_out = self.env['pre_picking'].search([('out_asignado', '=', self.name)])
+            id_pick = each.env['pre_picking'].search([('pick_asignado', '=', each.name)])
+            id_out = each.env['pre_picking'].search([('out_asignado', '=', each.name)])
 
-        _logger.info('Pick %s, Out %s ', id_pick, id_out )
+            #_logger.info('Pick %s, Out %s ', id_pick, id_out )
 
-        hoy = datetime.datetime.now()
-        _logger.info('Fecha Operación %s', hoy )
+            hoy = datetime.datetime.now()
+            #_logger.info('Fecha Operación %s', hoy )
 
-        update_picking = None
-        update_out =  None
+            update_picking = None
+            update_out =  None
 
-        if 'IN' in nombre_operacion :
-            # detectamos que productos estan entrando.
-            _logger.info('Entrada de Productos %s',  self.name )
-            _logger.info('Linea de Productos Id %s',  self.move_line_ids )
-            lineas = self.move_line_ids
+            if 'IN' in nombre_operacion :
+                # detectamos que productos estan entrando.
+                #_logger.info('Entrada de Productos %s',  self.name )
+                #_logger.info('Linea de Productos Id %s',  self.move_line_ids )
+                lineas = each.move_line_ids
 
-            cantidad_remanente = 0
+                cantidad_remanente = 0
 
-            for linea in lineas:
-                sku_entrando = linea.product_id.default_code
-                _logger.info('SKU:%s ', linea.product_id.default_code)
-                _logger.info('Nombre: %s', linea.product_id.name )
-                _logger.info('Entrada:%s', linea.product_qty )
-                cantidad_remanente = linea.product_qty
+                for linea in lineas:
+                    sku_entrando = linea.product_id.default_code
+                    #_logger.info('SKU:%s ', linea.product_id.default_code)
+                    #_logger.info('Nombre: %s', linea.product_id.name )
+                    #_logger.info('Entrada:%s', linea.product_qty )
+                    cantidad_remanente = linea.product_qty
 
-                # Buscamos si el Producto esta en los Picking En espera (confirmed) de producto del Almacén General (AG/Stock)
-                # Los Picks en Espera solo se crean cuando al Confirmar el Presupuesto no existe suficiente producto para satisfacer el Pedido de Venta
-                pickings_en_espera=self.env['stock.move'].search([('state', '=', 'confirmed')])
-                for picking in pickings_en_espera:
-                    picking_id = picking.id
-                    orden_de_venta= picking.origin
-                    sku_esperando = picking.product_id.default_code
-                    cantidad_pedida = picking.product_qty
-                    nombre_pick = picking.reference
-                    _logger.info('Venta:%s SKU:%s Cantidad: %s',orden_de_venta, sku_esperando, cantidad_pedida)
+                    # Buscamos si el Producto esta en los Picking En espera (confirmed) de producto del Almacén General (AG/Stock)
+                    # Los Picks en Espera solo se crean cuando al Confirmar el Presupuesto no existe suficiente producto para satisfacer el Pedido de Venta
+                    pickings_en_espera=each.env['stock.move'].search([('state', '=', 'confirmed')])
+                    for picking in pickings_en_espera:
+                        picking_id = picking.id
+                        orden_de_venta= picking.origin
+                        sku_esperando = picking.product_id.default_code
+                        cantidad_pedida = picking.product_qty
+                        nombre_pick = picking.reference
+                        #_logger.info('Venta:%s SKU:%s Cantidad: %s',orden_de_venta, sku_esperando, cantidad_pedida)
 
-                    # Si existe algún picking en estado: En Espera de ese producto marcarlo siempre y cuando alcance la cantidad de Entrada para abastecerlo.
-                    # si no alcanza no marcarlo.
-                    if sku_esperando == sku_entrando and cantidad_remanente >= cantidad_pedida:
-                        _logger.info('SKU:%s  Entro para Orden: %s, Cantidad Pedida:%s', sku_esperando, orden_de_venta, cantidad_pedida )
-                        cantidad_remanente = cantidad_remanente - cantidad_pedida
-                        _logger.info('Cantidad remanente: %s', cantidad_remanente)
-                        pick_en_espera = self.env['stock.picking'].search([('name', '=', nombre_pick)])
+                        # Si existe algún picking en estado: En Espera de ese producto marcarlo siempre y cuando alcance la cantidad de Entrada para abastecerlo.
+                        # si no alcanza no marcarlo.
+                        if sku_esperando == sku_entrando and cantidad_remanente >= cantidad_pedida:
+                            #_logger.info('SKU:%s  Entro para Orden: %s, Cantidad Pedida:%s', sku_esperando, orden_de_venta, cantidad_pedida )
+                            cantidad_remanente = cantidad_remanente - cantidad_pedida
+                            #_logger.info('Cantidad remanente: %s', cantidad_remanente)
+                            pick_en_espera = each.env['stock.picking'].search([('name', '=', nombre_pick)])
 
-                        update_pick = pick_en_espera.write({'po_entrada': str(self.origin)+'-'+str(self.name), 'qty_entrada':cantidad_pedida, 'fecha_entrada':hoy})
-                        _logger.info('Resultado: %s', update_pick)
+                            update_pick = pick_en_espera.write({'po_entrada': str(each.origin)+'-'+str(each.name), 'qty_entrada':cantidad_pedida, 'fecha_entrada':hoy})
+                            #_logger.info('Resultado: %s', update_pick)
 
-        res = super().button_validate()
-        return res
+            res = super().button_validate()
+            return res
 
     def show_inventory(self):
         self.ensure_one()
