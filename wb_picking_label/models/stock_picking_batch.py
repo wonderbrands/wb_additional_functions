@@ -29,7 +29,7 @@ class Packing_List(models.Model):
                 pick_by_sale_orders[sale_id.name] = {
                     "Sale_ID": sale_id.name,
                     "Marketplace": sale_id.channel,
-                    "Carrier": sale_id.x_studio_paqueteria_carrier,
+                    "Carrier": sale_id.x_studio_paquetera_carrier,
                     "Carrier_ref": sale_id.yuju_carrier_tracking_ref,
                     "Productos": [
                         {
