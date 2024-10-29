@@ -3,23 +3,6 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 import logging
 
-class BatchPickingReport(models.AbstractModel):
-    _name = 'report.wb_picking_label.report_batch_picking_template'
-    _description = 'Custom Batch Picking Report'
-
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        # Use stock.picking.batch model to get the records
-        docs = self.env['stock.picking.batch'].browse(docids)
-        
-        # Retrieve pick_by_sale_orders data passed from the action method, if any
-        pick_by_sale_orders = data.get('pick_by_sale_orders', {}) if data else {}
-
-        return {
-            'docs': docs,
-            'pick_by_sale_orders': pick_by_sale_orders,
-        }
-
 class PackingList(models.Model):
     _inherit = 'stock.picking.batch'
     se_imprimio_lista = fields.Boolean(string='Lista de Empaque')
