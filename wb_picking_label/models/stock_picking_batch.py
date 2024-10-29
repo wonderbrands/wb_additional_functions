@@ -21,7 +21,27 @@ class Packing_List(models.Model):
         pickings = self.mapped('picking_ids')
         if not pickings:
             raise UserError(_('Nada que imprimir.'))
-        return self.env.ref('wb_picking_label.action_batch_picking_report').report_action(self)
+        
+        pick_by_sale_orders = {}
+        for line in self.move_line_ids:
+            sale_id = line.picking_id.sale_id
+            if sale_id.name not in pick_by_sale_orders.keys():
+                pick_by_sale_orders[sale_id.name] = {
+                    "Sale_ID": sale_id.name,
+                    "Marketplace": sale_id.channel,
+                    "Carrier": sale_id.x_studio_paqueteria_carrier,
+                    "Carrier_ref": sale_id.yuju_carrier_tracking_ref,
+                    "Productos": [
+                        {
+                            "Producto": product.product_id.name,
+                            "Cantidad": product.product_uon_qty,
+                            "Picking_zone": line.pick_zone_index.name
+                        } for product in sale_id.order_line
+                    ]
+                }
+
+
+        return self.env.ref('wb_picking_label.action_batch_picking_report').report_action(self, data={'pick_by_sale_orders': pick_by_sale_orders})
 
     def packing_list_print(self):
         self.ensure_one()

@@ -23,6 +23,19 @@
                             <span t-field="line.picking_id.name" /> 
                             </tr>
                         </table>
+
+                        <t t-foreach="pick_by_sale_orders.items()" t-as="sale_name, sale_data">
+                            <p>Sale Order: <t t-esc="sale_data['Sale_ID']"/></p>
+                            <p>Marketplace: <t t-esc="sale_data['Marketplace']"/></p>
+                            <p>Carrier: <t t-esc="sale_data['Carrier']"/></p>
+                            <p>Carrier Reference: <t t-esc="sale_data['Carrier_ref']"/></p>
+
+                            <t t-foreach="sale_data['Productos']" t-as="product">
+                                <p>Producto: <t t-esc="product['Producto']"/></p>
+                                <p>Cantidad: <t t-esc="product['Cantidad']"/></p>
+                                <p>Picking Zone: <t t-esc="product['Picking_zone']"/></p>
+                            </t>
+                        </t>
                         </div>
                     </t>
                 </t>
