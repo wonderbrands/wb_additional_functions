@@ -13,7 +13,7 @@ class Packing_List(models.Model):
     _inherit = 'stock.picking.batch'
     se_imprimio_lista = fields.Boolean(string='Lista de Empaque')
 
-    def packing_list_print(self):
+    def universal_format_print(self):
         self.ensure_one()
         _logger = logging.getLogger(__name__)
         _logger.info('Nombre operación %s', self.name)
@@ -21,4 +21,4 @@ class Packing_List(models.Model):
         pickings = self.mapped('picking_ids')
         if not pickings:
             raise UserError(_('Nada que imprimir.'))
-        return self.env.ref('wb_picking_label.action_packing_list_report').report_action(self)
+        return self.env.ref('wb_picking_label.action_batch_picking_report').report_action(self)
