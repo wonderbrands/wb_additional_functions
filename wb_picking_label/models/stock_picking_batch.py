@@ -35,7 +35,7 @@ class Packing_List(models.Model):
                         {
                             "Producto": product.product_id.name,
                             "Cantidad": product.product_uom_qty,
-                            "Picking_zone": line.pick_zone_index.name
+                            "Picking_zone": line.picking_id.pick_zone_index.name
                         } for product in sale_id.order_line
                     ]
                 }
