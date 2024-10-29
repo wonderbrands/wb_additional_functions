@@ -6,6 +6,7 @@ from odoo.exceptions import UserError
 from odoo import exceptions
 import datetime
 import logging
+import json
 
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 
@@ -40,6 +41,7 @@ class Packing_List(models.Model):
                     ]
                 }
 
+        _logger.info(f"Data: {json.dumps(pick_by_sale_orders)}")
 
         return self.env.ref('wb_picking_label.action_batch_picking_report').report_action(self, data={'pick_by_sale_orders': pick_by_sale_orders})
 
