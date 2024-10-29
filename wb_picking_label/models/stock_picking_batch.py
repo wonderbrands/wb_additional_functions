@@ -22,3 +22,13 @@ class Packing_List(models.Model):
         if not pickings:
             raise UserError(_('Nada que imprimir.'))
         return self.env.ref('wb_picking_label.action_batch_picking_report').report_action(self)
+
+    def packing_list_print(self):
+        self.ensure_one()
+        _logger = logging.getLogger(__name__)
+        _logger.info('Nombre operación %s', self.name)
+
+        pickings = self.mapped('picking_ids')
+        if not pickings:
+            raise UserError(_('Nada que imprimir.'))
+        return self.env.ref("action_packing_list_report").report_action(self)
