@@ -24,17 +24,29 @@
                             </tr>
                         </table>
 
-                        <t t-foreach="pick_by_sale_orders.items()" t-as="sale_name, sale_data">
-                            <p>Sale Order: <t t-esc="sale_data['Sale_ID']"/></p>
-                            <p>Marketplace: <t t-esc="sale_data['Marketplace']"/></p>
-                            <p>Carrier: <t t-esc="sale_data['Carrier']"/></p>
-                            <p>Carrier Reference: <t t-esc="sale_data['Carrier_ref']"/></p>
-
-                            <t t-foreach="sale_data['Productos']" t-as="product">
-                                <p>Producto: <t t-esc="product['Producto']"/></p>
-                                <p>Cantidad: <t t-esc="product['Cantidad']"/></p>
-                                <p>Picking Zone: <t t-esc="product['Picking_zone']"/></p>
-                            </t>
+                        <t t-foreach="pick_by_sale_orders" t-as="order">
+                            <h2 t-text="order.Sale_ID"/>
+                            <p>Marketplace: <t t-text="order.Marketplace"/></p>
+                            <p>Carrier: <t t-text="order.Carrier"/></p>
+                            <p>Carrier Ref: <t t-text="order.Carrier_ref"/></p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Picking Zone</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="order.Productos" t-as="product">
+                                        <tr>
+                                            <td t-text="product.Producto"/>
+                                            <td t-text="product.Cantidad"/>
+                                            <td t-text="product.Picking_zone"/>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
                         </t>
                         </div>
                     </t>
