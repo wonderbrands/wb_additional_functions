@@ -7,15 +7,7 @@ class PackingList(models.Model):
     _inherit = 'stock.picking.batch'
     se_imprimio_lista = fields.Boolean(string='Lista de Empaque')
 
-    def universal_format_print(self):
-        self.ensure_one()
-        _logger = logging.getLogger(__name__)
-        _logger.info('Nombre operación %s', self.name)
-
-        pickings = self.mapped('picking_ids')
-        if not pickings:
-            raise UserError(_('Nada que imprimir.'))
-        
+    def get_sale_order_data(self):
         pick_by_sale_orders = {}
         for line in self.move_line_ids:
             sale_id = line.picking_id.sale_id
@@ -33,6 +25,16 @@ class PackingList(models.Model):
                         } for product in sale_id.order_line
                     ]
                 }
+        return pick_by_sale_orders
+
+    def universal_format_print(self):
+        self.ensure_one()
+        _logger = logging.getLogger(__name__)
+        _logger.info('Nombre operación %s', self.name)
+
+        pickings = self.mapped('picking_ids')
+        if not pickings:
+            raise UserError(_('Nada que imprimir.'))
 
         # Pass data to report
         return self.env.ref('wb_picking_label.action_batch_picking_report').report_action(
