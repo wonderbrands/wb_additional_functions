@@ -14,8 +14,14 @@ class PackingList(models.Model):
             if sale_id.name not in pick_by_sale_orders.keys():
                 pick_by_sale_orders[sale_id.name] = {
                     "Sale_ID": sale_id.name,
+                    "Carrier": sale_id.x_studio_paquetera_carrier, #es un campo en studio
+                    "Pick": line.picking_id.name,
+                    "ValPick": "",
+                    "Guide_nums": "",
+                    "Guides": sale_id.yuju_carrier_tracking_ref,
                     "Marketplace": sale_id.channel,
-                    "Carrier": sale_id.x_studio_paquetera_carrier,
+                    "MPOrder": sale_id.channel_order_reference,
+                    "Out": "",
                     "Carrier_ref": sale_id.yuju_carrier_tracking_ref,
                     "Productos": [
                         {
@@ -25,6 +31,15 @@ class PackingList(models.Model):
                         } for product in sale_id.order_line
                     ]
                 }
+            else: 
+                pick_by_sale_orders[sale_id.name]["Productos"].append({
+                    {
+                        "Producto": product.product_id.name,
+                        "Cantidad": product.product_uom_qty,
+                        "Picking_zone": line.picking_id.pick_zone_index.name
+                    } for product in sale_id.order_line
+                })
+
         return pick_by_sale_orders
 
     def universal_format_print(self):

@@ -15,47 +15,72 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="batch">
                     <t t-set="sale_order_data" t-value="batch.get_sale_order_data()"/>
-
                     <div class="page">
-                        <h2>Picking Batch: <t t-esc="batch.name"/></h2>
+                        <t t-foreach="sale_order_data.values()" t-as="sale">
+                            <div style="display: flex; flex-direction: row; justify-content: center; alingn-items: center; width: 100%; background-color: #d9e5c5; padding: 5px;">
+                                <div style="display: flex; flex-direction: column; justify-content: center; align-items:center; width:14.2%;">
+                                    <p>SO: <span><t t-esc="sale['Sale_ID']"/></span></p>
+                                    <p>Marketplace: <span><t t-esc="sale['Marketplace']"/></span></p>
+                                    <p>MP Order: <span><t t-esc="sale['MPOrder']"/></span></p>
+                                </div>
 
-                        <table class="table table-condensed">
-                            <thead>
-                                <tr>
-                                    <th>Sale Order ID</th>
-                                    <th>Marketplace</th>
-                                    <th>Carrier</th>
-                                    <th>Carrier Reference</th>
-                                    <th>Products</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-foreach="sale_order_data.values()" t-as="sale">
-                                    <tr>
-                                        <td t-esc="sale['Sale_ID']"/>
-                                        <td t-esc="sale['Marketplace']"/>
-                                        <td t-esc="sale['Carrier']"/>
-                                        <td t-esc="sale['Carrier_ref']"/>
-                                        <td>
-                                            <ul>
-                                                <t t-foreach="sale['Productos']" t-as="product">
-                                                    <li>
-                                                        <strong>Product:</strong> <t t-esc="product['Producto']"/>
-                                                        <br/>
-                                                        <strong>Quantity:</strong> <t t-esc="product['Cantidad']"/>
-                                                        <br/>
-                                                        <strong>Picking Zone:</strong> <t t-esc="product['Picking_zone']"/>
-                                                    </li>
-                                                </t>
-                                            </ul>
-                                        </td>
+                                <div style="display: flex; flex-direction: column; justify-content: center; align-items:center; width:28.4%;">
+                                    <img align="center" 
+                                        t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sale['Sale_ID'], 600, 100)" 
+                                        style="width:300px;height:50px;" 
+                                        alt="Barcode"/>
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; justify-content: center; align-items:center; width:14.2%;">
+                                    <p>Pick: <span><t t-esc="sale['Pick']"/></span></p>
+                                    <p>Valpick: <span><t t-esc="sale['ValPick']"/></span></p>
+                                    <p>OUT: <span><t t-esc="sale['Out']"/></span></p>
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; justify-content: center; align-items:center; width:28.4%;">
+                                        <img align="center" 
+                                        t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sale['Pick'], 600, 100)" 
+                                        style="width:300px;height:50px;" 
+                                        alt="Barcode"/>
+                                </div>
+                                
+                                <div style="display: flex; flex-direction: column; justify-content: center; align-items:center; width:14.2%;">
+                                    <p>Carrier: <span><t t-esc="sale['Carrier]"/></span></p>
+                                    <p>Total de Guias: <span><t t-esc="sale['Guide_nums']"/></span></p>
+                                    <p>Numero de Guia: <span><t t-esc="sale['Guides']"/></span></p>
+                                </div>
+                            </div>
+                            
+
+                            
+                            <!-- Product Table Header -->
+                            <table class="table table-condensed" style="width: 100%; margin-top: 10px;">
+                                <thead>
+                                    <tr style="background-color: #d9e5c5;">
+                                        <th>Producto o SKU</th>
+                                        <th>Piezas</th>
+                                        <th>Zona pickeo</th>
                                     </tr>
-                                </t>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="sale['Productos']" t-as="product">
+                                        <tr>
+                                            <td><t t-esc="product['Producto']"/></td>
+                                            <td><t t-esc="product['Cantidad']"/></td>
+                                            <td><t t-esc="product['Picking_zone']"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
                     </div>
                 </t>
             </t>
         </template>
+
     </data>
 </odoo>
+
+
+
+
