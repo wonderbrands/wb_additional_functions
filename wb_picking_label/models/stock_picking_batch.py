@@ -36,7 +36,7 @@ class PackingList(models.Model):
 
         # Pass data to report
         return self.env.ref('wb_picking_label.action_batch_picking_report').report_action(
-            self, data={'pick_by_sale_orders': pick_by_sale_orders}
+            self
         )
 
     def packing_list_print(self):
