@@ -9,36 +9,56 @@ class PackingList(models.Model):
 
     def get_sale_order_data(self):
         pick_by_sale_orders = {}
+
         for line in self.move_line_ids:
+
             sale_id = line.picking_id.sale_id
+
+            valpick_so = self.env["stock.picking"].search([
+                ("origin", "=", sale_id.name),
+                ("name", "ilike", "VALPICK")
+            ])
+            valpick_so = "" if len(valpick_so)==0 else valpick_so[0]
+
+            out_so = self.env["stock.picking"].search([
+                ("origin", "=", sale_id.name),
+                ("name", "ilike", "OUT")
+            ])
+            out_so = "" if len(out_so)==0 else out_so[0]
+
             if sale_id.name not in pick_by_sale_orders.keys():
+
                 pick_by_sale_orders[sale_id.name] = {
                     "Sale_ID": sale_id.name,
-                    "Carrier": sale_id.x_studio_paquetera_carrier, #es un campo en studio
+                    "Carrier": "" if not sale_id.carrier_selection_relational else sale_id.carrier_selection_relational.name,
                     "Pick": line.picking_id.name,
-                    "ValPick": "",
-                    "Guide_nums": "",
+                    "ValPick": valpick_so,
+                    "Guide_nums": 0,
                     "Guides": sale_id.yuju_carrier_tracking_ref,
                     "Marketplace": sale_id.channel,
                     "MPOrder": sale_id.channel_order_reference,
-                    "Out": "",
+                    "Out": out_so,
                     "Carrier_ref": sale_id.yuju_carrier_tracking_ref,
                     "Productos": [
                         {
                             "Producto": product.product_id.name,
-                            "Cantidad": product.product_uom_qty,
+                            "Cantidad": int(product.product_uom_qty),
                             "Picking_zone": line.picking_id.pick_zone_index.name
                         } for product in sale_id.order_line
                     ]
                 }
+
             else: 
-                pick_by_sale_orders[sale_id.name]["Productos"].append({
+                pick_by_sale_orders[sale_id.name]["Productos"].append(
                     {
                         "Producto": product.product_id.name,
-                        "Cantidad": product.product_uom_qty,
+                        "Cantidad": int(product.product_uom_qty),
                         "Picking_zone": line.picking_id.pick_zone_index.name
                     } for product in sale_id.order_line
-                })
+                )
+
+            for product in sale_id.order_line:
+                pick_by_sale_orders[sale_id.name]["Guide_nums"] += int(product.product_uom_qty)
 
         return pick_by_sale_orders
 
