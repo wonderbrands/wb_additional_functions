@@ -49,12 +49,13 @@ class PackingList(models.Model):
                 }
 
             else: 
-                pick_by_sale_orders[sale_id.name]["Productos"].append(
+                pick_by_sale_orders[sale_id.name]["Productos"].append([
                     {
                         "Producto": product.product_id.name,
                         "Cantidad": int(product.product_uom_qty),
                         "Picking_zone": line.picking_id.pick_zone_index.name
                     } for product in sale_id.order_line
+                ]
                 )
 
             for product in sale_id.order_line:
