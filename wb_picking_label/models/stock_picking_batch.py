@@ -18,13 +18,13 @@ class PackingList(models.Model):
                 ("origin", "=", sale_id.name),
                 ("name", "ilike", "VALPICK")
             ])
-            valpick_so = "" if len(valpick_so)==0 else valpick_so[0]
+            valpick_so = "" if len(valpick_so)==0 else valpick_so[0].name
 
             out_so = self.env["stock.picking"].search([
                 ("origin", "=", sale_id.name),
                 ("name", "ilike", "OUT")
             ])
-            out_so = "" if len(out_so)==0 else out_so[0]
+            out_so = "" if len(out_so)==0 else out_so[0].name
 
             if sale_id.name not in pick_by_sale_orders.keys():
 
