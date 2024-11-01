@@ -48,9 +48,6 @@ class Picking_Label(models.Model):
         pick_so_id = "" if len(pick_so)==0 else pick_so[0]
         pick_so = "" if len(pick_so)==0 else pick_so[0].name
 
-        _logger.info("================================")
-        _logger.info(pick_so_id)
-        _logger.info("================================")
 
         valpick_so = self.env["stock.picking"].search([
             ("origin", "=", sale_id.name),
@@ -81,7 +78,7 @@ class Picking_Label(models.Model):
                     {
                         "Producto": product.product_id.name,
                         "Cantidad": int(product.product_uom_qty),
-                        "Picking_zone": "",
+                        "Picking_zone": pick_so_id.pick_zone_index.name,
                         "SKU": product.product_id.default_code
                     } for product in sale_id.order_line
                 ]
