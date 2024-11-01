@@ -33,6 +33,83 @@ class Picking_Label(models.Model):
 
     imprimio_lista_empaque = fields.Boolean(string='Se imprimio Lista de Empaque')
 
+    def get_sale_order_data(self):
+        pick_by_sale_orders = {}
+
+
+        sale_id = self.sale_id
+
+        pick_so = self.env["stock.picking"].search([
+            ("origin", "=", sale_id.name),
+            ("name", "ilike", "/PICK/")
+        ])
+        pick_so = "" if len(pick_so)==0 else pick_so[0].name
+
+        valpick_so = self.env["stock.picking"].search([
+            ("origin", "=", sale_id.name),
+            ("name", "ilike", "VALPICK")
+        ])
+        valpick_so = "" if len(valpick_so)==0 else valpick_so[0].name
+
+        out_so = self.env["stock.picking"].search([
+            ("origin", "=", sale_id.name),
+            ("name", "ilike", "OUT")
+        ])
+        out_so = "" if len(out_so)==0 else out_so[0].name
+
+        if sale_id.name not in pick_by_sale_orders.keys():
+
+            pick_by_sale_orders[sale_id.name] = {
+                "Sale_ID": sale_id.name,
+                "Carrier": "" if not sale_id.carrier_selection_relational else sale_id.carrier_selection_relational.name,
+                "Pick": pick_so,
+                "ValPick": valpick_so,
+                "Guide_nums": 0,
+                "Guides": sale_id.yuju_carrier_tracking_ref,
+                "Marketplace": sale_id.channel,
+                "MPOrder": sale_id.channel_order_reference,
+                "Out": out_so,
+                "Carrier_ref": sale_id.yuju_carrier_tracking_ref,
+                "Productos": [
+                    {
+                        "Producto": product.product_id.name,
+                        "Cantidad": int(product.product_uom_qty),
+                        "Picking_zone": pick_so.picking_id.pick_zone_index.name,
+                        "SKU": product.product_id.default_code
+                    } for product in sale_id.order_line
+                ]
+            }
+
+        else: 
+            pick_by_sale_orders[sale_id.name]["Productos"] += [
+                {
+                    "Producto": product.product_id.name,
+                    "Cantidad": int(product.product_uom_qty),
+                    "Picking_zone": pick_so.picking_id.pick_zone_index.name,
+                    "SKU": product.product_id.default_code
+                } for product in sale_id.order_line
+            ]
+            
+
+        for product in sale_id.order_line:
+            pick_by_sale_orders[sale_id.name]["Guide_nums"] += int(product.product_uom_qty)
+
+        return pick_by_sale_orders
+
+    def universal_format_print(self):
+        self.ensure_one()
+        _logger = logging.getLogger(__name__)
+        _logger.info('Nombre operación %s', self.name)
+
+        pickings = self.mapped('picking_ids')
+        if not pickings:
+            raise UserError(_('Nada que imprimir.'))
+
+        # Pass data to report
+        return self.env.ref('wb_picking_label.action_picking_report').report_action(
+            self
+        )
+
     #Print "Packing List" report
     def packing_list_print(self):
         self.ensure_one()

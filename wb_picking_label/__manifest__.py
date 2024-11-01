@@ -40,6 +40,7 @@
 
         'report/packing_list_report.xml',
         'report/stock_picking_batch_reports_views.xml',
-        'views/universal_ops_format.xml'
+        'views/universal_ops_format.xml',
+        'views/universal_ops_format_no_batch.xml'
     ],
 }

@@ -70,8 +70,8 @@ class PackingList(models.Model):
         _logger = logging.getLogger(__name__)
         _logger.info('Nombre operación %s', self.name)
 
-        pickings = self.mapped('picking_ids')
-        if not pickings:
+        sale_id = self.sale_id
+        if not sale_id:
             raise UserError(_('Nada que imprimir.'))
 
         # Pass data to report
