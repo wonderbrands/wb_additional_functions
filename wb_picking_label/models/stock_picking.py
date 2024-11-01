@@ -45,8 +45,8 @@ class Picking_Label(models.Model):
             ("origin", "=", sale_id.name),
             ("name", "ilike", "/PICK/")
         ])
-        pick_so = "" if len(pick_so)==0 else pick_so[0].name
         pick_so_id = "" if len(pick_so)==0 else pick_so[0]
+        pick_so = "" if len(pick_so)==0 else pick_so[0].name
 
         _logger.info("================================")
         _logger.info(pick_so_id)
