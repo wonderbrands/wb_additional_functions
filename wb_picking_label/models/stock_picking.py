@@ -81,7 +81,7 @@ class Picking_Label(models.Model):
                     {
                         "Producto": product.product_id.name,
                         "Cantidad": int(product.product_uom_qty),
-                        "Picking_zone": pick_so_id.pick_zone_index.name,
+                        "Picking_zone": "",
                         "SKU": product.product_id.default_code
                     } for product in sale_id.order_line
                 ]
