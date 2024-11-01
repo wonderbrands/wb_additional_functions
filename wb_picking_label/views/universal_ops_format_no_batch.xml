@@ -5,8 +5,8 @@
             <field name="name">Formato universal OPS</field>
             <field name="model">stock.picking</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">wb_picking_label_no_batch.report_picking_template</field>
-            <field name="report_file">wb_picking_label_no_batch.report_picking_template</field>
+            <field name="report_name">wb_picking_label.report_picking__no_batch_template</field>
+            <field name="report_file">wb_picking_label.report_picking__no_batch_template</field>
             <field name="binding_model_id" ref="model_stock_picking"/>
             <field name="binding_type">report</field>
         </record>
