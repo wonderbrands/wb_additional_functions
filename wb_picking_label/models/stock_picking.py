@@ -74,7 +74,7 @@ class Picking_Label(models.Model):
                     {
                         "Producto": product.product_id.name,
                         "Cantidad": int(product.product_uom_qty),
-                        "Picking_zone": pick_so.picking_id.pick_zone_index.name,
+                        "Picking_zone": pick_so.pick_zone_index.name,
                         "SKU": product.product_id.default_code
                     } for product in sale_id.order_line
                 ]
@@ -85,7 +85,7 @@ class Picking_Label(models.Model):
                 {
                     "Producto": product.product_id.name,
                     "Cantidad": int(product.product_uom_qty),
-                    "Picking_zone": pick_so.picking_id.pick_zone_index.name,
+                    "Picking_zone": pick_so.pick_zone_index.name,
                     "SKU": product.product_id.default_code
                 } for product in sale_id.order_line
             ]
