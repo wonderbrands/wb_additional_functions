@@ -59,7 +59,8 @@
                                 <table class="table table-condensed" style="width: 100%; margin-top: 10px;">
                                     <thead>
                                         <tr style="background-color: #d9e5c5;">
-                                            <th>Producto o SKU</th>
+                                            <th>Producto</th>
+                                            <th>SKU</th>
                                             <th>Piezas</th>
                                             <th>Zona pickeo</th>
                                         </tr>
@@ -68,6 +69,7 @@
                                         <t t-foreach="sale['Productos']" t-as="product">
                                             <tr>
                                                 <td><t t-esc="product['Producto']"/></td>
+                                                <td><t t-esc="product['SKU']"/></td>
                                                 <td><t t-esc="product['Cantidad']"/></td>
                                                 <td><t t-esc="product['Picking_zone']"/></td>
                                             </tr>
