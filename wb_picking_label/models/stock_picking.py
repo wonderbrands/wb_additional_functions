@@ -34,6 +34,8 @@ class Picking_Label(models.Model):
     imprimio_lista_empaque = fields.Boolean(string='Se imprimio Lista de Empaque')
 
     def get_sale_order_data(self):
+        _logger = logging.getLogger(__name__)
+
         pick_by_sale_orders = {}
 
 
@@ -46,9 +48,9 @@ class Picking_Label(models.Model):
         pick_so = "" if len(pick_so)==0 else pick_so[0].name
         pick_so_id = "" if len(pick_so)==0 else pick_so[0]
 
-        logging.info("================================")
-        logging.info(pick_so_id)
-        logging.info("================================")
+        _logger.info("================================")
+        _logger.info(pick_so_id)
+        _logger.info("================================")
 
         valpick_so = self.env["stock.picking"].search([
             ("origin", "=", sale_id.name),
