@@ -46,6 +46,10 @@ class Picking_Label(models.Model):
         pick_so = "" if len(pick_so)==0 else pick_so[0].name
         pick_so_id = "" if len(pick_so)==0 else pick_so[0]
 
+        logging.info("================================")
+        logging.info(pick_so_id)
+        logging.info("================================")
+
         valpick_so = self.env["stock.picking"].search([
             ("origin", "=", sale_id.name),
             ("name", "ilike", "VALPICK")
