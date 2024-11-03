@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="action_master_shipping_guides_tree" model="ir.actions.act_window">
+            <field name="name">Shipping Guides</field>
+            <field name="res_model">wb_outs.master_shipping_guides</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_master_shipping_guides_tree"/>
+        </record>
+    </data>
+</odoo>
