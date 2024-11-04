@@ -27,7 +27,7 @@ class PackingList(models.Model):
             out_so = "" if len(out_so)==0 else out_so[0].name
 
             if sale_id.name not in pick_by_sale_orders.keys():
-                guides = sale_id.yuju_carrier_tracking_ref.split(",")
+                guides = "" if not sale_id.yuju_carrier_tracking_ref else sale_id.yuju_carrier_tracking_ref.split(",")
 
                 pick_by_sale_orders[sale_id.name] = {
                     "Sale_ID": sale_id.name,
