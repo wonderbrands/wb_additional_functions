@@ -8,6 +8,7 @@ class PackingList(models.Model):
     se_imprimio_lista = fields.Boolean(string='Lista de Empaque')
 
     def get_sale_order_data(self):
+        logger = logging.getLogger(__name__)
         pick_by_sale_orders = {}
 
         for line in self.move_line_ids:
@@ -28,6 +29,10 @@ class PackingList(models.Model):
 
             if sale_id.name not in pick_by_sale_orders.keys():
                 guides = "" if not sale_id.yuju_carrier_tracking_ref else sale_id.yuju_carrier_tracking_ref.split(",")
+                logger.info("============================")
+                logger.info(guides)
+                logger.info("============================")
+
 
                 pick_by_sale_orders[sale_id.name] = {
                     "Sale_ID": sale_id.name,
