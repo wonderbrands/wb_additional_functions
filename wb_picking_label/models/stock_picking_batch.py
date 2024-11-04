@@ -46,7 +46,7 @@ class PackingList(models.Model):
                             "Cantidad": int(product.qty_done),
                             "Picking_zone": line.picking_id.pick_zone_index.name,
                             "SKU": product.product_id.default_code
-                        } for product in line.move_line_ids_without_package
+                        } for product in line.picking_id.move_line_ids_without_package
                     ]
                 }
 
@@ -57,7 +57,7 @@ class PackingList(models.Model):
                         "Cantidad": int(product.qty_done),
                         "Picking_zone": line.picking_id.pick_zone_index.name,
                         "SKU": product.product_id.default_code
-                    } for product in line.move_line_ids_without_package
+                    } for product in line.picking_id.move_line_ids_without_package
    
                 ]
                 

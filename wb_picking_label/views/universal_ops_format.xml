@@ -30,8 +30,8 @@
 
                                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 28.4%;">
                                         <img align="center" 
-                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sale['Sale_ID'], 600, 100)" 
-                                             style="width: 250px; height: 50px;" 
+                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Sale_ID'], 600, 100)" 
+                                             style="width: 250px; height: 50px;margin-left: 2px; margin-right: 2px;" 
                                              alt="Barcode"/>
                                     </div>
 
@@ -43,8 +43,8 @@
 
                                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 28.4%;">
                                         <img align="center" 
-                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sale['Pick'], 600, 100)" 
-                                             style="width: 250px; height: 50px;" 
+                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Pick'], 600, 100)" 
+                                             style="width: 250px; height: 50px;margin-left: 2px; margin-right: 2px;" 
                                              alt="Barcode"/>
                                     </div>
                                     
