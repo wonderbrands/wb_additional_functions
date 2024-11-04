@@ -27,14 +27,15 @@ class PackingList(models.Model):
             out_so = "" if len(out_so)==0 else out_so[0].name
 
             if sale_id.name not in pick_by_sale_orders.keys():
+                guides = sale_id.yuju_carrier_tracking_ref.split(",")
 
                 pick_by_sale_orders[sale_id.name] = {
                     "Sale_ID": sale_id.name,
                     "Carrier": "" if not sale_id.carrier_selection_relational else sale_id.carrier_selection_relational.name,
                     "Pick": line.picking_id.name,
                     "ValPick": valpick_so,
-                    "Guide_nums": 0,
-                    "Guides": sale_id.yuju_carrier_tracking_ref,
+                    "Guide_nums": len(guides),
+                    "Guides": ",".join(guides),
                     "Marketplace": sale_id.channel,
                     "MPOrder": sale_id.channel_order_reference,
                     "Out": out_so,
@@ -42,10 +43,10 @@ class PackingList(models.Model):
                     "Productos": [
                         {
                             "Producto": product.product_id.name,
-                            "Cantidad": int(product.product_uom_qty),
+                            "Cantidad": int(product.qty_done),
                             "Picking_zone": line.picking_id.pick_zone_index.name,
                             "SKU": product.product_id.default_code
-                        } for product in sale_id.order_line
+                        } for product in line.move_line_ids_without_package
                     ]
                 }
 
@@ -53,10 +54,11 @@ class PackingList(models.Model):
                 pick_by_sale_orders[sale_id.name]["Productos"] += [
                     {
                         "Producto": product.product_id.name,
-                        "Cantidad": int(product.product_uom_qty),
+                        "Cantidad": int(product.qty_done),
                         "Picking_zone": line.picking_id.pick_zone_index.name,
                         "SKU": product.product_id.default_code
-                    } for product in sale_id.order_line
+                    } for product in line.move_line_ids_without_package
+   
                 ]
                 
 

@@ -23,7 +23,7 @@
                             <t t-foreach="sale_order_data.values()" t-as="sale">
                                 <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; width: 100%; background-color: #d9e5c5; padding: 5px;">
                                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: start; width: 14.2%;">
-                                        <p>SO: <span><t t-esc="sale['Sale_ID']"/></span></p>
+                                        <p>Orden de venta: <span><t t-esc="sale['Sale_ID']"/></span></p>
                                         <p>Marketplace: <span><t t-esc="sale['Marketplace']"/></span></p>
                                         <p>MP Order: <span><t t-esc="sale['MPOrder']"/></span></p>
                                     </div>
@@ -31,20 +31,20 @@
                                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 28.4%;">
                                         <img align="center" 
                                              t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sale['Sale_ID'], 600, 100)" 
-                                             style="width: 300px; height: 50px;" 
+                                             style="width: 250px; height: 50px;" 
                                              alt="Barcode"/>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: start; width: 14.2%;">
-                                        <p>Pick: <span><t t-esc="sale['Pick']"/></span></p>
-                                        <p>Valpick: <span><t t-esc="sale['ValPick']"/></span></p>
-                                        <p>OUT: <span><t t-esc="sale['Out']"/></span></p>
+                                        <p><span><t t-esc="sale['Pick']"/></span></p>
+                                        <p><span><t t-esc="sale['ValPick']"/></span></p>
+                                        <p><span><t t-esc="sale['Out']"/></span></p>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 28.4%;">
                                         <img align="center" 
                                              t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', sale['Pick'], 600, 100)" 
-                                             style="width: 300px; height: 50px;" 
+                                             style="width: 250px; height: 50px;" 
                                              alt="Barcode"/>
                                     </div>
                                     
