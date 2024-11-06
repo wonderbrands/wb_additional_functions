@@ -51,7 +51,9 @@
                                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: start; width: 14.2%;">
                                         <p>Carrier: <span><t t-esc="sale['Carrier']"/></span></p>
                                         <p>Total de Guias: <span><t t-esc="sale['Guide_nums']"/></span></p>
-                                        <p>Numero de Guia: <span><t t-esc="sale['Guides']"/></span></p>
+                                        <p style="width: 100%; word-wrap: break-word; white-space: normal; overflow-wrap: break-word;">
+                                            Numero de Guia: <span><t t-esc="sale['Guides']"/></span>
+                                        </p>
                                     </div>
                                 </div>
 
