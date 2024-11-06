@@ -10,8 +10,11 @@ class PackingList(models.Model):
     se_imprimio_lista = fields.Boolean(string='Lista de Empaque')
 
     def process_guides(self, guide):
-        # Handle cases where guide is None, an empty string, or the literal "False"
-        if guide in [None, "", "False"]:
+        # Convert guide to a string and handle cases for None, "", or "False"
+        guide = str(guide) if guide is not None else ""
+        
+        # If guide is an empty string or "False", return 0 and empty string
+        if guide in ["", "False"]:
             return {
                 "number_of_guides": 0,
                 "guides": ""
