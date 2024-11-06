@@ -9,10 +9,13 @@ class PackingList(models.Model):
     _inherit = 'stock.picking.batch'
     se_imprimio_lista = fields.Boolean(string='Lista de Empaque')
 
-    
     def process_guides(self, guide):
-        # Ensure guide is a string
-        guide = str(guide) if guide is not None else ""
+        # Handle cases where guide is None, an empty string, or the literal "False"
+        if guide in [None, "", "False"]:
+            return {
+                "number_of_guides": 0,
+                "guides": ""
+            }
         
         # Patterns for different types of entries
         easy_ship_pattern = r"Easy Ship (Mon|Tue|Wed|Thu|Fri|Sat|Sun), [A-Za-z]{3} \d{1,2}, \d{4}::[^#]*##\d{2}-\d{2}-\d{4}"
@@ -34,33 +37,18 @@ class PackingList(models.Model):
         # Process each comma-separated segment
         for segment in comma_separated_elements:
             # Split FedEx and WALMART blocks by ##
-            fedex_matches = re.findall(fedex_pattern, segment)
-            walmart_matches = re.findall(walmart_pattern, segment)
-            
-            # If FedEx block, split by ##
             if "FedEx" in segment:
                 fedex_elements = segment.split("##")
                 matching_elements.extend([el.strip() for el in fedex_elements if re.match(fedex_pattern, el.strip())])
-            
-            # If WALMART block, split by ##
             elif "WALMART" in segment:
                 walmart_elements = segment.split("##")
                 matching_elements.extend([el.strip() for el in walmart_elements if re.match(walmart_pattern, el.strip())])
-            
-            # Handle any single unmatched segments
             else:
                 matching_elements.append(segment)
         
         # Total count of guides
         total_count = len(matching_elements)
         
-        # Handle the case of no matches found
-        if total_count == 0:
-            return {
-                "number_of_guides": 0,
-                "guides": ""
-            }
-
         # Return count and the original guide input
         return {
             "number_of_guides": total_count,
