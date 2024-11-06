@@ -39,21 +39,54 @@ class Picking_Label(models.Model):
         # Ensure guide is a string
         guide = str(guide) if guide is not None else ""
         
-        # Pattern to match "Easy Ship <Day>" entries up to "##<date>" or end of the string
-        pattern = r"Easy Ship (Mon|Tue|Wed|Thu|Fri|Sat|Sun), [A-Za-z]{3} \d{1,2}, \d{4}::[^#]*##\d{2}-\d{2}-\d{4}"
-
-        # Find all complete "Easy Ship <Day>" elements
-        matching_elements = re.findall(pattern, guide)
+        # Patterns for different types of entries
+        easy_ship_pattern = r"Easy Ship (Mon|Tue|Wed|Thu|Fri|Sat|Sun), [A-Za-z]{3} \d{1,2}, \d{4}::[^#]*##\d{2}-\d{2}-\d{4}"
+        fedex_pattern = r"FedEx::\w+"
+        walmart_pattern = r"WALMART::\w+"
         
-        # Remove all matched segments from the guide string
-        remaining_text = re.sub(pattern, '', guide)
+        # Find all Easy Ship matches as complete units
+        easy_ship_matches = re.findall(easy_ship_pattern, guide)
         
-        # Split the remaining text by commas to get non-matching elements
-        non_matching_elements = [el.strip() for el in remaining_text.split(',') if el.strip()]
+        # Remove all Easy Ship matches from the guide to process remaining entries
+        remaining_text = re.sub(easy_ship_pattern, '', guide)
+        
+        # Split remaining text by commas and process each entry
+        comma_separated_elements = [el.strip() for el in remaining_text.split(',') if el.strip()]
+        
+        # List to store all matching elements
+        matching_elements = easy_ship_matches.copy()
+        
+        # Process each comma-separated segment
+        for segment in comma_separated_elements:
+            # Split FedEx and WALMART blocks by ##
+            fedex_matches = re.findall(fedex_pattern, segment)
+            walmart_matches = re.findall(walmart_pattern, segment)
+            
+            # If FedEx block, split by ##
+            if "FedEx" in segment:
+                fedex_elements = segment.split("##")
+                matching_elements.extend([el.strip() for el in fedex_elements if re.match(fedex_pattern, el.strip())])
+            
+            # If WALMART block, split by ##
+            elif "WALMART" in segment:
+                walmart_elements = segment.split("##")
+                matching_elements.extend([el.strip() for el in walmart_elements if re.match(walmart_pattern, el.strip())])
+            
+            # Handle any single unmatched segments
+            else:
+                matching_elements.append(segment)
+        
+        # Total count of guides
+        total_count = len(matching_elements)
+        
+        # Handle the case of no matches found
+        if total_count == 0:
+            return {
+                "number_of_guides": 0,
+                "guides": ""
+            }
 
-        # Total count of elements
-        total_count = len(matching_elements) + len(non_matching_elements)
-
+        # Return count and the original guide input
         return {
             "number_of_guides": total_count,
             "guides": guide
