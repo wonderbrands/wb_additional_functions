@@ -31,6 +31,7 @@ class PackingList(models.Model):
 
     def get_sale_order_data(self):
         pick_by_sale_orders = {}
+        _logger = logging.getLogger(__name__)
 
         for line in self.move_line_ids:
 
@@ -50,7 +51,9 @@ class PackingList(models.Model):
 
             if sale_id.name not in pick_by_sale_orders.keys():
                 guide_info = self.process_guides(sale_id.yuju_carrier_tracking_ref)
-
+                _logger.info("======================================")
+                _logger.info(guide_info)
+                _logger.info("======================================")
                 pick_by_sale_orders[sale_id.name] = {
                     "Sale_ID": sale_id.name,
                     "Carrier": "" if not sale_id.carrier_selection_relational else sale_id.carrier_selection_relational.name,
