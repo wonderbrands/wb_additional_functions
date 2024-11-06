@@ -9,40 +9,29 @@ class PackingList(models.Model):
     _inherit = 'stock.picking.batch'
     se_imprimio_lista = fields.Boolean(string='Lista de Empaque')
 
-
     def process_guides(self, guide):
-        # Ensure guide is a string before applying regex
+        # Ensure guide is a string
         guide = str(guide) if guide is not None else ""
-        
-        # Define the pattern to match "Easy Ship <Day>"
+
+        # Pattern to match "Easy Ship <Day>" elements
         pattern = r"Easy Ship (Mon|Tue|Wed|Thu|Fri|Sat|Sun)[^,]*"
+
+        # Find all matching elements that fit the "Easy Ship <Day>" pattern
+        matching_elements = re.findall(pattern, guide)
         
-        # Check if the pattern is present in the guide
-        if re.search(pattern, guide):
-            # Split guide by commas and strip whitespace from each element
-            elements = [element.strip() for element in guide.split(',') if element.strip()]
-            
-            # Separate elements based on the pattern, ensuring they're strings
-            matching_elements = [el for el in elements if isinstance(el, str) and re.match(pattern, el)]
-            non_matching_elements = [el for el in elements if isinstance(el, str) and not re.match(pattern, el)]
-            
-            # Total count of elements
-            total_count = len(matching_elements) + len(non_matching_elements)
-            
-            return {
-                "number_of_guides": total_count,
-                "guides": guide
-            }
-        else:
-            # If no matches, count all elements
-            guides = [guide] if not guide else guide.split(",")
-            
-            return {
-                "number_of_guides": len(guides),
-                "guides": guide
-            }
+        # Split by commas, excluding matching elements to get non-matching elements
+        all_elements = [element.strip() for element in guide.split(',') if element.strip()]
+        non_matching_elements = [
+            el for el in all_elements if not any(el.startswith(match) for match in matching_elements)
+        ]
+        
+        # Total count of elements
+        total_count = len(matching_elements) + len(non_matching_elements)
 
-
+        return {
+            "number_of_guides": total_count,
+            "guides": guide
+        }
 
     def get_sale_order_data(self):
         pick_by_sale_orders = {}
