@@ -4,6 +4,7 @@ from odoo.exceptions import UserError, ValidationError, Warning
 from odoo import exceptions
 import datetime
 import logging
+import re
 
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 
@@ -33,25 +34,40 @@ class Picking_Label(models.Model):
 
     imprimio_lista_empaque = fields.Boolean(string='Se imprimio Lista de Empaque')
 
+import re
 
-    def process_guides(self, guide):
-        pattern = r"Easy Ship (Mon|Tue|Wed|Thu|Fri|Sat|Sun)[^,]*"
-        match = re.search(pattern, guide)
-        if match:
-            elements = [element.strip() for element in guide.split(',') if element.strip()]
-            matching_elements = [el for el in elements if re.match(pattern, el)]
-            non_matching_elements = [el for el in elements if not re.match(pattern, el)]
-            total_count = len(matching_elements) + len(non_matching_elements)
-            return {
-                "number_of_guides": total_count,
-                "guides": guide
-            }
-        else:
-            guides = "" if not guide else guide.split(",")
-            return {
-                "number_of_guides": len(guides),
-                "guides": guide
-            }
+def process_guides(self, guide):
+    # Ensure guide is a string before applying regex
+    guide = str(guide) if guide is not None else ""
+    
+    # Define the pattern to match "Easy Ship <Day>"
+    pattern = r"Easy Ship (Mon|Tue|Wed|Thu|Fri|Sat|Sun)[^,]*"
+    
+    # Check if the pattern is present in the guide
+    if re.search(pattern, guide):
+        # Split guide by commas and strip whitespace from each element
+        elements = [element.strip() for element in guide.split(',') if element.strip()]
+        
+        # Separate elements based on the pattern, ensuring they're strings
+        matching_elements = [el for el in elements if isinstance(el, str) and re.match(pattern, el)]
+        non_matching_elements = [el for el in elements if isinstance(el, str) and not re.match(pattern, el)]
+        
+        # Total count of elements
+        total_count = len(matching_elements) + len(non_matching_elements)
+        
+        return {
+            "number_of_guides": total_count,
+            "guides": guide
+        }
+    else:
+        # If no matches, count all elements
+        guides = [guide] if not guide else guide.split(",")
+        
+        return {
+            "number_of_guides": len(guides),
+            "guides": guide
+        }
+
         
 
     def get_sale_order_data(self):
