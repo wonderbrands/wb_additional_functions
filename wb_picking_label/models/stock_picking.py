@@ -33,12 +33,30 @@ class Picking_Label(models.Model):
 
     imprimio_lista_empaque = fields.Boolean(string='Se imprimio Lista de Empaque')
 
+
+    def process_guides(self, guide):
+        pattern = r"Easy Ship (Mon|Tue|Wed|Thu|Fri|Sat|Sun)[^,]*"
+        match = re.search(pattern, guide)
+        if match:
+            elements = [element.strip() for element in guide.split(',') if element.strip()]
+            matching_elements = [el for el in elements if re.match(pattern, el)]
+            non_matching_elements = [el for el in elements if not re.match(pattern, el)]
+            total_count = len(matching_elements) + len(non_matching_elements)
+            return {
+                "number_of_guides": total_count,
+                "guides": guide
+            }
+        else:
+            guides = "" if not guide else guide.split(",")
+            return {
+                "number_of_guides": len(guides),
+                "guides": guide
+            }
+        
+
     def get_sale_order_data(self):
-        _logger = logging.getLogger(__name__)
 
         pick_by_sale_orders = {}
-
-
         sale_id = self.sale_id
 
         pick_so = self.env["stock.picking"].search([
@@ -62,15 +80,15 @@ class Picking_Label(models.Model):
         out_so = "" if len(out_so)==0 else out_so[0].name
 
         if sale_id.name not in pick_by_sale_orders.keys():
-            guides = "" if not sale_id.yuju_carrier_tracking_ref else sale_id.yuju_carrier_tracking_ref.split(",")
+            guide_info = self.process_guides(sale_id.yuju_carrier_tracking_ref)
 
             pick_by_sale_orders[sale_id.name] = {
                 "Sale_ID": sale_id.name,
                 "Carrier": "" if not sale_id.carrier_selection_relational else sale_id.carrier_selection_relational.name,
                 "Pick": pick_so,
                 "ValPick": valpick_so,
-                "Guide_nums": len(guides),
-                "Guides": ",".join(guides),
+                "Guide_nums": guide_info["number_of_guides"],
+                "Guides": guide_info["guides"],
                 "Marketplace": sale_id.channel,
                 "MPOrder": sale_id.channel_order_reference,
                 "Out": out_so,
