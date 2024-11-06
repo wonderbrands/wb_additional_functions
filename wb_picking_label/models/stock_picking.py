@@ -38,20 +38,20 @@ class Picking_Label(models.Model):
     def process_guides(self, guide):
         # Ensure guide is a string
         guide = str(guide) if guide is not None else ""
-
-        # Pattern to match "Easy Ship <Day>" elements
+        
+        # Pattern to match "Easy Ship <Day>" followed by any characters until the next comma or end of string
         pattern = r"Easy Ship (Mon|Tue|Wed|Thu|Fri|Sat|Sun)[^,]*"
 
-        # Find all matching elements that fit the "Easy Ship <Day>" pattern
+        # Find all matching "Easy Ship <Day>" elements as complete units
         matching_elements = re.findall(pattern, guide)
         
-        # Split by commas, excluding matching elements to get non-matching elements
-        all_elements = [element.strip() for element in guide.split(',') if element.strip()]
-        non_matching_elements = [
-            el for el in all_elements if not any(el.startswith(match) for match in matching_elements)
-        ]
+        # Remove all matching "Easy Ship <Day>" segments from the guide string
+        remaining_text = re.sub(pattern, '', guide)
         
-        # Total count of elements
+        # Split the remaining text by commas to get any non-matching elements
+        non_matching_elements = [el.strip() for el in remaining_text.split(',') if el.strip()]
+
+        # Total count is the sum of both matching and non-matching elements
         total_count = len(matching_elements) + len(non_matching_elements)
 
         return {
