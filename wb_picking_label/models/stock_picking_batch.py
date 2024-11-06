@@ -31,6 +31,8 @@ class PackingList(models.Model):
                 guides = "" if not sale_id.yuju_carrier_tracking_ref else sale_id.yuju_carrier_tracking_ref.split(",")
                 logger.info("============================")
                 logger.info(guides)
+                logger.info(len(guides))
+                logger.info(",".join(guides))
                 logger.info("============================")
 
 
