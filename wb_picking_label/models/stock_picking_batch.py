@@ -13,19 +13,19 @@ class PackingList(models.Model):
         # Ensure guide is a string
         guide = str(guide) if guide is not None else ""
         
-        # Pattern to match "Easy Ship <Day>" followed by any characters until the next comma or end of string
-        pattern = r"Easy Ship (Mon|Tue|Wed|Thu|Fri|Sat|Sun)[^,]*"
+        # Pattern to match "Easy Ship <Day>" entries up to "##<date>" or end of the string
+        pattern = r"Easy Ship (Mon|Tue|Wed|Thu|Fri|Sat|Sun), [A-Za-z]{3} \d{1,2}, \d{4}::[^#]*##\d{2}-\d{2}-\d{4}"
 
-        # Find all matching "Easy Ship <Day>" elements as complete units
+        # Find all complete "Easy Ship <Day>" elements
         matching_elements = re.findall(pattern, guide)
         
-        # Remove all matching "Easy Ship <Day>" segments from the guide string
+        # Remove all matched segments from the guide string
         remaining_text = re.sub(pattern, '', guide)
         
-        # Split the remaining text by commas to get any non-matching elements
+        # Split the remaining text by commas to get non-matching elements
         non_matching_elements = [el.strip() for el in remaining_text.split(',') if el.strip()]
 
-        # Total count is the sum of both matching and non-matching elements
+        # Total count of elements
         total_count = len(matching_elements) + len(non_matching_elements)
 
         return {
