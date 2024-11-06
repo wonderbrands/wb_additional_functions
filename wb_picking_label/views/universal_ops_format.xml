@@ -33,6 +33,9 @@
                                              t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Sale_ID'], 600, 100)" 
                                              style="width: 250px; height: 50px;margin-left: 2px; margin-right: 2px;" 
                                              alt="Barcode"/>
+                                        <p style="text-align: center; font-size: x-small">
+                                            Código: Orden de venta
+                                        </p>
                                     </div>
 
                                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: start; width: 14.2%;">
@@ -46,6 +49,9 @@
                                              t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Pick'], 600, 100)" 
                                              style="width: 250px; height: 50px;margin-left: 2px; margin-right: 2px;" 
                                              alt="Barcode"/>
+                                        <p style="text-align: center; font-size: x-small">
+                                            Código: Movimiento de inventario - Pick
+                                        </p>
                                     </div>
                                     
                                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: start; width: 14.2%;">
