@@ -84,27 +84,29 @@
                                     </tr>
                                 </table>
 
-                                <!-- Product Table Header -->
-                                <table class="table table-condensed" style="width: 100%; margin-top: 10px; font-size: small;">
+                                <table class="table table-condensed" style="width: 100%; margin-top: 10px; font-size: small; table-layout: fixed;">
                                     <thead>
                                         <tr style="background-color: #d9e5c5; font-size: small;">
-                                            <th>SKU</th>
-                                            <th>Producto</th>
-                                            <th>Piezas</th>
-                                            <th>Zona pickeo</th>
+                                            <th style="width: 17%; white-space: normal; word-wrap: break-word;">SKU</th>
+                                            <th style="width: 32%; white-space: normal; word-wrap: break-word;">Producto</th>
+                                            <th style="width: 17%; white-space: normal; word-wrap: break-word;">Reservado</th>
+                                            <th style="width: 17%; white-space: normal; word-wrap: break-word;">Pickeado</th>
+                                            <th style="width: 17%; white-space: normal; word-wrap: break-word;">Zona pickeo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <t t-foreach="sale['Productos']" t-as="product">
                                             <tr style="font-size: small;">
-                                                <td><t t-esc="product['SKU']"/></td>
-                                                <td><t t-esc="product['Producto']"/></td>
-                                                <td><t t-esc="product['Cantidad']"/></td>
-                                                <td><t t-esc="product['Picking_zone']"/></td>
+                                                <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['SKU']"/></td>
+                                                <td style="width: 32%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Producto']"/></td>
+                                                <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Cantidad_reservado']"/></td>
+                                                <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Cantidad_hecho']"/></td>
+                                                <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Picking_zone']"/></td>
                                             </tr>
                                         </t>
                                     </tbody>
                                 </table>
+
 
                             </t>
                         </div>
