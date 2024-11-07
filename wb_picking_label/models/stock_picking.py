@@ -4,6 +4,7 @@ from odoo.exceptions import UserError, ValidationError, Warning
 from odoo import exceptions
 import datetime
 import logging
+import re
 
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 
@@ -32,6 +33,136 @@ class Picking_Label(models.Model):
     marketplace = fields.Char(string='Marketplace')
 
     imprimio_lista_empaque = fields.Boolean(string='Se imprimio Lista de Empaque')
+
+    def process_guides(self, guide):
+        # Convert guide to a string and handle cases for None, "", or "False"
+        guide = str(guide) if guide is not None else ""
+        
+        # If guide is an empty string or "False", return 0 and empty string
+        if guide in ["", "False"]:
+            return {
+                "number_of_guides": 0,
+                "guides": ""
+            }
+        
+        # Patterns for different types of entries
+        easy_ship_pattern = r"Easy Ship (Mon|Tue|Wed|Thu|Fri|Sat|Sun), [A-Za-z]{3} \d{1,2}, \d{4}::[^#]*##\d{2}-\d{2}-\d{4}"
+        fedex_pattern = r"FedEx::\w+"
+        walmart_pattern = r"WALMART::\w+"
+        
+        # Find all Easy Ship matches as complete units
+        easy_ship_matches = re.findall(easy_ship_pattern, guide)
+        
+        # Remove all Easy Ship matches from the guide to process remaining entries
+        remaining_text = re.sub(easy_ship_pattern, '', guide)
+        
+        # Split remaining text by commas and process each entry
+        comma_separated_elements = [el.strip() for el in remaining_text.split(',') if el.strip()]
+        
+        # List to store all matching elements
+        matching_elements = easy_ship_matches.copy()
+        
+        # Process each comma-separated segment
+        for segment in comma_separated_elements:
+            # Split FedEx and WALMART blocks by ##
+            if "FedEx" in segment:
+                fedex_elements = segment.split("##")
+                matching_elements.extend([el.strip() for el in fedex_elements if re.match(fedex_pattern, el.strip())])
+            elif "WALMART" in segment:
+                walmart_elements = segment.split("##")
+                matching_elements.extend([el.strip() for el in walmart_elements if re.match(walmart_pattern, el.strip())])
+            else:
+                matching_elements.append(segment)
+        
+        # Total count of guides
+        total_count = len(matching_elements)
+        
+        # Return count and the original guide input
+        return {
+            "number_of_guides": total_count,
+            "guides": guide
+        }
+
+        
+
+    def get_sale_order_data(self):
+
+        pick_by_sale_orders = {}
+        sale_id = self.sale_id
+
+        pick_so = self.env["stock.picking"].search([
+            ("origin", "=", sale_id.name),
+            ("name", "ilike", "/PICK/")
+        ])
+        pick_so_id = "" if len(pick_so)==0 else pick_so[0]
+        pick_so = "" if len(pick_so)==0 else pick_so[0].name
+
+
+        valpick_so = self.env["stock.picking"].search([
+            ("origin", "=", sale_id.name),
+            ("name", "ilike", "VALPICK")
+        ])
+        valpick_so = "" if len(valpick_so)==0 else valpick_so[0].name
+
+        out_so = self.env["stock.picking"].search([
+            ("origin", "=", sale_id.name),
+            ("name", "ilike", "OUT")
+        ])
+        out_so = "" if len(out_so)==0 else out_so[0].name
+
+        if sale_id.name not in pick_by_sale_orders.keys():
+            guide_info = self.process_guides(sale_id.yuju_carrier_tracking_ref)
+
+            pick_by_sale_orders[sale_id.name] = {
+                "Sale_ID": sale_id.name,
+                "Carrier": "" if not sale_id.carrier_selection_relational else sale_id.carrier_selection_relational.name,
+                "Pick": pick_so,
+                "ValPick": valpick_so,
+                "Guide_nums": guide_info["number_of_guides"],
+                "Guides": guide_info["guides"],
+                "Marketplace": sale_id.channel,
+                "MPOrder": sale_id.channel_order_reference,
+                "Out": out_so,
+                "Carrier_ref": sale_id.yuju_carrier_tracking_ref,
+                "Productos": [
+                    {
+                        "Producto": product.product_id.name,
+                        "Cantidad": int(product.qty_done),
+                        "Picking_zone": pick_so_id.pick_zone_index.name,
+                        "SKU": product.product_id.default_code
+                    } for product in pick_so_id.move_line_ids_without_package
+                ]
+            }
+
+        else: 
+            pick_by_sale_orders[sale_id.name]["Productos"] += [
+                {
+                    "Producto": product.product_id.name,
+                    "Cantidad": int(product.qty_done),
+                    "Picking_zone": pick_so_id.pick_zone_index.name,
+                    "SKU": product.product_id.default_code
+                } for product in pick_so_id.move_line_ids_without_package
+            ]
+            
+
+        for product in sale_id.order_line:
+            pick_by_sale_orders[sale_id.name]["Guide_nums"] += int(product.product_uom_qty)
+
+        return pick_by_sale_orders
+
+    def universal_format_print(self):
+        self.ensure_one()
+        _logger = logging.getLogger(__name__)
+        _logger.info('Nombre operación %s', self.name)
+
+        sale_id = self.sale_id
+        if not sale_id:
+            raise UserError(_('Nada que imprimir.'))
+
+        # Pass data to report
+        return self.env.ref('wb_picking_label.action_picking_report').report_action(
+            self
+        )
 
     #Print "Packing List" report
     def packing_list_print(self):
