@@ -24,22 +24,22 @@
                                 <table style="width: 100%; background-color: #d9e5c5; padding: 5px; border-collapse: collapse; table-layout: fixed;">
                                     <tr>
                                         <!-- First Column -->
-                                        <td style="width: 14.2%; vertical-align: top; padding: 5px;">
-                                            <p style="word-wrap: break-word; white-space: normal; margin: 0;">
+                                        <td style="width: 12%; vertical-align: top; padding: 5px;">
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
                                                 Orden de venta: <span><t t-esc="sale['Sale_ID']"/></span>
                                             </p>
-                                            <p style="word-wrap: break-word; white-space: normal; margin: 0;">
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
                                                 Marketplace: <span><t t-esc="sale['Marketplace']"/></span>
                                             </p>
-                                            <p style="word-wrap: break-word; white-space: normal; margin: 0;">
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
                                                 MP Order: <span><t t-esc="sale['MPOrder']"/></span>
                                             </p>
                                         </td>
 
                                         <!-- Second Column with Barcode -->
-                                        <td style="width: 28.4%; text-align: center; vertical-align: top; padding: 5px;">
-                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Sale_ID'], 400, 75)" 
-                                                style="width: 80%; height: auto; margin: 2px;" 
+                                        <td style="width: 32%; text-align: center; vertical-align: center; padding: 5px;">
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Sale_ID'], 400, 400)" 
+                                                style="width: 95%; height: auto; margin: 2px;" 
                                                 alt="Barcode"/>
                                             <p style="text-align: center; font-size: x-small; margin: 0;">
                                                 Código: Orden de venta
@@ -47,22 +47,22 @@
                                         </td>
 
                                         <!-- Third Column -->
-                                        <td style="width: 14.2%; vertical-align: top; padding: 5px;">
-                                            <p style="word-wrap: break-word; white-space: normal; margin: 0;">
+                                        <td style="width: 12%; vertical-align: top; padding: 5px;">
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
                                                 <span><t t-esc="sale['Pick']"/></span>
                                             </p>
-                                            <p style="word-wrap: break-word; white-space: normal; margin: 0;">
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
                                                 <span><t t-esc="sale['ValPick']"/></span>
                                             </p>
-                                            <p style="word-wrap: break-word; white-space: normal; margin: 0;">
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
                                                 <span><t t-esc="sale['Out']"/></span>
                                             </p>
                                         </td>
 
                                         <!-- Fourth Column with Barcode -->
-                                        <td style="width: 28.4%; text-align: center; vertical-align: top; padding: 5px;">
-                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Pick'], 400, 75)" 
-                                                style="width: 80%; height: auto; margin: 2px;"
+                                        <td style="width: 32%; text-align: center; vertical-align: center; padding: 5px;">
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Pick'], 400, 400)" 
+                                                style="width: 95%; height: auto; margin: 2px;"
                                                 alt="Barcode"/>
                                             <p style="text-align: center; font-size: x-small; margin: 0;">
                                                 Código: Movimiento de inventario - Pick
@@ -70,25 +70,24 @@
                                         </td>
 
                                         <!-- Fifth Column -->
-                                        <td style="width: 14.2%; vertical-align: top; padding: 5px;">
-                                            <p style="word-wrap: break-word; white-space: normal; overflow-wrap: break-word; margin: 0;">
+                                        <td style="width: 12%; vertical-align: top; padding: 5px;">
+                                            <p style="word-wrap: break-word; white-space: normal; overflow-wrap: break-word; margin: 0; font-size: small;">
                                                 Carrier: <span><t t-esc="sale['Carrier']"/></span>
                                             </p>
-                                            <p style="word-wrap: break-word; white-space: normal; margin: 0;">
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
                                                 Total de Guias: <span><t t-esc="sale['Guide_nums']"/></span>
                                             </p>
-                                            <p style="word-wrap: break-word; white-space: normal; overflow-wrap: break-word; margin: 0;">
+                                            <p style="word-wrap: break-word; white-space: normal; overflow-wrap: break-word; margin: 0; font-size: small;">
                                                 Numero de Guia: <span><t t-esc="sale['Guides']"/></span>
                                             </p>
                                         </td>
                                     </tr>
                                 </table>
 
-
                                 <!-- Product Table Header -->
-                                <table class="table table-condensed" style="width: 100%; margin-top: 10px;">
+                                <table class="table table-condensed" style="width: 100%; margin-top: 10px; font-size: small;">
                                     <thead>
-                                        <tr style="background-color: #d9e5c5;">
+                                        <tr style="background-color: #d9e5c5; font-size: small;">
                                             <th>SKU</th>
                                             <th>Producto</th>
                                             <th>Piezas</th>
@@ -97,7 +96,7 @@
                                     </thead>
                                     <tbody>
                                         <t t-foreach="sale['Productos']" t-as="product">
-                                            <tr>
+                                            <tr style="font-size: small;">
                                                 <td><t t-esc="product['SKU']"/></td>
                                                 <td><t t-esc="product['Producto']"/></td>
                                                 <td><t t-esc="product['Cantidad']"/></td>
