@@ -21,47 +21,53 @@
                             <div t-if="picking.user_id"><strong>Responsable:</strong> <span t-field="picking.user_id"/></div><br/>
 
                             <t t-foreach="sale_order_data.values()" t-as="sale">
-                                <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; width: 100%; background-color: #d9e5c5; padding: 5px;">
-                                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: start; width: 14.2%;">
-                                        <p>Orden de venta: <span><t t-esc="sale['Sale_ID']"/></span></p>
-                                        <p>Marketplace: <span><t t-esc="sale['Marketplace']"/></span></p>
-                                        <p>MP Order: <span><t t-esc="sale['MPOrder']"/></span></p>
-                                    </div>
+                                <table style="width: 100%; background-color: #d9e5c5; padding: 5px; border-collapse: collapse;">
+                                    <tr>
+                                        <!-- First Column -->
+                                        <td style="width: 14.2%; vertical-align: top; padding: 5px;">
+                                            <p>Orden de venta: <span><t t-esc="sale['Sale_ID']"/></span></p>
+                                            <p>Marketplace: <span><t t-esc="sale['Marketplace']"/></span></p>
+                                            <p>MP Order: <span><t t-esc="sale['MPOrder']"/></span></p>
+                                        </td>
 
-                                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 28.4%;">
-                                        <img align="center" 
-                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Sale_ID'], 600, 100)" 
-                                             style="width: 250px; height: 50px; margin-left: 2px; margin-right: 2px;" 
-                                             alt="Barcode"/>
-                                        <p style="text-align: center; font-size: x-small">
-                                            Código: Orden de venta
-                                        </p>
-                                    </div>
+                                        <!-- Second Column with Barcode -->
+                                        <td style="width: 28.4%; text-align: center; vertical-align: top; padding: 5px;">
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Sale_ID'], 400, 75)" 
+                                                style="width: 80%; height: auto; margin: 2px;" 
+                                                alt="Barcode"/>
+                                            <p style="text-align: center; font-size: x-small">
+                                                Código: Orden de venta
+                                            </p>
+                                        </td>
 
-                                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: start; width: 14.2%;">
-                                        <p><span><t t-esc="sale['Pick']"/></span></p>
-                                        <p><span><t t-esc="sale['ValPick']"/></span></p>
-                                        <p><span><t t-esc="sale['Out']"/></span></p>
-                                    </div>
+                                        <!-- Third Column -->
+                                        <td style="width: 14.2%; vertical-align: top; padding: 5px;">
+                                            <p><span><t t-esc="sale['Pick']"/></span></p>
+                                            <p><span><t t-esc="sale['ValPick']"/></span></p>
+                                            <p><span><t t-esc="sale['Out']"/></span></p>
+                                        </td>
 
-                                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 28.4%;">
-                                        <img align="center" 
-                                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Pick'], 600, 100)" 
-                                             style="width: 250px; height: 50px;margin-left: 2px; margin-right: 2px;" 
-                                             alt="Barcode"/>
-                                        <p style="text-align: center; font-size: x-small">
-                                            Código: Movimiento de inventario - Pick
-                                        </p>
-                                    </div>
-                                    
-                                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: start; width: 14.2%;">
-                                        <p>Carrier: <span><t t-esc="sale['Carrier']"/></span></p>
-                                        <p>Total de Guias: <span><t t-esc="sale['Guide_nums']"/></span></p>
-                                        <p style="width: 100%; word-wrap: break-word; white-space: normal; overflow-wrap: break-word;">
-                                            Numero de Guia: <span><t t-esc="sale['Guides']"/></span>
-                                        </p>
-                                    </div>
-                                </div>
+                                        <!-- Fourth Column with Barcode -->
+                                        <td style="width: 28.4%; text-align: center; vertical-align: top; padding: 5px;">
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Pick'], 400, 75)" 
+                                                style="width: 80%; height: auto; margin: 2px;"
+                                                alt="Barcode"/>
+                                            <p style="text-align: center; font-size: x-small">
+                                                Código: Movimiento de inventario - Pick
+                                            </p>
+                                        </td>
+
+                                        <!-- Fifth Column -->
+                                        <td style="width: 14.2%; vertical-align: top; padding: 5px;">
+                                            <p>Carrier: <span><t t-esc="sale['Carrier']"/></span></p>
+                                            <p>Total de Guias: <span><t t-esc="sale['Guide_nums']"/></span></p>
+                                            <p style="width: 100%; word-wrap: break-word; white-space: normal; overflow-wrap: break-word;">
+                                                Numero de Guia: <span><t t-esc="sale['Guides']"/></span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+
 
                                 <!-- Product Table Header -->
                                 <table class="table table-condensed" style="width: 100%; margin-top: 10px;">
