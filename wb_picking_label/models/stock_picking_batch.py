@@ -80,9 +80,6 @@ class PackingList(models.Model):
 
             if sale_id.name not in pick_by_sale_orders.keys():
                 guide_info = self.process_guides(sale_id.yuju_carrier_tracking_ref)
-                _logger.info("======================================")
-                _logger.info(guide_info)
-                _logger.info("======================================")
                 pick_by_sale_orders[sale_id.name] = {
                     "Sale_ID": sale_id.name,
                     "Carrier": "" if not sale_id.carrier_selection_relational else sale_id.carrier_selection_relational.name,
@@ -96,22 +93,24 @@ class PackingList(models.Model):
                     "Carrier_ref": sale_id.yuju_carrier_tracking_ref,
                     "Productos": [
                         {
-                            "Producto": product.product_id.name,
-                            "Cantidad": int(product.qty_done),
+                            "Producto": line.product_id.name,
+                            "Cantidad_reservado": int(line.product_uom_qty),
+                            "Cantidad_hecho": int(line.qty_done),
                             "Picking_zone": line.picking_id.pick_zone_index.name,
-                            "SKU": product.product_id.default_code
-                        } for product in line.picking_id.move_line_ids_without_package
+                            "SKU": line.product_id.default_code
+                        } 
                     ]
                 }
 
             else: 
                 pick_by_sale_orders[sale_id.name]["Productos"] += [
                     {
-                        "Producto": product.product_id.name,
-                        "Cantidad": int(product.qty_done),
+                        "Producto": line.product_id.name,
+                        "Cantidad_reservado": int(line.product_uom_qty),
+                        "Cantidad_hecho": int(line.qty_done),
                         "Picking_zone": line.picking_id.pick_zone_index.name,
-                        "SKU": product.product_id.default_code
-                    } for product in line.picking_id.move_line_ids_without_package
+                        "SKU": line.product_id.default_code
+                    }
                 ]
 
         return pick_by_sale_orders
