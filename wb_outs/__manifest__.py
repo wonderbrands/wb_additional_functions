@@ -30,7 +30,9 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "wb_outs/static/src/**",
+            "wb_outs/static/src/xml/**/*",
+            "wb_outs/static/src/js/**/*",
+
         ],
     },
   
