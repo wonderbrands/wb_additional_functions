@@ -7,6 +7,7 @@ class GuideScanner extends Component {
     static template = "wb_outs.GuideScannerTemplate";
 
     constructor() {
+        super(...arguments); 
         this.message = "Welcome to Guide Scanning!";
         console.log(this.message);
     }
