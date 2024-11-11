@@ -25,8 +25,8 @@
     ],
 
     'data': [
-        "views/out_module_menus.xml",
         "views/out_module_actions.xml",
+        "views/out_module_menus.xml",
     ],
     "assets": {
         "web.assets_backend": [
