@@ -25,7 +25,13 @@
     ],
 
     'data': [
-
+        "views/out_module_menus.xml",
+        "views/out_module_actions.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "wb_outs/static/src/**",
+        ],
+    },
   
 }

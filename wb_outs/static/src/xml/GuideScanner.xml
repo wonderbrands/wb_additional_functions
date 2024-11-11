@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="GuideScannerTemplate" name="Guide Scanner Component">
+        <div class="o_guide_scanning">
+            <h1 t-esc="message"/>
+        </div>
+    </template>
+</odoo>
