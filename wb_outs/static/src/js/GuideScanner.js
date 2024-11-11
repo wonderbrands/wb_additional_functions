@@ -13,6 +13,6 @@ class GuideScanner extends Component {
     }
 }
 
-registry.category("actions").add("action_client_wb_outs_scan_guide", GuideScanner);
+registry.category("actions").add("wb_outs_scan_guide", GuideScanner);
 
 export default GuideScanner;
