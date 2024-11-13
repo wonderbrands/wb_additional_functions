@@ -1,32 +1,36 @@
 
 /** @odoo-module **/
 
-/*const { Component, xml } = owl;
-
-odoo.define('wb_outs.wb_outs_scan_guide', function (require) {
-    "use strict";
-
-    const core = require('web.core');
-    const QWeb = core.qweb;
-
-    class GuideScanner extends Component {
-        static template = xml`<h1>Guide Scanner</h1>`
-        setup() {
-            console.log(QWeb.templates)
-            console.log("AAAAAA");
-        }
-    }
-
-
-    return GuideScanner;
-});
-*/
 import core from 'web.core';
 
 const { Component } = owl;
+const { useRef, useState, onMounted } = owl.hooks;
+
 class GuideScanner extends Component {
+
+    barcodeInput = useRef('barcode');
+    container = useRef('container');
+    state = useState({ modal: false });
     setup() {
-        console.log("AAAAAA");
+        onMounted(() => {
+            this.focus_input();
+        })
+    }
+
+    focus_input() {
+        if (!this.state.modal){
+            this.barcodeInput.el.focus()
+        }
+    }
+
+    _readBarcode() {
+        let barcode = this.barcodeInput.el.value;
+        this.barcodeInput.el.value = "";
+        console.log(barcode);
+    }
+    
+    _manageCarrier(){
+        this.state.modal = true
     }
 }
 

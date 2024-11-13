@@ -2,6 +2,23 @@
 
 <templates xml:space="preserve">
     <t t-name="wb_outs.GuideScannerTemplate" owl="1">
-        <p>hello</p>
+        <div class="scanner-container" t-on-click="focus_input">
+            <div class="guide-scanner" t-if="!state.modal">
+                <h1>Escaneo de Guías de envío</h1>
+                <h3>Escanea la guía que esta pegada en el paquete</h3>
+                    <button t-on-click="_manageCarrier">¿Cómo escanear?</button>
+                <div class="input_barcode">
+                    <input t-ref="barcode" t-on-input="_readBarcode" type="text"/>
+                </div>
+            </div>
+            <div class="modal" t-else="state.modal">
+                <p>Selecciona la paquetería de tu guía</p>
+                <select>
+                    <option value="fedex">Fedex</option>
+                    <option value="estafeta">Estafeta</option>
+                    <option value="walmart">Walmart</option>
+                </select>
+            </div>
+        </div>
     </t>
 </templates>

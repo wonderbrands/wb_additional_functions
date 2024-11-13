@@ -27,7 +27,7 @@ class MasterShippingGuides(models.Model):
     )
 
     number_sg = fields.Integer(
-        string = "Sumber of Shipping guide", 
+        string = "Number of Shipping guide", 
         readonly = True
     )
 
