@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<odoo>
-    <template id="GuideScannerTemplate" name="Guide Scanner Component">
-        <div class="o_guide_scanning">
-            <h1 t-esc="message"/>
-        </div>
-    </template>
-</odoo>
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+    <t t-name="wb_outs.GuideScannerTemplate" owl="1">
+        <p>hello</p>
+    </t>
+</templates>

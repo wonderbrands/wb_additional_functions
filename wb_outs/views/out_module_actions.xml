@@ -2,7 +2,8 @@
     <data>
         <record id="action_client_wb_outs_scan_guide" model="ir.actions.client">
             <field name="name">Guide Scanner</field>
-            <field name="tag">wb_outs_scan_guide</field>
+            <field name="tag">wb_outs.wb_outs_scan_guide</field>
+            <field name="target">fullscreen</field>
         </record>
         <!--<record id="action_master_shipping_guides_tree" model="ir.actions.act_window">
             <field name="name">Shipping Guides</field>

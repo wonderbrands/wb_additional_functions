@@ -1,18 +1,35 @@
+
 /** @odoo-module **/
 
-import { Component } from "@odoo/owl";
-import { registry } from "@web/core/registry";
+/*const { Component, xml } = owl;
 
+odoo.define('wb_outs.wb_outs_scan_guide', function (require) {
+    "use strict";
+
+    const core = require('web.core');
+    const QWeb = core.qweb;
+
+    class GuideScanner extends Component {
+        static template = xml`<h1>Guide Scanner</h1>`
+        setup() {
+            console.log(QWeb.templates)
+            console.log("AAAAAA");
+        }
+    }
+
+
+    return GuideScanner;
+});
+*/
+import core from 'web.core';
+
+const { Component } = owl;
 class GuideScanner extends Component {
-    static template = "wb_outs.GuideScannerTemplate";
-
-    constructor() {
-        super(...arguments); 
-        this.message = "Welcome to Guide Scanning!";
-        console.log(this.message);
+    setup() {
+        console.log("AAAAAA");
     }
 }
 
-registry.category("actions").add("wb_outs_scan_guide", GuideScanner);
+GuideScanner.template = "wb_outs.GuideScannerTemplate"
 
-export default GuideScanner;
+core.action_registry.add("wb_outs.wb_outs_scan_guide", GuideScanner);
