@@ -115,6 +115,7 @@ class Picking_Label(models.Model):
 
             pick_by_sale_orders[sale_id.name] = {
                 "Sale_ID": sale_id.name,
+                "Sale_Date": sale_id.date_order,
                 "Carrier": "" if not sale_id.carrier_selection_relational else sale_id.carrier_selection_relational.name,
                 "Pick": pick_so,
                 "ValPick": valpick_so,
