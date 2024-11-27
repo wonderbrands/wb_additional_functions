@@ -8,10 +8,10 @@
                 action="action_client_wb_outs_scan_guide" 
                 sequence="2"/>
 
-        <!--<menuitem id="menu_master_shipping_guides" 
-                name="Master Shipping Guides" 
+        <menuitem id="menu_scanner_log_tree" 
+                name="Scanner Log" 
                 parent="menu_wb_outs_root" 
-                action="action_master_shipping_guides_tree" 
-                sequence="3"/>-->
+                action="action_scanner_log_tree" 
+                sequence="3"/>
     </data>
 </odoo>

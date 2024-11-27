@@ -2,6 +2,44 @@
 
 from odoo import models, fields, api
 
+
+class ScannerLog(models.Model):
+    _name = 'wb_outs.scanner_log'
+    _description = 'wb_outs.scanner_log'
+
+
+    code = fields.Char(
+        string = "Shipping code",
+    )
+
+    scanned_at = fields.Datetime(
+        string = "Scanned at"
+    )
+
+    scanned_by = fields.Many2one(
+        string = "Scanned by",
+        comodel_name = "res.users"
+    )
+
+    exists_so = fields.Boolean(
+        string = "Exists SO"
+    )
+
+    sale_order_id = fields.Many2one(
+        string = "Sale order",
+        comodel_name = "sale.order"
+    )
+
+    status_of_scan = fields.Selection(
+        string = "Status of scan",
+        selection = [
+            ("so_found", "SO Found"),
+            ("so_already_scanned", "SO already scanned"),
+            ("so_not_found", "SO not found")
+        ]
+    )
+
+"""
 class CodesOfShipping(models.Model):
     _name = 'wb_outs.guide_codes'
     _description = 'wb_outs.guide_codes'
@@ -152,3 +190,4 @@ class MasterShippingGuides(models.Model):
             
             else:
                 record.name = ""
+"""

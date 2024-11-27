@@ -21,6 +21,7 @@
     ],
     
     'data': [
+        'views/out_module_views.xml',
         "views/out_module_actions.xml",
         "views/out_module_menus.xml",
     ],

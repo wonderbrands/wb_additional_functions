@@ -3,21 +3,20 @@
 <templates xml:space="preserve">
     <t t-name="wb_outs.GuideScannerTemplate" owl="1">
         <div class="scanner-container" t-on-click="focus_input">
-            <div class="guide-scanner" t-if="!state.modal">
-                <h1>Escaneo de Guías de envío</h1>
-                <h3>Escanea la guía que esta pegada en el paquete</h3>
-                    <button t-on-click="_manageCarrier">¿Cómo escanear?</button>
-                <div class="input_barcode">
-                    <input t-ref="barcode" t-on-input="_readBarcode" type="text"/>
+            <div class="guide-scanner">
+                <div class="logo">
+                    <img src="https://emprendedoresnews.com/wp-content/uploads/2021/03/1-scaled-e1614783938513.jpg.webp"></img>
+                </div>
+                <div class="presentation">
+                    <h1>Escaneo de Guías de envío</h1>
+                    <h3>Escanea la SO que esta pegada en el paquete</h3>
+                    <div class="input_barcode">
+                        <input t-ref="barcode" t-on-input="_readBarcode" type="text"/>
+                    </div>
                 </div>
             </div>
-            <div class="modal" t-else="state.modal">
-                <p>Selecciona la paquetería de tu guía</p>
-                <select>
-                    <option value="fedex">Fedex</option>
-                    <option value="estafeta">Estafeta</option>
-                    <option value="walmart">Walmart</option>
-                </select>
+            <div class="scanned_log">
+                
             </div>
         </div>
     </t>
