@@ -60,12 +60,18 @@
                                         </td>
 
                                         <!-- Fourth Column with Barcode -->
+                                        <!--
                                         <td style="width: 32%; text-align: center; vertical-align: center; padding: 5px;">
                                             <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Pick'], 400, 180)" 
                                                 style="width: 95%; height: auto; margin: 2px;"
                                                 alt="Barcode"/>
                                             <p style="text-align: center; font-size: x-small; margin: 0;">
                                                 Código: Movimiento de inventario - Pick
+                                            </p>
+                                        </td>-->
+                                        <td style="width: 12%; vertical-align: top; padding: 5px;">
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
+                                                <span>Fecha de la orden: <t t-esc="sale['Sale_Date']"/></span>
                                             </p>
                                         </td>
 

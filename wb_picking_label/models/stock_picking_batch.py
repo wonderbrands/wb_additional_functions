@@ -82,6 +82,7 @@ class PackingList(models.Model):
                 guide_info = self.process_guides(sale_id.yuju_carrier_tracking_ref)
                 pick_by_sale_orders[sale_id.name] = {
                     "Sale_ID": sale_id.name,
+                    "Sale_Date": sale_id.date_order,
                     "Carrier": "" if not sale_id.carrier_selection_relational else sale_id.carrier_selection_relational.name,
                     "Pick": line.picking_id.name,
                     "ValPick": valpick_so,
