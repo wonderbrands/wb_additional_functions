@@ -47,10 +47,7 @@
                                         </td>
 
                                         <!-- Third Column -->
-                                        <td style="width: 12%; vertical-align: top; padding: 5px;">
-                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
-                                                <span><t t-esc="sale['Pick']"/></span>
-                                            </p>
+                                        <td style="width: 12%; vertical-align: top; padding: 5px;"> 
                                             <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
                                                 <span><t t-esc="sale['ValPick']"/></span>
                                             </p>
