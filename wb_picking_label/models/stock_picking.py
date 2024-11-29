@@ -90,11 +90,16 @@ class Picking_Label(models.Model):
         pick_by_sale_orders = {}
         sale_id = self.sale_id
 
-        pick_so = self.env["stock.picking"].search([
+        picks_so = self.env["stock.picking"].search([
             ("origin", "=", sale_id.name),
+            ("state", "!=", "cancel"),
             ("name", "ilike", "/PICK/")
         ])
-        pick_so_id = "" if len(pick_so)==0 else pick_so[0]
+        picks_so_ids = [
+            pick for pick in picks_so
+        ]
+
+        #pick_so_id = "" if len(pick_so)==0 else pick_so[0]
         pick_so = "" if len(pick_so)==0 else pick_so[0].name
 
 
@@ -117,7 +122,6 @@ class Picking_Label(models.Model):
                 "Sale_ID": sale_id.name,
                 "Sale_Date": sale_id.date_order,
                 "Carrier": "" if not sale_id.carrier_selection_relational else sale_id.carrier_selection_relational.name,
-                "Pick": pick_so,
                 "ValPick": valpick_so,
                 "Guide_nums": guide_info["number_of_guides"],
                 "Guides": guide_info["guides"],
@@ -125,28 +129,25 @@ class Picking_Label(models.Model):
                 "MPOrder": sale_id.channel_order_reference,
                 "Out": out_so,
                 "Carrier_ref": sale_id.yuju_carrier_tracking_ref,
-                "Productos": [
-                    {
-                        "Producto": product.product_id.name,
-                        "Cantidad_reservado": int(product.product_uom_qty),
-                        "Cantidad_hecho": int(product.qty_done),
-                        "Picking_zone": pick_so_id.pick_zone_index.name,
-                        "SKU": product.product_id.default_code
-                    } for product in pick_so_id.move_line_ids_without_package
-                ]
+                "Picks": []
             }
-
-        else: 
-            pick_by_sale_orders[sale_id.name]["Productos"] += [
-                {
-                    "Producto": product.product_id.name,
-                    "Cantidad_reservado": int(product.product_uom_qty),
-                    "Cantidad_hecho": int(product.qty_done),
-                    "Picking_zone": pick_so_id.pick_zone_index.name,
-                    "SKU": product.product_id.default_code
-                } for product in pick_so_id.move_line_ids_without_package
-            ]
-            
+            for pick in picks_so_ids:
+                pick_by_sale_orders[sale_id.name]["Picks"].append(
+                    {
+                        "Pick": pick.name,
+                        "Productos": []
+                    }
+                )
+                for product in pick.move_line_ids_without_package:
+                    pick_by_sale_orders[sale_id.name]["Picks"][-1]["Products"].append(
+                        {
+                            "Producto": product.product_id.name,
+                            "Cantidad_reservado": int(product.product_uom_qty),
+                            "Cantidad_hecho": int(product.qty_done),
+                            "Picking_zone": pick.pick_zone_index.name,
+                            "SKU": product.product_id.default_code
+                        }
+                    )
 
         for product in sale_id.order_line:
             pick_by_sale_orders[sale_id.name]["Guide_nums"] += int(product.product_uom_qty)
