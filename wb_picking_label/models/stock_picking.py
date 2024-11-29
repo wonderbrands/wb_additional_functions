@@ -100,7 +100,6 @@ class Picking_Label(models.Model):
         ]
 
         #pick_so_id = "" if len(pick_so)==0 else pick_so[0]
-        pick_so = "" if len(pick_so)==0 else pick_so[0].name
 
 
         valpick_so = self.env["stock.picking"].search([
