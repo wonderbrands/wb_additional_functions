@@ -138,7 +138,7 @@ class Picking_Label(models.Model):
                     }
                 )
                 for product in pick.move_line_ids_without_package:
-                    pick_by_sale_orders[sale_id.name]["Picks"][-1]["Products"].append(
+                    pick_by_sale_orders[sale_id.name]["Picks"][-1]["Productos"].append(
                         {
                             "Producto": product.product_id.name,
                             "Cantidad_reservado": int(product.product_uom_qty),
