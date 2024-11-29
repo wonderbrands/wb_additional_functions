@@ -91,10 +91,6 @@
                                     </tr>
                                 </table>
                                 <t t-foreach="sale['Picks']" t-as="pick">
-                                    <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small; background-color: #d9e5c5;">
-                                        Pick: <t t-foreach="pick['Products']" t-as="product"><span><t t-esc="product['SKU']"/></span><t t-if="not loop.last">, </t></t>
-                                    </p>
-                                    
                                     <table class="table table-condensed" style="width: 100%; margin-top: 10px; font-size: small; table-layout: fixed;">
                                         <thead>
                                             <tr style="background-color: #d9e5c5; font-size: small;">
@@ -109,7 +105,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <t t-foreach="pick['Products']" t-as="product">
+                                            <t t-foreach="pick['Productos']" t-as="product">
                                                 <tr style="font-size: small;">
                                                     <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['SKU']"/></td>
                                                     <td style="width: 32%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Producto']"/></td>
