@@ -49,9 +49,6 @@
                                         <!-- Third Column -->
                                         <td style="width: 12%; vertical-align: top; padding: 5px;">
                                             <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
-                                                <span><t t-esc="sale['Pick']"/></span>
-                                            </p>
-                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
                                                 <span><t t-esc="sale['ValPick']"/></span>
                                             </p>
                                             <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
@@ -90,30 +87,33 @@
                                     </tr>
                                 </table>
 
-                                <table class="table table-condensed" style="width: 100%; margin-top: 10px; font-size: small; table-layout: fixed;">
-                                    <thead>
-                                        <tr style="background-color: #d9e5c5; font-size: small;">
-                                            <th style="width: 17%; white-space: normal; word-wrap: break-word;">SKU</th>
-                                            <th style="width: 32%; white-space: normal; word-wrap: break-word;">Producto</th>
-                                            <th style="width: 17%; white-space: normal; word-wrap: break-word;">Reservado</th>
-                                            <th style="width: 17%; white-space: normal; word-wrap: break-word;">Pickeado</th>
-                                            <th style="width: 17%; white-space: normal; word-wrap: break-word;">Zona pickeo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <t t-foreach="sale['Productos']" t-as="product">
-                                            <tr style="font-size: small;">
-                                                <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['SKU']"/></td>
-                                                <td style="width: 32%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Producto']"/></td>
-                                                <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Cantidad_reservado']"/></td>
-                                                <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Cantidad_hecho']"/></td>
-                                                <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Picking_zone']"/></td>
+                                <t t-foreach="sale['Picks']" t-as="pick">                                    
+                                    <table class="table table-condensed" style="width: 100%; margin-top: 10px; font-size: small; table-layout: fixed;">
+                                        <thead>
+                                            <tr style="background-color: #d9e5c5; font-size: small;">
+                                                <th colspan="5" style="text-align: left;">Pick: <t t-esc="pick['Pick']"/></th>
                                             </tr>
-                                        </t>
-                                    </tbody>
-                                </table>
-
-
+                                            <tr style="background-color: #d9e5c5; font-size: small;">
+                                                <th style="width: 17%; white-space: normal; word-wrap: break-word;">SKU</th>
+                                                <th style="width: 32%; white-space: normal; word-wrap: break-word;">Producto</th>
+                                                <th style="width: 17%; white-space: normal; word-wrap: break-word;">Reservado</th>
+                                                <th style="width: 17%; white-space: normal; word-wrap: break-word;">Pickeado</th>
+                                                <th style="width: 17%; white-space: normal; word-wrap: break-word;">Zona pickeo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="pick['Productos']" t-as="product">
+                                                <tr style="font-size: small;">
+                                                    <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['SKU']"/></td>
+                                                    <td style="width: 32%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Producto']"/></td>
+                                                    <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Cantidad_reservado']"/></td>
+                                                    <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Cantidad_hecho']"/></td>
+                                                    <td style="width: 17%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Picking_zone']"/></td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </t>
                             </t>
                         </div>
                     </t>

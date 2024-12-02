@@ -84,7 +84,6 @@ class PackingList(models.Model):
                     "Sale_ID": sale_id.name,
                     "Sale_Date": sale_id.date_order,
                     "Carrier": "" if not sale_id.carrier_selection_relational else sale_id.carrier_selection_relational.name,
-                    "Pick": line.picking_id.name,
                     "ValPick": valpick_so,
                     "Guide_nums": guide_info["number_of_guides"],
                     "Guides": guide_info["guides"],
@@ -92,27 +91,25 @@ class PackingList(models.Model):
                     "MPOrder": sale_id.channel_order_reference,
                     "Out": out_so,
                     "Carrier_ref": sale_id.yuju_carrier_tracking_ref,
-                    "Productos": [
-                        {
-                            "Producto": line.product_id.name,
-                            "Cantidad_reservado": int(line.product_uom_qty),
-                            "Cantidad_hecho": int(line.qty_done),
-                            "Picking_zone": line.picking_id.pick_zone_index.name,
-                            "SKU": line.product_id.default_code
-                        } 
-                    ]
+                    "Picks": []
                 }
-
-            else: 
-                pick_by_sale_orders[sale_id.name]["Productos"] += [
-                    {
-                        "Producto": line.product_id.name,
-                        "Cantidad_reservado": int(line.product_uom_qty),
-                        "Cantidad_hecho": int(line.qty_done),
-                        "Picking_zone": line.picking_id.pick_zone_index.name,
-                        "SKU": line.product_id.default_code
-                    }
-                ]
+                for pick in line.picking_id:
+                    pick_by_sale_orders[sale_id.name]["Picks"].append(
+                        {
+                            "Pick": pick.name,
+                            "Productos": []
+                        }
+                    )
+                    for product in pick.move_line_ids_without_package:
+                        pick_by_sale_orders[sale_id.name]["Picks"][-1]["Productos"].append(
+                            {
+                                "Producto": product.product_id.name,
+                                "Cantidad_reservado": int(product.product_uom_qty),
+                                "Cantidad_hecho": int(product.qty_done),
+                                "Picking_zone": pick.pick_zone_index.name,
+                                "SKU": product.product_id.default_code
+                            }
+                        )
 
         return pick_by_sale_orders
 
