@@ -39,6 +39,19 @@ class ScannerLog(models.Model):
         ]
     )
 
+    times_scanned = fields.Integer(
+        string = "Times scanned"
+    )
+
+    closed_out = fields.Boolean(
+        string = "Out cerrado",
+        default = False
+    )
+
+    num_of_sg = fields.Integer(
+        string = "Número de shipping guide"
+    )
+
 """
 class CodesOfShipping(models.Model):
     _name = 'wb_outs.guide_codes'

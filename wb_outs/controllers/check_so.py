@@ -1,77 +1,133 @@
+import asyncio
+import logging
 from datetime import datetime
 from odoo import http
 from odoo.http import request
 
+_logger = logging.getLogger(__name__)
+
+
 class CheckSO(http.Controller):
+    def try_subpackage_split(self):
+        """Split the sale order string and validate its format."""
+        sale_order_search = request.jsonrequest["so"].split("-")
+        return sale_order_search if len(sale_order_search) == 2 else False
 
-    def find_so(self, request, so):
-        records = request.env['sale.order'].sudo().search([
-            ('name', 'ilike', request.jsonrequest["so"])
-        ])
+    def package_info(self, fraction):
+        """Extract package information from a fraction string."""
+        numerator, denominator = [int(part.strip()) for part in fraction.split("/")]
+        return {
+            "this_package": numerator,
+            "total_packages": denominator,
+        }
 
-        if len(records)==0:
+    def find_so(self):
+        """Find Sale Order based on the provided SO code."""
+        sale_order_search = self.try_subpackage_split()
+        if not sale_order_search:
             return False
-        
-        else:
-            return {
-                "SO": records[0]
-            }
-        
-    def write_scanner_log(self, request, already_scanned=False):
 
-        status_of_scan = ""
-        if not already_scanned:
-            status_of_scan = "so_already_scanned"
-        else:
-            if self.find_so(request, request.jsonrequest["so"]):
-                status_of_scan = "so_found"
-            else:
-                status_of_scan = "so_not_found"
+        sale_order_id = sale_order_search[0]
+        records = request.env["sale.order"].sudo().search([("name", "ilike", sale_order_id)])
 
-        request.env['wb_outs.scanner_log'].sudo().create({
+        return {"SO": records[0]} if records else False
+
+    async def async_write_scanner_log(self, so=None, already_scanned=False, times_scanned=0):
+        """Log scanner activity asynchronously."""
+        status_of_scan = "so_not_found"
+        if so:
+            status_of_scan = "so_found" if not already_scanned else "so_already_scanned"
+
+        _logger.info(f"Logging scan for SO: {so}, already_scanned: {already_scanned}")
+
+        num_of_sg = (
+            self.package_info(self.try_subpackage_split()[1])["total_packages"]
+            if status_of_scan == "so_found"
+            else 0
+        )
+
+        request.env["wb_outs.scanner_log"].sudo().create({
             "code": request.jsonrequest["so"],
             "scanned_at": datetime.now(),
             "scanned_by": request.env.user.id,
-            "exists_so": True if self.find_so(request, request.jsonrequest["so"]) else False,
-            "sale_order_id": self.find_so(request, request.jsonrequest["so"]).id if self.find_so(request, request.jsonrequest["so"]) else False,
-            "status_of_scan": status_of_scan,  
+            "exists_so": bool(so),
+            "sale_order_id": so.id if so else False,
+            "status_of_scan": status_of_scan,
+            "times_scanned": times_scanned + 1,
+            "num_of_sg": num_of_sg,
         })
-    def so_exists(self, request):
-        response =request.env['wb_outs.scanner_log'].sudo().search([
-            ("code", "=", request.jsonrequest["so"])
+
+        if status_of_scan == "so_found":
+            so_name, package = self.try_subpackage_split()
+            packages = self.package_info(package)
+            self.analize_out_close(packages["total_packages"])
+
+    def write_scanner_log(self, so=None, already_scanned=False, times_scanned=0):
+        """Wrap async logging in a synchronous context."""
+        asyncio.run(self.async_write_scanner_log(so, already_scanned, times_scanned))
+
+    def so_has_been_scanned(self):
+        """Check if the SO has already been scanned."""
+        response = request.env["wb_outs.scanner_log"].sudo().search([
+            ("code", "=", request.jsonrequest["so"]),
         ])
+        return {
+            "has_been_scanned": len(response) > 0,
+            "times_scanned": response[0].times_scanned if response else 0,
+        }
 
-        if len(response)==0:
-            return False
-        
+    def analize_out_close(self, expected_packages):
+        """Analyze and close the outbound process if all packages are scanned."""
+        out = request.env["stock.picking"].sudo().search([
+            ("origin", "=", request.jsonrequest["so"]),
+            ("name", "ilike", "/OUT/"),
+        ], limit=1)
+
+        _logger.info("================================")
+        _logger.info("Outbound record: %s", out)
+        _logger.info("================================")
+
+        non_scanned_packages = range(1, expected_packages + 1)
+        scanned_packages_from_model = request.env["wb_outs.scanner_log"].sudo().search([
+            ("sale_order_id", "=", request.jsonrequest["so"]),
+        ])
+        scanned_packages = [pkg.num_of_sg for pkg in scanned_packages_from_model]
+        non_scanned_packages = [pkg for pkg in non_scanned_packages if pkg not in scanned_packages]
+
+        if not non_scanned_packages:
+            _logger.info("================================")
+            _logger.info("ALL PACKAGES SCANNED, CLOSING OUT")
+            _logger.info("================================")
         else:
-            return True
-    
-    @http.route('/check_so', method='POST', type='json', auth='user')
+            _logger.info("================================")
+            _logger.info("NOT ALL PACKAGES SCANNED, NOT CLOSING OUT")
+            _logger.info("================================")
+
+
+    @http.route("/check_so", methods=["POST"], type="json", auth="user")
     def perform_action(self):
-
-        so = self.find_so(request, request.jsonrequest["so"])
-
+        """Main route to check and log SO scanning."""
+        so = self.find_so()
         if not so:
-            self.write_scanner_log(request)
+            self.write_scanner_log()
             return {
                 "status": "error",
                 "error_code": 1,
-                "error_description": "No existe una SO con ese id",
+                "error_description": f"No existe una SO con el id {request.jsonrequest['so']}",
             }
-        
-        else:
-            if self.so_exists(request):
-                self.write_scanner_log(request, True)
-                return {
-                    "status": "error",
-                    "error_code": 2,
-                    "error_description": "Ya se ha escaneado esa SO",
-                }
-            
-            else:
-                self.write_scanner_log(request)
-                return {
-                    "status": "success",
-                    "so": so
-                }
+
+        has_been_scanned = self.so_has_been_scanned()
+        if has_been_scanned["has_been_scanned"]:
+            self.write_scanner_log(so["SO"], already_scanned=True, times_scanned=has_been_scanned["times_scanned"])
+            return {
+                "status": "error",
+                "error_code": 2,
+                "error_description": "Ya se ha escaneado este paquete",
+            }
+
+        self.write_scanner_log(so["SO"])
+        return {
+            "status": "success",
+            "description": f"Se ha escaneado la SO con el id {request.jsonrequest['so']}",
+            "so": so["SO"],
+        }

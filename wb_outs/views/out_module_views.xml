@@ -11,6 +11,9 @@
                     <field name="exists_so"/>
                     <field name="sale_order_id"/>
                     <field name="status_of_scan"/>
+                    <field name="times_scanned"/>
+                    <field name="closed_out"/>
+                    <field name="num_of_sg"/>
                 </tree>
             </field>
         </record>
@@ -30,6 +33,9 @@
                             <field name="exists_so"/>
                             <field name="sale_order_id"/>
                             <field name="status_of_scan"/>
+                            <field name="times_scanned"/>
+                            <field name="closed_out"/>
+                            <field name="num_of_sg"/>
                         </group>
                     </sheet>
                 </form>
