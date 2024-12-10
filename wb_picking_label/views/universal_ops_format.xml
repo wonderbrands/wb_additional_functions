@@ -91,7 +91,7 @@
                                     <table class="table table-condensed" style="width: 100%; margin-top: 10px; font-size: small; table-layout: fixed;">
                                         <thead>
                                             <tr style="background-color: #d9e5c5; font-size: small;">
-                                                <th colspan="6" style="text-align: left;">Pick: <t t-esc="pick['Pick']"/></th>
+                                                <th colspan="7" style="text-align: left;">Pick: <t t-esc="pick['Pick']"/></th>
                                             </tr>
                                             <tr style="background-color: #d9e5c5; font-size: small; width: 100%;">
                                                 <th style="width: 14%; white-space: normal; word-wrap: break-word;">SKU</th>
