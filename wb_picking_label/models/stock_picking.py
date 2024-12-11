@@ -144,7 +144,8 @@ class Picking_Label(models.Model):
                             "Cantidad_reservado": int(product.product_uom_qty),
                             "Cantidad_hecho": int(product.qty_done),
                             "Picking_zone": pick.pick_zone_index.name,
-                            "SKU": product.product_id.default_code
+                            "SKU": product.product_id.default_code, 
+                            "Num_paquetes": product.product_id.packages_number 
                         }
                     )
 
