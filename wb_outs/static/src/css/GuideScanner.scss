@@ -109,6 +109,11 @@ $bg: #020617;
     right: 0;
     bottom: 0;
     z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.500);
+}
+
+.none{
+    display: none;
 }
 
 .loader {

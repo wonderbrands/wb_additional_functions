@@ -21,9 +21,11 @@
     ],
     
     'data': [
-        'views/out_module_views.xml',
+        "security/groups.xml",
+        "views/out_module_views.xml",
         "views/out_module_actions.xml",
         "views/out_module_menus.xml",
+        "security/ir.model.access.csv",
     ],
 
     'assets': {

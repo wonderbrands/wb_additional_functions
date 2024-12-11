@@ -48,6 +48,11 @@ class ScannerLog(models.Model):
         default = False
     )
 
+    out = fields.Many2one(
+        string = "Out",
+        comodel_name = "stock.picking"
+    )
+
     num_of_sg = fields.Integer(
         string = "Número de shipping guide"
     )

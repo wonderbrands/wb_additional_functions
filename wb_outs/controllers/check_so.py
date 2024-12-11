@@ -41,12 +41,16 @@ class CheckSO(http.Controller):
         _logger.info(f"Logging scan for SO: {so}, already_scanned: {already_scanned}")
 
         num_of_sg = (
-            self.package_info(self.try_subpackage_split()[1])["total_packages"]
+            self.package_info(self.try_subpackage_split()[1])["this_package"]
             if status_of_scan == "so_found"
             else 0
         )
 
-        request.env["wb_outs.scanner_log"].sudo().create({
+        _logger.info(f"=================================")
+        _logger.info(f"Num of this shipping guide : {num_of_sg}")
+        _logger.info(f"=================================")
+
+        id_log =request.env["wb_outs.scanner_log"].sudo().create({
             "code": request.jsonrequest["so"],
             "scanned_at": datetime.now(),
             "scanned_by": request.env.user.id,
@@ -60,7 +64,7 @@ class CheckSO(http.Controller):
         if status_of_scan == "so_found":
             so_name, package = self.try_subpackage_split()
             packages = self.package_info(package)
-            self.analize_out_close(packages["total_packages"])
+            self.analize_out_close(packages["total_packages"], so, id_log)
 
     def write_scanner_log(self, so=None, already_scanned=False, times_scanned=0):
         """Wrap async logging in a synchronous context."""
@@ -76,28 +80,45 @@ class CheckSO(http.Controller):
             "times_scanned": response[0].times_scanned if response else 0,
         }
 
-    def analize_out_close(self, expected_packages):
+    def analize_out_close(self, expected_packages, sale_order_id, id_log):
         """Analyze and close the outbound process if all packages are scanned."""
         out = request.env["stock.picking"].sudo().search([
-            ("origin", "=", request.jsonrequest["so"]),
+            ("origin", "=", sale_order_id.name),
             ("name", "ilike", "/OUT/"),
         ], limit=1)
 
         _logger.info("================================")
         _logger.info("Outbound record: %s", out)
+        _logger.info("Sale Order ID: %s", sale_order_id)
+        _logger.info("Expected packages: %s", expected_packages)
         _logger.info("================================")
 
-        non_scanned_packages = range(1, expected_packages + 1)
+        non_scanned_packages = list(range(1, (expected_packages+1)))
         scanned_packages_from_model = request.env["wb_outs.scanner_log"].sudo().search([
-            ("sale_order_id", "=", request.jsonrequest["so"]),
+            ("sale_order_id", "=", sale_order_id.id),
         ])
+
+        _logger.info("================================")
+        _logger.info("Non scanned packages: %s", non_scanned_packages)
+        
+
+
         scanned_packages = [pkg.num_of_sg for pkg in scanned_packages_from_model]
+        _logger.info("Scanned packages: %s", scanned_packages)
+        _logger.info("================================")
         non_scanned_packages = [pkg for pkg in non_scanned_packages if pkg not in scanned_packages]
 
+        
         if not non_scanned_packages:
             _logger.info("================================")
             _logger.info("ALL PACKAGES SCANNED, CLOSING OUT")
             _logger.info("================================")
+            if out:
+                id_log.write({
+                    "closed_out": True,
+                    "out": out.id
+                })
+                out.state = "done"
         else:
             _logger.info("================================")
             _logger.info("NOT ALL PACKAGES SCANNED, NOT CLOSING OUT")

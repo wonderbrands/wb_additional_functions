@@ -1,0 +1,7 @@
+<odoo>
+    <data>
+        <record id="group_scanner_log_viewer" model="res.groups">
+            <field name="name">Scanner Log Viewer</field>
+        </record>
+    </data>
+</odoo>

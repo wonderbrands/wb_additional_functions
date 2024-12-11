@@ -13,6 +13,7 @@
                     <field name="status_of_scan"/>
                     <field name="times_scanned"/>
                     <field name="closed_out"/>
+                    <field name="out"/>
                     <field name="num_of_sg"/>
                 </tree>
             </field>
@@ -35,6 +36,7 @@
                             <field name="status_of_scan"/>
                             <field name="times_scanned"/>
                             <field name="closed_out"/>
+                            <field name="out"/>
                             <field name="num_of_sg"/>
                         </group>
                     </sheet>
