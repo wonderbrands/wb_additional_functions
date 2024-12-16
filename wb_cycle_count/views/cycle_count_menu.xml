@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <menuitem id="menu_wb_cycle_count_root" name="Conteo cíclico" sequence="1000"/>
+
+        <menuitem id="menu_wb_cycle_count_scan" 
+                name="Conteo" 
+                parent="menu_wb_cycle_count_root" 
+                action="action_client_wb_cycle_count_scan" 
+                sequence="2000"/>
+          
+    </data>
+</odoo>
