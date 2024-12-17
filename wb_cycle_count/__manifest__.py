@@ -23,13 +23,14 @@
     ],
 
     'data': [
+        "views/cycle_count_views.xml",
         "views/cycle_count_actions.xml",
         "views/cycle_count_menu.xml",
     ],
 
     'assets': {
         'web.assets_backend': [
-            '/wb_cycle_count/static/src/js/app/*.js',
+            '/wb_cycle_count/static/src/js/app/objs.js',
             '/wb_cycle_count/static/src/js/CycleCount.js',
             '/wb_cycle_count/static/src/css/CycleCount.scss',
         ],

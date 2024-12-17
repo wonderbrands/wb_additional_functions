@@ -1,21 +1,90 @@
 # -*- coding: utf-8 -*-
-# from odoo import http
+from odoo import http
+from odoo.http import request
+from datetime import datetime
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
-# class WbCycleCount(http.Controller):
-#     @http.route('/wb_cycle_count/wb_cycle_count', auth='public')
-#     def index(self, **kw):
-#         return "Hello, world"
+class CheckZone(http.Controller):
 
-#     @http.route('/wb_cycle_count/wb_cycle_count/objects', auth='public')
-#     def list(self, **kw):
-#         return http.request.render('wb_cycle_count.listing', {
-#             'root': '/wb_cycle_count/wb_cycle_count',
-#             'objects': http.request.env['wb_cycle_count.wb_cycle_count'].search([]),
-#         })
+    def find_zone(self):
+        """Find zone."""
+        records = request.env["stock.location"].sudo().search(
+            [
+                ("complete_name", "=", request.jsonrequest["zone"]),
+            ]
+        )
 
-#     @http.route('/wb_cycle_count/wb_cycle_count/objects/<model("wb_cycle_count.wb_cycle_count"):obj>', auth='public')
-#     def object(self, obj, **kw):
-#         return http.request.render('wb_cycle_count.object', {
-#             'object': obj
-#         })
+        return {"zone": records[0]} if records else False
+
+    @http.route("/check_zone", methods=["POST"], type="json", auth="user")
+    def check_zone(self):
+        """Main route to check and log SO scanning."""
+        zone = self.find_zone()
+        if not zone:
+            return {
+                "status": "error",
+                "error_code": 1,
+                "error_description": f"No existe una zona con el id {request.jsonrequest['zone']}",
+            }
+
+        return {
+            "status": "success",
+            "description": f"Se ha escaneado la zona con el id {request.jsonrequest['zone']}",
+            "zone": zone["zone"]["id"],
+        }
+    
+
+    def find_product(self):
+        """Find zone."""
+        records = request.env["product.product"].sudo().search(
+            [
+                ("default_code", "=", request.jsonrequest["product"]),
+            ]
+        )
+
+        return {"product": records[0]} if records else False
+
+    @http.route("/check_product", methods=["POST"], type="json", auth="user")
+    def check_product(self):
+        """Main route to check and log SO scanning."""
+        product = self.find_product()
+        if not product:
+            return {
+                "status": "error",
+                "error_code": 1,
+                "error_description": f"No existe un producto con el SKU {request.jsonrequest['product']}",
+            }
+
+        return {
+            "status": "success",
+            "description": f"Se ha escaneado el producto con el SKU {request.jsonrequest['product']}",
+            "product": product["product"]["id"],
+            "name": product["product"]["name"],
+            "SKU": product["product"]["default_code"],
+            "price": product["product"]["lst_price"],
+        }
+    
+    @http.route("/write_count_log", methods=["POST"], type="json", auth="user")
+    def write_log(self):      
+        _logger.info("================================")
+        _logger.info(request.jsonrequest)
+        _logger.info("================================")
+
+        log = request.env["wb_cycle_count.log"].sudo().create({
+            "zone": request.jsonrequest["zone"],
+            "product": request.jsonrequest["product"],
+            "qty": False if not request.jsonrequest["qty"] else request.jsonrequest["qty"],
+            "status": False if not request.jsonrequest["state"] else request.jsonrequest["state"],
+            "scanned": request.jsonrequest["scanned"],
+            "scanned_by": request.env.user.id,
+            "scanned_at": datetime.now(),
+        })
+
+        return {
+            "status": "success",
+            "description": request.jsonrequest.get("status"),
+            "log": log,
+        }

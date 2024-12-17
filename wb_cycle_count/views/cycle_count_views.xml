@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="wb_cycle_count_log_tree" model="ir.ui.view">
+        <field name="name">wb_cycle_count.log.tree</field>
+        <field name="model">wb_cycle_count.log</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="status == 'success'" decoration-muted="status in ('no_stock_location', 'product_not_exist', 'product_already_counted')">
+                <field name="scanned"/>
+                <field name="scanned_by"/>
+                <field name="scanned_at"/>
+                <field name="zone"/>
+                <field name="product"/>
+                <field name="qty"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+    <record id="wb_cycle_count_log_form" model="ir.ui.view">
+        <field name="name">wb_cycle_count.log.form</field>
+        <field name="model">wb_cycle_count.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="scanned"/>
+                        <field name="scanned_by"/>
+                        <field name="scanned_at"/>
+                    </group>
+                    <group>
+                        <field name="zone"/>
+                        <field name="product"/>
+                        <field name="qty"/>
+                    </group>
+                    <group>
+                        <field name="status"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

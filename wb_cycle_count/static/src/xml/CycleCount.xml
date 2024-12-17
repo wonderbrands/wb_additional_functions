@@ -3,7 +3,14 @@
 <templates xml:space="preserve">
     <t t-name="wb_cycle_count.CycleCountTemplate" owl="1">
         <div>
-        aaaaaaaaaaa
+            <div id="root">
+            </div>
+            <input t-ref="zonebarcode" t-on-input="_readZoneBarcode" type="text" t-if="state.show_zone_input"/>
+            <input t-ref="productbarcode" t-on-input="_readProductBarcode" type="text" t-if="state.show_product_input"/>
+            <input t-ref="qty" type="number" t-if="state.show_product_qty"/>
+            <button  t-if="state.show_product_qty" t-on-click="confirmQty">
+                Contar dentro del inventario
+            </button>
         </div>
     </t>
 </templates>

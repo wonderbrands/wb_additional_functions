@@ -1,18 +1,23 @@
 # -*- coding: utf-8 -*-
 
-# from odoo import models, fields, api
+from odoo import models, fields, api
 
+class CycleCountLog(models.Model):
+    _name = 'wb_cycle_count.log'
+    _description = 'Cycle Count Log'
 
-# class wb_cycle_count(models.Model):
-#     _name = 'wb_cycle_count.wb_cycle_count'
-#     _description = 'wb_cycle_count.wb_cycle_count'
-
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+    scanned = fields.Char(string='Scanned string')
+    scanned_by = fields.Many2one('res.users', string='Scanned by')
+    scanned_at = fields.Datetime(string='Scanned at')
+    zone = fields.Many2one('stock.location', string='Zona')
+    product = fields.Many2one('product.product', string='Producto')
+    qty = fields.Float(string='Cantidad')
+    status = fields.Selection(
+        [
+            ('no_stock_location', 'Stock location does not exist'), 
+            ('product_not_exist', 'Product does not exist'),
+            ('product_already_counted', 'Product already counted'),
+            ('success', 'Success'),
+        ],
+        string='Estado'
+    )
