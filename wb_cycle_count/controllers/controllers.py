@@ -18,12 +18,15 @@ class CheckZone(http.Controller):
                 split_zone[0],
                 split_zone[1]
             ]
+            _logger.info("================================")
+            _logger.info("-".join(new_zone))
+            _logger.info("================================")
             records = request.env["stock.location"].sudo().search(
                 [
                     ("name", "=", "-".join(new_zone)),
                 ]
             )
-            
+
             return {"zone": records[0]} if records else False
 
         """Find zone."""
