@@ -23,9 +23,11 @@
     ],
 
     'data': [
+        "views/groups.xml",
         "views/cycle_count_views.xml",
         "views/cycle_count_actions.xml",
         "views/cycle_count_menu.xml",
+        "security/ir.model.access.csv",
     ],
 
     'assets': {

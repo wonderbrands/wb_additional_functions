@@ -19,9 +19,7 @@ class CycleCount extends Component {
         zone_searchbar: new SearchBar(),
         product_searchbar: new SearchBar(),
         log_writer: new WriteLog(),
-        show_zone_input: true,
-        show_product_input: false,
-        show_product_qty: false
+        active_input: null
     })
 
     setup() {
@@ -29,20 +27,81 @@ class CycleCount extends Component {
             this.state.app_state.done_waiting_server();
             this.state.app_state.waitZoneScan();
             this.state.render_components.appIsWaitingZone();
+            this.barcodeZoneInput.el.focus();
+            this.active_input = this.barcodeZoneInput;
         })
     }
 
+    focus_active(){
+        this.active_input.el.focus();
+    }
+
     async confirmQty(){ 
-        this.state.log_writer.set_params(
+        var active = null
+        this.state.render_components.displayModal(
+            "confirmation",
+            `¿Deseas introducir 
+            ${this.qtyInput.el.value} de 
+            "${this.state.product.server_data.result.name}"
+            a la zona ${this.state.zone.server_data.result.name}?`,
+            true,
+            this.qtyInput,
             {
                 state: "success",
                 zone: this.state.zone.server_data.result.zone,
                 scanned: this.state.product_searchbar.get_term(),
                 product: this.state.product.server_data.result.product,
                 counted: this.qtyInput.el.value
-            }
+            },
+            this.state.log_writer
         );
-        await this.state.log_writer.write_log();
+
+        if (!active){
+            this.qtyInput.el.value = "";
+            this.barcodeProductInput.el.classList.remove("invisible")
+            this.barcodeProductInput.el.value = "";
+        } else{
+            this.qtyInput.el.value = "";
+            this.barcodeProductInput.el.value = "";
+        }
+        
+        this.active_input = active ? this.barcodeProductInput : this.qtyInput
+    }
+
+    async zoneBarcodeSuccess(){
+        this.state.app_state.done_waiting_server();
+        this.state.render_components.appIsScanningSKU();
+        this.barcodeZoneInput.el.className += " invisible"
+        this.barcodeProductInput.el.classList.remove("invisible")
+        this.barcodeProductInput.el.focus();
+        this.active_input = this.barcodeProductInput
+        this.state.render_components.insertZone(
+            this.state.zone.server_data.result.name,
+            [
+                this.barcodeZoneInput,
+                this.barcodeProductInput,
+                this.qtyInput,
+            ]
+        );
+    }
+
+    async productBarcodeSuccess(){
+        this.state.app_state.done_waiting_server();
+        this.state.render_components.appIsInputingQty();
+        this.barcodeProductInput.el.className += " invisible"
+        this.qtyInput.el.classList.remove("invisible")
+        $("#count_button").removeClass("invisible")
+        this.qtyInput.el.focus();
+        this.active_input = this.qtyInput
+        this.state.render_components.insertProduct(
+            this.state.product.server_data.result.name,
+            this.state.product.server_data.result.SKU,
+            this.state.product.server_data.result.barcode,
+            [
+                this.barcodeProductInput,
+                this.qtyInput,
+            ]
+        );
     }
 
     async _readZoneBarcode() {
@@ -53,11 +112,17 @@ class CycleCount extends Component {
             await this.state.zone.get_info_from_server();
             this.barcodeZoneInput.el.value = ""
             if (this.state.zone.server_data.result.status=="success") {
-                this.state.app_state.done_waiting_server();
-                this.state.render_components.appIsScanningSKU();
-                this.state.show_zone_input = false;
-                this.state.show_product_input = true;
+                await this.zoneBarcodeSuccess();
             } else{
+                this.state.render_components.displayModal(
+                    "error",
+                    `No se ha encontrado la ubicación:  ${this.state.zone_searchbar.get_term()}`,
+                    null,
+                    null,
+                    null,
+                    null,
+                    1700
+                )
                 this.state.log_writer.set_params(
                     {
                         state: "no_stock_location",
@@ -65,6 +130,7 @@ class CycleCount extends Component {
                     }
                 );
                 await this.state.log_writer.write_log();
+                this.barcodeZoneInput.el.value = ""
             }
         } else {
             this.barcodeZoneInput.el.value = "";
@@ -78,11 +144,17 @@ class CycleCount extends Component {
             this.state.app_state.is_waiting_server()
             await this.state.product.get_info_from_server();
             if (this.state.product.server_data.result.status=="success") {
-                this.state.app_state.done_waiting_server();
-                this.state.show_product_input = false;
-                this.state.show_product_qty = true;
-                this.state.render_components.appIsInputingQty();
+                await this.productBarcodeSuccess();
             } else {
+                this.state.render_components.displayModal(
+                    "error",
+                    `No se ha encontrado el producto:  ${this.state.product_searchbar.get_term()}`,
+                    null,
+                    null,
+                    null,
+                    null,
+                    1700
+                )
                 this.state.log_writer.set_params(
                     {
                         state: "product_not_exist",
@@ -91,6 +163,7 @@ class CycleCount extends Component {
                     }
                 );
                 await this.state.log_writer.write_log();
+                this.barcodeProductInput.el.value = ""
             }
             
         } else {

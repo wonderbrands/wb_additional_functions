@@ -34,6 +34,7 @@ class CheckZone(http.Controller):
             "status": "success",
             "description": f"Se ha escaneado la zona con el id {request.jsonrequest['zone']}",
             "zone": zone["zone"]["id"],
+            "name": zone["zone"]["name"],
         }
     
 
@@ -41,7 +42,7 @@ class CheckZone(http.Controller):
         """Find zone."""
         records = request.env["product.product"].sudo().search(
             [
-                ("default_code", "=", request.jsonrequest["product"]),
+                ("barcode", "=", request.jsonrequest["product"]),
             ]
         )
 
@@ -65,6 +66,7 @@ class CheckZone(http.Controller):
             "name": product["product"]["name"],
             "SKU": product["product"]["default_code"],
             "price": product["product"]["lst_price"],
+            "barcode": product["product"]["barcode"],
         }
     
     @http.route("/write_count_log", methods=["POST"], type="json", auth="user")
