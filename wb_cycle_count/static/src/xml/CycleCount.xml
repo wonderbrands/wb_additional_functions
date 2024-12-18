@@ -8,7 +8,7 @@
                 </div>
                 <input class="barcode-reader" t-ref="zonebarcode" t-on-input="_readZoneBarcode" type="text"/>
                 <input class="barcode-reader invisible" id="productBarcode" t-ref="productbarcode" t-on-input="_readProductBarcode" type="text"/>
-                <input class="invisible" id="qty" t-ref="qty" type="number" />
+                <input class="invisible" id="qty" t-ref="qty" type="number" t-on-input="qtyIsUnsignedInteger"/>
                 <button  id="count_button" class="invisible" t-on-click="confirmQty">
                     Contar dentro del inventario
                 </button>

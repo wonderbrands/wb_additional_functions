@@ -283,10 +283,16 @@ class RenderComponents {
         if(confirmation){
             let button = modal.find("#confirm");
             button.on("click", () => {
+                $("#product").remove();
                 log.set_params(data_confirmation);
                 log.write_log();
                 modal.remove();
                 this.countedQty();
+                localStorage.setItem("activeProductBarcode", true);
+                console.log("remove class")
+                $("#instruction3").remove()
+                $("#productBarcode").removeClass("invisible")
+                $("#productBarcode").focus()
             });
             button.on("click", () => {
                 modal.remove();
@@ -295,7 +301,6 @@ class RenderComponents {
 
             modal.find("#cancel").on("click", () => {
                 modal.remove();
-                active = true
             })
 
         }

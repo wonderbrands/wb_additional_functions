@@ -36,9 +36,24 @@ class CycleCount extends Component {
         this.active_input.el.focus();
     }
 
+    qtyIsUnsignedInteger(){
+        this.qtyInput.el.value = this.qtyInput.el.value.replace(/[^0-9]/g, '');
+    }
+
     async confirmQty(){ 
-        var active = null
-        this.state.render_components.displayModal(
+        if (this.qtyInput.el.value == "" || this.qtyInput.el.value == "0") {
+            this.state.render_components.displayModal(
+                "error",
+                "No has introducido ninguna cantidad",
+                null,
+                null,
+                null,   
+                null,
+                1700
+            );   
+        } else {
+            localStorage.setItem("activeProductBarcode", false);
+            this.state.render_components.displayModal(
             "confirmation",
             `¿Deseas introducir 
             ${this.qtyInput.el.value} de 
@@ -56,16 +71,19 @@ class CycleCount extends Component {
             this.state.log_writer
         );
 
-        if (!active){
-            this.qtyInput.el.value = "";
-            this.barcodeProductInput.el.classList.remove("invisible")
-            this.barcodeProductInput.el.value = "";
-        } else{
-            this.qtyInput.el.value = "";
-            this.barcodeProductInput.el.value = "";
+        this.barcodeProductInput.el.value = "";
+        this.qtyInput.el.value = "";
+
         }
+        if (!localStorage.getItem("activeProductBarcode")) {
+            this.barcodeProductInput.el.classList.remove("invisible")
+            this.active_input = this.barcodeProductInput
+        } else {
+            this.active_input = this.qtyInput
+        }
+
+        this.active_input.el.focus();
         
-        this.active_input = active ? this.barcodeProductInput : this.qtyInput
     }
 
     async zoneBarcodeSuccess(){

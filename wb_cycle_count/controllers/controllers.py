@@ -10,10 +10,26 @@ _logger = logging.getLogger(__name__)
 class CheckZone(http.Controller):
 
     def find_zone(self):
+        split_zone = request.jsonrequest["zone"].split("-")
+        if (len(split_zone)==4):
+            new_zone = [
+                split_zone[3],
+                split_zone[2],
+                split_zone[0],
+                split_zone[1]
+            ]
+            records = request.env["stock.location"].sudo().search(
+                [
+                    ("name", "=", "-".join(new_zone)),
+                ]
+            )
+            
+            return {"zone": records[0]} if records else False
+
         """Find zone."""
         records = request.env["stock.location"].sudo().search(
             [
-                ("complete_name", "=", request.jsonrequest["zone"]),
+                ("name", "=", request.jsonrequest["zone"]),
             ]
         )
 
@@ -34,7 +50,7 @@ class CheckZone(http.Controller):
             "status": "success",
             "description": f"Se ha escaneado la zona con el id {request.jsonrequest['zone']}",
             "zone": zone["zone"]["id"],
-            "name": zone["zone"]["name"],
+            "name": zone["zone"]["complete_name"],
         }
     
 
@@ -42,8 +58,9 @@ class CheckZone(http.Controller):
         """Find zone."""
         records = request.env["product.product"].sudo().search(
             [
-                ("barcode", "=", request.jsonrequest["product"]),
-            ]
+                ("barcode", "ilike", request.jsonrequest["product"]),
+            ],
+            limit = 1
         )
 
         return {"product": records[0]} if records else False
