@@ -10,29 +10,11 @@ _logger = logging.getLogger(__name__)
 class CheckZone(http.Controller):
 
     def find_zone(self):
-        split_zone = request.jsonrequest["zone"].split("-")
-        if (len(split_zone)==4):
-            new_zone = [
-                split_zone[3],
-                split_zone[2],
-                split_zone[0],
-                split_zone[1]
-            ]
-            _logger.info("================================")
-            _logger.info("-".join(new_zone))
-            _logger.info("================================")
-            records = request.env["stock.location"].sudo().search(
-                [
-                    ("name", "=", "-".join(new_zone)),
-                ]
-            )
-
-            return {"zone": records[0]} if records else False
-
         """Find zone."""
         records = request.env["stock.location"].sudo().search(
             [
-                ("name", "=", request.jsonrequest["zone"]),
+                ("barcode", "=", request.jsonrequest["zone"]),
+                ("complete_name", "ilike", "Stock")
             ]
         )
 
