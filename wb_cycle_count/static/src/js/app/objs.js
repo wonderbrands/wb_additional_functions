@@ -410,18 +410,18 @@ class RenderComponents {
         modal.append(subscreen);
         subscreen.append(`<h1>${message}</h1>`);
         subscreen.addClass("confirmation");
-        subscreen.append("<button id='confirm_change'>Confirmar</button>");
-        subscreen.append("<button id='cancel_change'>Cancelar</button>");
+        subscreen.append(
+            $("<button id='confirm_change'>Confirmar</button>").on("click", () => {
+                modal.remove();
+                return true
+            })
+        );
+        subscreen.append(
+            $("<button id='cancel_change'>Cancelar</button>").on("click", () => {
+                modal.remove();
+                return false
+            })
+        );
 
-        $("#confirm_change").on("click", () => {
-            modal.remove();
-            return true
-        })
-
-        $("#cancel_change").on("click", () => {
-            modal.remove();
-            return false
-        })
-        container.append(modal);
     }
 }
