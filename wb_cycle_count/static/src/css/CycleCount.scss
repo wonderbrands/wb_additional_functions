@@ -89,11 +89,10 @@
             display: flex;
             flex-direction: row;
             h2{
-                width: 40%;
+                width: 50%;
             }
             button{
-                width: 20%;
-                max-height: 2em;
+                width: 50%;
             }
         }
 
@@ -103,11 +102,10 @@
             flex-direction: row;
             align-items: center;
             .product_info{
-                width: 40%;
+                width: 50%;
             }
             button{
-                width: 20%;
-                max-height: 2em;
+                width: 50%;
             }
         }
     }

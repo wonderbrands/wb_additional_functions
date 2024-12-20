@@ -352,19 +352,23 @@ class RenderComponents {
         zonediv.append(`<button id='reset_zone'>Cambiar de ubicación</button>`)
         info.append(zonediv);
         $("#reset_zone").on("click", () => {
-            info.children().remove()
-            $('#instruction1').removeClass('passed');
-            $('#instruction1').removeClass('invisible');
-            $('#instruction2').remove();
-            $("#instruction3").remove();
-            $("#qty").addClass('invisible');
-            $("#count_button").addClass('invisible');
-            inputs.forEach(input => {
-                input.el.value = "";
-                input.el.className+=(" invisible");
-            });
-            inputs[0].el.classList.remove("invisible");
-            inputs[0].el.focus();
+            let confirm = this.confirmationChangestate("¿Estás seguro que deseas cambiar de ubicación?")
+            if(confirm){
+                info.children().remove()
+                $('#instruction1').removeClass('passed');
+                $('#instruction1').removeClass('invisible');
+                $('#instruction2').remove();
+                $("#instruction3").remove();
+                $("#qty").addClass('invisible');
+                $("#count_button").addClass('invisible');
+                inputs.forEach(input => {
+                    input.el.value = "";
+                    input.el.className+=(" invisible");
+                });
+                inputs[0].el.classList.remove("invisible");
+                inputs[0].el.focus();
+            }
+            
         })
     }
 
@@ -380,18 +384,44 @@ class RenderComponents {
         info.append(productdiv);
 
         $("#reset_product").on("click", () => {
-            productdiv.remove()
-            $('#instruction2').removeClass('passed');
-            $('#instruction2').removeClass('invisible');
-            $('#instruction3').remove()
-            $("#qty").addClass('invisible');
-            $("#count_button").addClass('invisible');
-            inputs.forEach(input => {
-                input.el.value = "";
-                input.el.className+=(" invisible");
-            });
-            inputs[0].el.classList.remove("invisible");
-            inputs[0].el.focus();
+            let confirm = this.confirmationChangestate("¿Estás seguro que deseas cambiar de ubicación?")
+            if(confirm){
+                productdiv.remove()
+                $('#instruction2').removeClass('passed');
+                $('#instruction2').removeClass('invisible');
+                $('#instruction3').remove()
+                $("#qty").addClass('invisible');
+                $("#count_button").addClass('invisible');
+                inputs.forEach(input => {
+                    input.el.value = "";
+                    input.el.className+=(" invisible");
+                });
+                inputs[0].el.classList.remove("invisible");
+                inputs[0].el.focus();
+            }
         })
+    }
+
+
+    confirmationChangestate(message){
+        let container = $(".app-container");
+        let modal = $("<div class='modal'></div>");
+        let subscreen = $("<div class='subscreen'></div>");
+        modal.append(subscreen);
+        subscreen.append(`<h1>${message}</h1>`);
+        subscreen.addClass("confirmation");
+        subscreen.append("<button id='confirm_change'>Confirmar</button>");
+        subscreen.append("<button id='cancel_change'>Cancelar</button>");
+
+        $("#confirm_change").on("click", () => {
+            modal.remove();
+            return true
+        })
+
+        $("#cancel_change").on("click", () => {
+            modal.remove();
+            return false
+        })
+        container.append(modal);
     }
 }
