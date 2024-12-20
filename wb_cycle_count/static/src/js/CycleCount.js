@@ -28,12 +28,12 @@ class CycleCount extends Component {
             this.state.app_state.waitZoneScan();
             this.state.render_components.appIsWaitingZone();
             this.barcodeZoneInput.el.focus();
-            this.active_input = this.barcodeZoneInput;
+            localStorage.setItem("input", "zonebarcode");
         })
     }
 
     focus_active(){
-        this.active_input.el.focus();
+        $("#" + localStorage.getItem("input")).focus();
     }
 
     qtyIsUnsignedInteger(){
@@ -77,12 +77,12 @@ class CycleCount extends Component {
         }
         if (!localStorage.getItem("activeProductBarcode")) {
             this.barcodeProductInput.el.classList.remove("invisible")
-            this.active_input = this.barcodeProductInput
+            localStorage.setItem("input", "productBarcode");
         } else {
-            this.active_input = this.qtyInput
+            localStorage.setItem("input", "qty");
         }
 
-        this.active_input.el.focus();
+        this.focus_active();
         
     }
 
@@ -92,7 +92,7 @@ class CycleCount extends Component {
         this.barcodeZoneInput.el.className += " invisible"
         this.barcodeProductInput.el.classList.remove("invisible")
         this.barcodeProductInput.el.focus();
-        this.active_input = this.barcodeProductInput
+        localStorage.setItem("input", "productBarcode");
         this.state.render_components.insertZone(
             this.state.zone.server_data.result.name,
             [
@@ -110,7 +110,7 @@ class CycleCount extends Component {
         this.qtyInput.el.classList.remove("invisible")
         $("#count_button").removeClass("invisible")
         this.qtyInput.el.focus();
-        this.active_input = this.qtyInput
+        localStorage.setItem("input", "qty");
         this.state.render_components.insertProduct(
             this.state.product.server_data.result.name,
             this.state.product.server_data.result.SKU,

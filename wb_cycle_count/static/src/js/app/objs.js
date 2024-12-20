@@ -352,7 +352,7 @@ class RenderComponents {
         zonediv.append(`<button id='reset_zone'>Cambiar de ubicación</button>`)
         info.append(zonediv);
         $("#reset_zone").on("click", () => {
-            this.confirmationChangestate("¿Estás seguro que deseas cambiar de ubicación?")
+            this.confirmationChangestate("¿Estás seguro que deseas cambiar de ubicación?", "zonebarcode")
             if(localStorage.getItem("confirmChange")){
                 info.children().remove()
                 $('#instruction1').removeClass('passed');
@@ -384,7 +384,7 @@ class RenderComponents {
         info.append(productdiv);
 
         $("#reset_product").on("click", () => {
-            this.confirmationChangestate("¿Estás seguro que deseas cambiar de producto, sin dar de alta catnidad?")
+            this.confirmationChangestate("¿Estás seguro que deseas cambiar de producto, sin dar de alta catnidad?", "productBarcode")
             if(localStorage.getItem("confirmChange")){
                 productdiv.remove()
                 $('#instruction2').removeClass('passed');
@@ -403,7 +403,7 @@ class RenderComponents {
     }
 
 
-    confirmationChangestate(message){
+    confirmationChangestate(message, input){
         let container = $(".app-container");
         let modal = $("<div class='modal'></div>");
         let subscreen = $("<div class='subscreen'></div>");
@@ -414,6 +414,8 @@ class RenderComponents {
             $("<button id='confirm_change'>Confirmar</button>").on("click", () => {
                 modal.remove();
                 localStorage.setItem("confirmChange", true);
+                localStorage.setItem("input", input);
+                $("#" + input).focus();
             })
         );
         subscreen.append(
