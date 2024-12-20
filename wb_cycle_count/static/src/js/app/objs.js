@@ -352,8 +352,8 @@ class RenderComponents {
         zonediv.append(`<button id='reset_zone'>Cambiar de ubicación</button>`)
         info.append(zonediv);
         $("#reset_zone").on("click", () => {
-            let confirm = this.confirmationChangestate("¿Estás seguro que deseas cambiar de ubicación?")
-            if(confirm){
+            this.confirmationChangestate("¿Estás seguro que deseas cambiar de ubicación?")
+            if(localStorage.getItem("confirmChange")){
                 info.children().remove()
                 $('#instruction1').removeClass('passed');
                 $('#instruction1').removeClass('invisible');
@@ -384,8 +384,8 @@ class RenderComponents {
         info.append(productdiv);
 
         $("#reset_product").on("click", () => {
-            let confirm = this.confirmationChangestate("¿Estás seguro que deseas cambiar de ubicación?")
-            if(confirm){
+            this.confirmationChangestate("¿Estás seguro que deseas cambiar de producto, sin dar de alta catnidad?")
+            if(localStorage.getItem("confirmChange")){
                 productdiv.remove()
                 $('#instruction2').removeClass('passed');
                 $('#instruction2').removeClass('invisible');
@@ -413,15 +413,17 @@ class RenderComponents {
         subscreen.append(
             $("<button id='confirm_change'>Confirmar</button>").on("click", () => {
                 modal.remove();
-                return true
+                localStorage.setItem("confirmChange", true);
             })
         );
         subscreen.append(
             $("<button id='cancel_change'>Cancelar</button>").on("click", () => {
                 modal.remove();
-                return false
+                localStorage.setItem("confirmChange", false);
             })
         );
+
+        container.append(modal);
 
     }
 }
