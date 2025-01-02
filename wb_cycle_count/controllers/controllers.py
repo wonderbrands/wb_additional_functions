@@ -9,6 +9,39 @@ _logger = logging.getLogger(__name__)
 
 class CheckZone(http.Controller):
 
+    def find_session(self):
+        records = request.env["wb_cycle_count.count_session"].sudo().search(
+            [
+                ("name", "=", request.jsonrequest["session"]),
+            ]
+        )
+        return {"session": records[0]} if records else False
+
+    @http.route("/check_session", methods=["POST"], type="json", auth="user")
+    def check_session(self):
+        """Main route to check and log SO scanning."""
+        session = self.find_session()
+        if not session:
+            return {
+                "status": "error",
+                "error_code": 1,
+                "error_description": f"No existe una sesión con el id {request.jsonrequest['session']}",
+            }
+        else:
+            if session["session"].state == "ended":
+                return {
+                    "status": "error",
+                    "error_code": 2,
+                    "error_description": f"La sesión con el id {request.jsonrequest['session']} ha finalizado.",
+                }
+            else:
+                return {
+                    "status": "success",
+                    "description": f"Se ha escaneado la zona con el id {request.jsonrequest['session']}",
+                    "id": session["session"]["name"],
+                }
+    
+
     def find_zone(self):
         """Find zone."""
         records = request.env["stock.location"].sudo().search(
@@ -30,13 +63,13 @@ class CheckZone(http.Controller):
                 "error_code": 1,
                 "error_description": f"No existe una zona con el id {request.jsonrequest['zone']}",
             }
-
-        return {
-            "status": "success",
-            "description": f"Se ha escaneado la zona con el id {request.jsonrequest['zone']}",
-            "zone": zone["zone"]["id"],
-            "name": zone["zone"]["complete_name"],
-        }
+        else:
+            return {
+                "status": "success",
+                "description": f"Se ha escaneado la zona con el id {request.jsonrequest['zone']}",
+                "zone": zone["zone"]["id"],
+                "name": zone["zone"]["complete_name"],
+            }
     
 
     def find_product(self):
@@ -59,17 +92,17 @@ class CheckZone(http.Controller):
                 "status": "error",
                 "error_code": 1,
                 "error_description": f"No existe un producto con el SKU {request.jsonrequest['product']}",
+            } 
+        else:
+            return {
+                "status": "success",
+                "description": f"Se ha escaneado el producto con el SKU {request.jsonrequest['product']}",
+                "product": product["product"]["id"],
+                "name": product["product"]["name"],
+                "SKU": product["product"]["default_code"],
+                "price": product["product"]["lst_price"],
+                "barcode": product["product"]["barcode"],
             }
-
-        return {
-            "status": "success",
-            "description": f"Se ha escaneado el producto con el SKU {request.jsonrequest['product']}",
-            "product": product["product"]["id"],
-            "name": product["product"]["name"],
-            "SKU": product["product"]["default_code"],
-            "price": product["product"]["lst_price"],
-            "barcode": product["product"]["barcode"],
-        }
     
     @http.route("/write_count_log", methods=["POST"], type="json", auth="user")
     def write_log(self):      

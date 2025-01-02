@@ -8,10 +8,16 @@
                 action="action_client_wb_cycle_count_scan" 
                 sequence="2000"/>
 
-        <menuitem id="menu_cycle_scan_tree" 
+        <!--<menuitem id="menu_cycle_scan_tree" 
                 name="Scanner Log" 
                 parent="menu_wb_cycle_count_root" 
                 action="action_cycle_log_tree" 
+                sequence="3000"/>-->
+
+        <menuitem id="menu_count_session_tree" 
+                name="Scanner Log" 
+                parent="menu_wb_cycle_count_root" 
+                action="action_count_session_tree" 
                 sequence="3000"/>
           
     </data>

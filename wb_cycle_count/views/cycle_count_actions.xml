@@ -5,11 +5,18 @@
             <field name="tag">wb_cycle_count.wb_cycle_count_scan</field>
         </record>
 
-        <record id="action_cycle_log_tree" model="ir.actions.act_window">
+        <!--<record id="action_cycle_log_tree" model="ir.actions.act_window">
             <field name="name">Log de conteo</field>
             <field name="res_model">wb_cycle_count.log</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="wb_cycle_count_log_tree"/>
+        </record>-->
+
+        <record id="action_count_session_tree" model="ir.actions.act_window">
+            <field name="name">Log de conteo</field>
+            <field name="res_model">wb_cycle_count.count_session</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="wb_cycle_count_session_tree"/>
         </record>
     </data>
 </odoo>
