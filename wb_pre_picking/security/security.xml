@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Usuario Responsable de administración del Pre picking-->
+        <record id="group_pre_picking" model="res.groups">
+            <field name="name">Pre Picking Manager</field>
+            <field name="comment">Usuario Responsable del Pre Picking de Ordenes de Venta</field>
+        </record>
+
+         <!-- Usuario Responsable del Shipping-->
+        <record id="group_pre_picking_shipping" model="res.groups">
+            <field name="name">Pre Picking - Shipping</field>
+            <field name="comment">Usuario del Shipping de Ordenes de Venta</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+    <t t-name="wb_outs.GuideScannerTemplate" owl="1">
+        <div class="scanner-container" t-on-click="focus_input">
+            <div class="guide-scanner">
+                <div class="loading_screen" id="loading"></div>
+                <div class="logo">
+                    <img src="https://emprendedoresnews.com/wp-content/uploads/2021/03/1-scaled-e1614783938513.jpg.webp"></img>
+                </div>
+                <div class="presentation">
+                    <h1>Escaneo de Guías de envío</h1>
+                    <h3>Escanea la SO que esta pegada en el paquete</h3>
+                    <div class="input_barcode">
+                        <input t-ref="barcode" t-on-input="_readBarcode" type="text"/>
+                    </div>
+                </div>
+            </div>
+            <div class="scanned_log">
+                <div class="title_log">
+                    <h4>
+                        Últimos escaneos exitosos
+                    </h4>
+                </div>
+                <t t-foreach="state.log.logs" t-as="log">
+                    <div class="succ_log">
+                        <p>SO: <t t-esc="log.code"></t></p>
+                        <p><t t-esc="log.timestamp"></t></p>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

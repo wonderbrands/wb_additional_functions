@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_group_categorias_productos,Categorias Productos Manager,model_categorias_productos,group_categorias_productos,1,1,1,1
+access_group_categorias_productos_Todos,Categorias Productos Todos,model_categorias_productos,base.group_user,1,0,0,0

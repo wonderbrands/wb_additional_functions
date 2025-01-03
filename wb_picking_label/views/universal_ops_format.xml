@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_batch_picking_report" model="ir.actions.report">
+            <field name="name">Formato universal OPS</field>
+            <field name="model">stock.picking.batch</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">wb_picking_label.report_batch_picking_template</field>
+            <field name="report_file">wb_picking_label_batch_picking_template</field>
+            <field name="binding_model_id" ref="model_stock_picking_batch"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_batch_picking_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="batch">
+                    <t t-call="web.external_layout">
+
+                        <t t-set="sale_order_data" t-value="batch.get_sale_order_data()"/>
+                        <div class="page">
+                            <div t-if="batch.user_id"><strong>Responsable:</strong> <span t-field="batch.user_id"/></div><br/>
+
+                            <t t-foreach="sale_order_data.values()" t-as="sale">
+                                <table style="width: 100%; background-color: #d9e5c5; padding: 5px; border-collapse: collapse; table-layout: fixed;">
+                                    <tr>
+                                        <!-- First Column -->
+                                        <td style="width: 12%; vertical-align: top; padding: 5px;">
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
+                                                Orden de venta: <span><t t-esc="sale['Sale_ID']"/></span>
+                                            </p>
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
+                                                Marketplace: <span><t t-esc="sale['Marketplace']"/></span>
+                                            </p>
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
+                                                MP Order: <span><t t-esc="sale['MPOrder']"/></span>
+                                            </p>
+                                        </td>
+
+                                        <!-- Second Column with Barcode -->
+                                        <td style="width: 32%; text-align: center; vertical-align: center; padding: 5px;">
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Sale_ID'], 400, 180)" 
+                                                style="width: 95%; height: auto; margin: 2px;" 
+                                                alt="Barcode"/>
+                                            <p style="text-align: center; font-size: x-small; margin: 0;">
+                                                Código: Orden de venta
+                                            </p>
+                                        </td>
+
+                                        <!-- Third Column -->
+                                        <td style="width: 12%; vertical-align: top; padding: 5px;">
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
+                                                <span><t t-esc="sale['ValPick']"/></span>
+                                            </p>
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
+                                                <span><t t-esc="sale['Out']"/></span>
+                                            </p>
+                                        </td>
+
+                                        <!-- Fourth Column with Barcode -->
+                                        <!--
+                                        <td style="width: 32%; text-align: center; vertical-align: center; padding: 5px;">
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=0' % ('Code128', sale['Pick'], 400, 180)" 
+                                                style="width: 95%; height: auto; margin: 2px;"
+                                                alt="Barcode"/>
+                                            <p style="text-align: center; font-size: x-small; margin: 0;">
+                                                Código: Movimiento de inventario - Pick
+                                            </p>
+                                        </td>-->
+                                        <td style="width: 12%; vertical-align: top; padding: 5px;">
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
+                                                <span>Fecha de la orden: <t t-esc="sale['Sale_Date']"/></span>
+                                            </p>
+                                        </td>
+
+                                        <!-- Fifth Column -->
+                                        <td style="width: 12%; vertical-align: top; padding: 5px;">
+                                            <p style="word-wrap: break-word; white-space: normal; overflow-wrap: break-word; margin: 0; font-size: small;">
+                                                Carrier: <span><t t-esc="sale['Carrier']"/></span>
+                                            </p>
+                                            <p style="word-wrap: break-word; white-space: normal; margin: 0; font-size: small;">
+                                                Total de Guias: <span><t t-esc="sale['Guide_nums']"/></span>
+                                            </p>
+                                            <p style="word-wrap: break-word; white-space: normal; overflow-wrap: break-word; margin: 0; font-size: small;">
+                                                Numero de Guia: <span><t t-esc="sale['Guides']"/></span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <t t-foreach="sale['Picks']" t-as="pick">                                    
+                                    <table class="table table-condensed" style="width: 100%; margin-top: 10px; font-size: small; table-layout: fixed;">
+                                        <thead>
+                                            <tr style="background-color: #d9e5c5; font-size: small;">
+                                                <th colspan="7" style="text-align: left;">Pick: <t t-esc="pick['Pick']"/></th>
+                                            </tr>
+                                            <tr style="background-color: #d9e5c5; font-size: small; width: 100%;">
+                                                <th style="width: 14%; white-space: normal; word-wrap: break-word;">SKU</th>
+                                                <th colspan="2" style="width: 34%; white-space: normal; word-wrap: break-word;">Producto</th>
+                                                <th style="width: 14%; white-space: normal; word-wrap: break-word;">Reservado</th>
+                                                <th style="width: 14%; white-space: normal; word-wrap: break-word;">Pickeado</th>
+                                                <th style="width: 14%; white-space: normal; word-wrap: break-word;">Zona pickeo</th>
+                                                <th style="width: 10%; white-space: normal; word-wrap: break-word;">No° de paquetes</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="pick['Productos']" t-as="product">
+                                                <tr style="font-size: small; width: 100%;">
+                                                    <td style="width: 14%; white-space: normal; word-wrap: break-word;"><t t-esc="product['SKU']"/></td>
+                                                    <td colspan="2" style="width: 34%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Producto']"/></td>
+                                                    <td style="width: 14%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Cantidad_reservado']"/></td>
+                                                    <td style="width: 14%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Cantidad_hecho']"/></td>
+                                                    <td style="width: 14%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Picking_zone']"/></td>
+                                                    <td style="width: 10%; white-space: normal; word-wrap: break-word;"><t t-esc="product['Num_paquetes']"/></td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </t>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
