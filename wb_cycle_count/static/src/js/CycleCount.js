@@ -254,8 +254,6 @@ class CycleCount extends Component {
                 .get_info_from_server();
             this.barcodeSessionInput.el
                 .value = ""
-            console.log(this.state.session
-                .server_data)
             if (this.state.session
                 .server_data.result
                 .status == "success"
