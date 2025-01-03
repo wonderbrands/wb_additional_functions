@@ -1,7 +1,0 @@
-<odoo>
-    <data>
-        <record id="group_count_log_viewer" model="res.groups">
-            <field name="name">Cycle Count Log Viewer</field>
-        </record>
-    </data>
-</odoo>
