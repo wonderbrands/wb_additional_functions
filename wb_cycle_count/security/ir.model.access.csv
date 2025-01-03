@@ -1,4 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_cycle_count_scanner_log_viewer,cycle.count.scanner.log,model_wb_cycle_count_log,base.group_user,1,0,0,0
-access_cycle_count_scanner_log_user,cycle.count.scanner.log,model_wb_cycle_count_log,base.group_user,1,0,0,0
-
+access_cycle_count_log_corrector,cycle.count.log.corrector,model_wb_cycle_count_log,wb_cycle_count.group_count_log_corrector,1,1,0,0
+access_cycle_count_session_creator,cycle.count.session.creator,model_wb_cycle_count_count_session,wb_cycle_count.group_wave_editor,1,0,1,0

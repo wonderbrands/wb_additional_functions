@@ -374,9 +374,6 @@ class RenderComponents {
                         "activeProductBarcode",
                         true
                         );
-                console.log(
-                    "remove class"
-                    )
                 $("#instruction3")
                     .remove()
                 $("#productBarcode")
@@ -550,9 +547,7 @@ class RenderComponents {
                     "¿Estás seguro que deseas cambiar de sesión?",
                     "session_barcode"
                     )
-                console.log(localStorage.getItem("confirmChange"))
                 if (localStorage.getItem("confirmChange")==1) {
-                    console.log("in condition")
                     $("#product").remove();
                     $("#zone").remove();
                     sessiondiv.remove()
