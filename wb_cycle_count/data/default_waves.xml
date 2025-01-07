@@ -15,9 +15,5 @@
         <record id="count_wave_4" model="wb_cycle_count.count_session">
             <field name="name">WAVE-04</field>
         </record>
-
-        <record id="count_wave_5" model="wb_cycle_count.count_session">
-            <field name="name">WAVE-05</field>
-        </record>
     </data>
 </odoo>

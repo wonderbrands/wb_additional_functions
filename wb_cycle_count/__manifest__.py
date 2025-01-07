@@ -23,10 +23,12 @@
     ],
 
     'data': [
-        "views/groups.xml",
+        "data/landscape_letter.xml",
+        "data/groups.xml",
         "views/cycle_count_views.xml",
         "views/cycle_count_actions.xml",
         "views/cycle_count_menu.xml",
+        "templates/barcodes.xml",
         "security/ir.model.access.csv",
         "data/default_waves.xml",
     ],

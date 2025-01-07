@@ -14,11 +14,24 @@
                 action="action_cycle_log_tree" 
                 sequence="3000"/>
 
-        <menuitem id="menu_count_session_tree" 
+        <menuitem id="menu_count_session" 
                 name="Waves" 
                 parent="menu_wb_cycle_count_root" 
-                action="action_count_session_tree" 
                 sequence="4000"/>
+
+        <menuitem
+                id="menu_count_session_tree"
+                name="Waves"
+                action="action_count_session_tree" 
+                parent="menu_count_session"
+                sequence="10"/>
+
+        <menuitem
+                id="menu_count_session_print"
+                name="Print waves"
+                action="server_action_print_waves"
+                parent="menu_count_session"
+                sequence="20"/>
           
     </data>
 </odoo>

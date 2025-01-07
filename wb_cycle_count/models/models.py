@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
+import base64
 from datetime import datetime
-from odoo import models, fields, api
+from odoo import models, fields, api, http
 
 _logger = logging.getLogger(__name__)
 
@@ -26,6 +27,32 @@ class CountSession(models.Model):
     def _compute_barcode_url(self):
         for record in self:
             record.barcode_url = f"{self.env['ir.config_parameter'].get_param('web.base.url')}/report/barcode/?type=Code128&value={record.name}&width=900&height=400&humanreadable=1&quiet=0" if record.name else ""
+
+    def print_barcode(self):
+        report = self.env['ir.actions.report']._get_report_from_name('wb_cycle_count.waves_report_template')
+        paper_format = self.env.ref('wb_cycle_count.paperformat_landscape_letter')
+        report.write({'paperformat_id': paper_format.id})
+        pdf_content, _ = report._render_qweb_pdf(
+            data={'records': self.env["wb_cycle_count.count_session"].search([])}
+        )
+        self.env['ir.attachment'].search([
+            ('name', 'in', ['barcode_waves.pdf', 'badcode_report.pdf'])
+        ]).unlink()
+        
+        attachment = self.env['ir.attachment'].create({
+            'name': 'barcode_waves.pdf',
+            'type': 'binary',
+            'datas': base64.b64encode(pdf_content),
+            'mimetype': 'application/pdf',
+            'res_model': 'ir.ui.view',
+            'res_id': False,
+        })
+        download_url = '/web/content/%s?download=true' % attachment.id
+        return {
+            'type': 'ir.actions.act_url',
+            'url': download_url,
+            'target': 'new',
+        }
 
 class CycleCountLog(models.Model):
     _name = "wb_cycle_count.log"
