@@ -29,9 +29,10 @@
         <menuitem
                 id="menu_count_session_print"
                 name="Print waves"
+                groups="group_wave_editor"
                 action="server_action_print_waves"
                 parent="menu_count_session"
                 sequence="20"/>
-          
+         
     </data>
 </odoo>
