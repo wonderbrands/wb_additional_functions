@@ -33,9 +33,6 @@ class CountSession(models.Model):
         paper_format = self.env.ref('wb_cycle_count.paperformat_landscape_letter')
         report.write({'paperformat_id': paper_format.id})
         sessions =self.env["wb_cycle_count.count_session"].search([])
-        _logger.info("========================")
-        _logger.info(sessions)
-        _logger.info("========================")
         pdf_content, _ = report._render_qweb_pdf(
             data={'records': sessions}
         )
