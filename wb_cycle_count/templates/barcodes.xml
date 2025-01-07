@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="waves_report_template">
-        <t t-foreach="records" t-as="record">
-            <div> 
-                    <img style="padding: 35px" t-att-src="'/report/barcode/?type=Code128&amp;value=' + record.name + '&amp;width=500&amp;height=330&amp;humanreadable=1&amp;quiet=0'"/>
-            </div>
+        <t t-call="web.html_container">
+            <t t-foreach="records" t-as="record">
+                <img style="padding: 35px" t-att-src="'/report/barcode/?type=Code128&amp;value=' + record.name + '&amp;width=500&amp;height=330&amp;humanreadable=1&amp;quiet=0'"/>
+            </t>
         </t>
     </template>
 </odoo>
