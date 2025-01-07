@@ -32,8 +32,12 @@ class CountSession(models.Model):
         report = self.env['ir.actions.report']._get_report_from_name('wb_cycle_count.waves_report_template')
         paper_format = self.env.ref('wb_cycle_count.paperformat_landscape_letter')
         report.write({'paperformat_id': paper_format.id})
+        sessions =self.env["wb_cycle_count.count_session"].search([])
+        _logger.info("========================")
+        _logger.info(sessions)
+        _logger.info("========================")
         pdf_content, _ = report._render_qweb_pdf(
-            data={'records': self.env["wb_cycle_count.count_session"].search([])}
+            data={'records': sessions}
         )
         self.env['ir.attachment'].search([
             ('name', 'in', ['barcode_waves.pdf', 'badcode_report.pdf'])
