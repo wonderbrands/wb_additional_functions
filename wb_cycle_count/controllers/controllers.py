@@ -98,6 +98,17 @@ class CheckZone(http.Controller):
                 "barcode": product["product"]["barcode"],
             }
     
+
+    def get_status(session, zone, product):
+        if not session:
+            return "no_session_found"
+        if not zone:
+            return "no_stock_location"
+        if not product:
+            return "product_not_exist"
+        
+        return "success"
+
     @http.route("/write_count_log", methods=["POST"], type="json", auth="user")
     def write_log(self):      
         _logger.info("================================")
@@ -109,7 +120,11 @@ class CheckZone(http.Controller):
             "zone": request.jsonrequest["zone"],
             "product": request.jsonrequest["product"],
             "qty": False if not request.jsonrequest["qty"] else request.jsonrequest["qty"],
-            "status": False if not request.jsonrequest["state"] else request.jsonrequest["state"],
+            "status": self.get_status(
+                request.jsonrequest["session"],
+                request.jsonrequest["zone"],
+                request.jsonrequest["product"]
+            ),
             "scanned": request.jsonrequest["scanned"],
             "scanned_by": request.env.user.id,
             "scanned_at": datetime.now(),
