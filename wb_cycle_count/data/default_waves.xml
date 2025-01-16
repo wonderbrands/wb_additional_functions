@@ -1,0 +1,19 @@
+<odoo>
+    <data noupdate="1">
+        <record id="count_wave_1" model="wb_cycle_count.count_session">
+            <field name="name">WAVE-01</field>
+        </record>
+
+        <record id="count_wave_2" model="wb_cycle_count.count_session">
+            <field name="name">WAVE-02</field>
+        </record>
+
+        <record id="count_wave_3" model="wb_cycle_count.count_session">
+            <field name="name">WAVE-03</field>
+        </record>
+
+        <record id="count_wave_4" model="wb_cycle_count.count_session">
+            <field name="name">WAVE-04</field>
+        </record>
+    </data>
+</odoo>

@@ -11,5 +11,29 @@
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="wb_cycle_count_log_tree"/>
         </record>
+
+        <record id="action_count_session_tree" model="ir.actions.act_window">
+            <field name="name">Sesión</field>
+            <field name="res_model">wb_cycle_count.count_session</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="wb_cycle_count_session_tree"/>
+        </record>
+
+        <record id="action_report_waves_template" model="ir.actions.report">
+            <field name="name">Waves Report</field>
+            <field name="model">wb_cycle_count.count_session</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">wb_cycle_count.waves_report_template</field>
+            <field name="report_file">wb_cycle_count.waves_report_template</field>
+        </record>
+
+        <record id="server_action_print_waves" model="ir.actions.server">
+            <field name="name">Print Waves</field>
+            <field name="model_id" ref="model_wb_cycle_count_count_session"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = model.print_barcode()  
+            </field>
+        </record>
     </data>
 </odoo>

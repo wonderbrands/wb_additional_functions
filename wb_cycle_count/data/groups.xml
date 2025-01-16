@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="group_count_log_viewer" model="res.groups">
+            <field name="name">Cycle Count Log Viewer</field>
+        </record>
+
+        <record id="group_count_log_corrector" model="res.groups">
+            <field name="name">Cycle Count Log Corrector</field>
+        </record>
+
+        <record id="group_wave_editor" model="res.groups">
+            <field name="name">Cycle Count Wave Editor</field>
+        </record>
+    </data>
+</odoo>

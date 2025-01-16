@@ -6,7 +6,8 @@
             <div class="instructions">
                 <div id="root">
                 </div>
-                <input class="barcode-reader" id="zonebarcode" t-ref="zonebarcode" t-on-input="_readZoneBarcode" type="text"/>
+                <input class="barcode-reader" id="session_barcode" t-ref="session_barcode" t-on-input="_readSessionBarcode" type="text"/>
+                <input class="barcode-reader invisible" id="zonebarcode" t-ref="zonebarcode" t-on-input="_readZoneBarcode" type="text"/>
                 <input class="barcode-reader invisible" id="productBarcode" t-ref="productbarcode" t-on-input="_readProductBarcode" type="text"/>
                 <input class="invisible" id="qty" t-ref="qty" type="number" t-on-input="qtyIsUnsignedInteger"/>
                 <button  id="count_button" class="invisible" t-on-click="confirmQty">
