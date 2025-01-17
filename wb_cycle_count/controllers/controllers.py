@@ -99,7 +99,7 @@ class CheckZone(http.Controller):
             }
     
 
-    def get_status(session, zone, product):
+    def get_status(self, session, zone, product):
         if not session:
             return "no_session_found"
         if not zone:
