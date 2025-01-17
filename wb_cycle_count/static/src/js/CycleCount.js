@@ -328,6 +328,12 @@ class CycleCount extends Component {
                     .log_writer
                     .set_params({
                         state: "no_stock_location",
+                        session: this
+                            .state
+                            .session
+                            .server_data
+                            .result
+                            .session_id,
                         scanned: this
                             .state
                             .zone_searchbar
@@ -379,6 +385,12 @@ class CycleCount extends Component {
                     .log_writer
                     .set_params({
                         state: "product_not_exist",
+                        session: this
+                            .state
+                            .session
+                            .server_data
+                            .result
+                            .session_id,
                         zone: this
                             .state
                             .zone
